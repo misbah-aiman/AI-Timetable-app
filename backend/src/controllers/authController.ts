@@ -70,8 +70,9 @@ export const sendOTP = async (req: Request, res: Response): Promise<void> => {
     try {
       await sendOtpEmail(normalizedEmail, otp);
     } catch (emailError) {
+      console.error('❌ Email send failed for', normalizedEmail, '—', (emailError as Error).message);
       if (process.env.NODE_ENV === 'production') throw emailError;
-      console.warn('⚠️  Email send failed (dev mode — use the OTP logged above):', (emailError as Error).message);
+      console.warn('Dev mode — OTP:', otp);
     }
 
     res.json({ message: 'Verification code sent', isNewUser: !user.onboarding?.completed });

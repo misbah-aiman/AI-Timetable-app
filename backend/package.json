@@ -2,11 +2,11 @@
   "name": "ai-timetable-backend",
   "version": "1.0.0",
   "description": "AI Timetable backend API",
-  "main": "dist/server.js",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/src/server.js"
   },
   "dependencies": {
     "@types/multer": "^2.1.0",

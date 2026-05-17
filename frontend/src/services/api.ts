@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { storage } from '../utils/localStorage';
 
-// All requests go to the Vite dev server proxy → backend:5000
-const api = axios.create({ baseURL: '/api' });
+// In dev: Vite proxy forwards /api → localhost:5000
+// In prod: VITE_API_URL must be set to the deployed backend URL (e.g. https://your-backend.railway.app)
+const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' });
 
 // Attach JWT token to every request automatically
 api.interceptors.request.use(config => {

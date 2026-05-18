@@ -70,9 +70,10 @@ export const sendOTP = async (req: Request, res: Response): Promise<void> => {
     try {
       await sendOtpEmail(normalizedEmail, otp);
     } catch (emailError) {
-      console.error('❌ Email send failed for', normalizedEmail, '—', (emailError as Error).message);
-      if (process.env.NODE_ENV === 'production') throw emailError;
-      console.warn('Dev mode — OTP:', otp);
+      const detail = (emailError as Error).message;
+      console.error('❌ Email send failed for', normalizedEmail, '—', detail);
+      res.status(500).json({ message: 'Failed to send verification code.', detail });
+      return;
     }
 
     res.json({ message: 'Verification code sent', isNewUser: !user.onboarding?.completed });

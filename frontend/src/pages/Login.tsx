@@ -9,10 +9,12 @@ import { Card } from '../components/ui/Card';
 import { OtpInput } from '../components/auth/OtpInput';
 
 type Step = 'email' | 'otp' | 'success';
+type Mode = 'signin' | 'signup';
 
 const RESEND_COOLDOWN = 60;
 
 export const Login = () => {
+  const [mode, setMode] = useState<Mode>('signin');
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -29,6 +31,14 @@ export const Login = () => {
   useEffect(() => {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
+
+  const switchMode = (m: Mode) => {
+    setMode(m);
+    setStep('email');
+    setEmail('');
+    setOtp('');
+    setError('');
+  };
 
   const startCountdown = () => {
     setCountdown(RESEND_COOLDOWN);
@@ -55,11 +65,12 @@ export const Login = () => {
       setStep('otp');
       startCountdown();
     } catch (err: unknown) {
-      const apiErr = err as { response?: { data?: { message?: string; remaining?: number } } };
-      const msg = apiErr?.response?.data?.message || 'Failed to send code. Please try again.';
+      const apiErr = err as { response?: { data?: { message?: string; detail?: string; remaining?: number } } };
       const remaining = apiErr?.response?.data?.remaining;
       if (remaining) setCountdown(remaining);
-      setError(msg);
+      const detail = apiErr?.response?.data?.detail;
+      const msg = apiErr?.response?.data?.message || 'Failed to send code. Please try again.';
+      setError(detail ? `${msg} (${detail})` : msg);
     } finally {
       setLoading(false);
     }
@@ -83,10 +94,7 @@ export const Login = () => {
 
   const handleVerifyOtp = async (e?: React.FormEvent) => {
     e?.preventDefault();
-    if (otp.length < 6) {
-      setError('Please enter the complete 6-digit code');
-      return;
-    }
+    if (otp.length < 6) { setError('Please enter the complete 6-digit code'); return; }
     setError('');
     setLoading(true);
     try {
@@ -104,11 +112,8 @@ export const Login = () => {
     }
   };
 
-  // Auto-submit when all 6 digits entered
   useEffect(() => {
-    if (step === 'otp' && otp.length === 6 && !loading) {
-      handleVerifyOtp();
-    }
+    if (step === 'otp' && otp.length === 6 && !loading) handleVerifyOtp();
   }, [otp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -121,8 +126,8 @@ export const Login = () => {
             <Sparkles className="text-white" size={28} />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">AI Timetable</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">
-            {step === 'email' ? 'Sign in or create your account' : step === 'otp' ? 'Check your inbox' : 'Signing you in…'}
+          <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
+            {step === 'otp' ? 'Check your inbox' : step === 'success' ? 'Signing you in…' : 'Your AI-powered daily planner'}
           </p>
         </div>
 
@@ -130,52 +135,69 @@ export const Login = () => {
         {sessionExpired && step === 'email' && (
           <div className="mb-4 flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
             <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
-            <p className="text-sm text-amber-700 dark:text-amber-300">
-              Your session expired. Enter your email to sign in again.
-            </p>
+            <p className="text-sm text-amber-700 dark:text-amber-300">Your session expired. Sign in again.</p>
           </div>
         )}
 
         <Card>
           {/* ── Step 1: Email ── */}
           {step === 'email' && (
-            <form onSubmit={handleSendOtp} className="space-y-4">
-              <Input
-                label="Email address"
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={e => { setEmail(e.target.value); setError(''); }}
-                autoFocus
-                required
-              />
+            <>
+              {/* Mode tabs */}
+              <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-6">
+                {(['signin', 'signup'] as Mode[]).map(m => (
+                  <button
+                    key={m}
+                    onClick={() => switchMode(m)}
+                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                      mode === m
+                        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                    }`}
+                  >
+                    {m === 'signin' ? 'Sign In' : 'Create Account'}
+                  </button>
+                ))}
+              </div>
 
-              {error && (
-                <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">{error}</p>
-              )}
+              <form onSubmit={handleSendOtp} className="space-y-4">
+                <Input
+                  label="Email address"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setError(''); }}
+                  autoFocus
+                  required
+                />
 
-              <Button type="submit" className="w-full" loading={loading} size="lg">
-                Continue with Email
-              </Button>
+                {error && (
+                  <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">{error}</p>
+                )}
 
-              <p className="text-center text-xs text-gray-400 dark:text-gray-500">
-                We'll send a sign-in code — no password needed.
-              </p>
-            </form>
+                <Button type="submit" className="w-full" loading={loading} size="lg">
+                  {mode === 'signin' ? 'Sign In' : 'Create Account'}
+                </Button>
+
+                <p className="text-center text-xs text-gray-400 dark:text-gray-500">
+                  {mode === 'signin'
+                    ? "We'll email you a sign-in code — no password needed."
+                    : 'Enter your email and we\'ll send a verification code to get started.'}
+                </p>
+              </form>
+            </>
           )}
 
           {/* ── Step 2: OTP ── */}
           {step === 'otp' && (
             <form onSubmit={handleVerifyOtp} className="space-y-6">
-              {/* Back button + info */}
               <div>
                 <button
                   type="button"
                   onClick={() => { setStep('email'); setError(''); setOtp(''); }}
                   className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mb-4 transition-colors"
                 >
-                  <ArrowLeft size={15} />
-                  Change email
+                  <ArrowLeft size={15} /> Change email
                 </button>
 
                 <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800 mb-4">
@@ -186,10 +208,7 @@ export const Login = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  Enter the 6-digit code from your email:
-                </p>
-
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter the 6-digit code from your email:</p>
                 <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
               </div>
 
@@ -197,21 +216,14 @@ export const Login = () => {
                 <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg text-center">{error}</p>
               )}
 
-              <Button
-                type="submit"
-                className="w-full"
-                loading={loading}
-                size="lg"
-                disabled={otp.length < 6}
-              >
+              <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>
                 Verify Code
               </Button>
 
-              {/* Resend */}
               <p className="text-center text-sm text-gray-500 dark:text-gray-400">
                 Didn't receive it?{' '}
                 {countdown > 0 ? (
-                  <span className="text-gray-400 dark:text-gray-500">Resend in {countdown}s</span>
+                  <span className="text-gray-400">Resend in {countdown}s</span>
                 ) : (
                   <button
                     type="button"

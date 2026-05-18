@@ -15,8 +15,7 @@ const initialState = {
   wakeTime: '06:30',
   sleepHours: 8,
   studyGoalHours: 4,
-  subjects: [] as string[],
-  subjectInput: '',
+
   hobbies: [] as string[],
   screenTimeLimitHours: 2,
   classes: [] as ClassEntry[],
@@ -49,16 +48,6 @@ export const OnboardingWizard = () => {
     setData(prev => ({ ...prev, [field]: value }));
     setError('');
   };
-
-  const addSubject = () => {
-    const s = data.subjectInput.trim();
-    if (s && !data.subjects.includes(s)) {
-      update('subjects', [...data.subjects, s]);
-      update('subjectInput', '');
-    }
-  };
-
-  const removeSubject = (s: string) => update('subjects', data.subjects.filter(x => x !== s));
 
   const toggleHobby = (h: string) =>
     update('hobbies', data.hobbies.includes(h) ? data.hobbies.filter(x => x !== h) : [...data.hobbies, h]);
@@ -162,7 +151,6 @@ export const OnboardingWizard = () => {
         wakeTime: data.wakeTime,
         sleepHours: data.sleepHours,
         studyGoalHours: data.studyGoalHours,
-        subjects: data.subjects,
         hobbies: data.hobbies,
         screenTimeLimitHours: data.screenTimeLimitHours,
         classes: data.classes,

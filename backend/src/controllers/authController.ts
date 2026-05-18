@@ -78,8 +78,9 @@ export const sendOTP = async (req: Request, res: Response): Promise<void> => {
 
     res.json({ message: 'Verification code sent', isNewUser: !user.onboarding?.completed });
   } catch (error) {
-    console.error('Send OTP error:', error);
-    res.status(500).json({ message: 'Failed to send verification code. Please try again.' });
+    const detail = (error as Error).message;
+    console.error('Send OTP error:', detail);
+    res.status(500).json({ message: 'Failed to send verification code. Please try again.', detail });
   }
 };
 

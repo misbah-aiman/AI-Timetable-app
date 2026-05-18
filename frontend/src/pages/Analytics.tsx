@@ -20,13 +20,10 @@ export const Analytics = () => {
   return (
     <Layout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Weekly Analytics</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-          Your productivity insights for this week
-        </p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Analytics</h1>
       </div>
 
-      {loading && <LoadingSpinner message="Crunching your data..." />}
+      {loading && <LoadingSpinner message="Loading..." />}
 
       {error && (
         <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-xl text-sm">{error}</div>

@@ -8,7 +8,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { Layout } from '../components/layout/Layout';
 import { TimetableView } from '../components/dashboard/TimetableView';
 import { StatsCard } from '../components/dashboard/StatsCard';
-import { TimeTracker } from '../components/tracker/TimeTracker';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
@@ -25,7 +24,6 @@ export const Dashboard = () => {
 
   const fetchAll = async () => {
     try {
-      // Fetch stats independently — never let a missing timetable block the dashboard
       const statsRes = await analyticsApi.getStats();
       setStats(statsRes.data.stats);
     } catch (err: unknown) {
@@ -45,10 +43,7 @@ export const Dashboard = () => {
       storage.setTimetable(ttRes.data.timetable);
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
-      // 404 = no timetable yet — show generate button, not an error
-      if (status !== 404) {
-        setError('Could not load timetable. Try generating one.');
-      }
+      if (status !== 404) setError('Could not load timetable.');
     }
   };
 
@@ -67,15 +62,13 @@ export const Dashboard = () => {
         navigate('/login?reason=session_expired');
         return;
       }
-      setError(msg || 'Failed to regenerate. Check your OpenAI API key.');
+      setError(msg || 'Failed to generate. Check your OpenAI key.');
     } finally {
       setRegenerating(false);
     }
   };
 
-  useEffect(() => {
-    fetchAll();
-  }, []);
+  useEffect(() => { fetchAll(); }, []);
 
   if (loading) return (
     <Layout>
@@ -90,43 +83,39 @@ export const Dashboard = () => {
 
   return (
     <Layout>
-      {/* Welcome header */}
+      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Good {getGreeting()}, {user?.name?.split(' ')[0]} 👋
+            {getGreeting()}, {user?.name?.split(' ')[0]} 👋
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
+          <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={handleRegenerate}
-          loading={regenerating}
-        >
+        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
           <RefreshCw size={14} /> Regenerate
         </Button>
       </div>
 
+      {/* Error */}
       {error && (
-        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl flex items-center justify-between">
-          <span className="text-sm">{error}</span>
+        <div className="mb-5 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl flex items-center justify-between text-sm">
+          <span>{error}</span>
           <Button size="sm" onClick={() => navigate('/onboarding')}>
-            <Sparkles size={14} /> Onboard Again
+            <Sparkles size={13} /> Re-onboard
           </Button>
         </div>
       )}
 
-      {/* Stats grid */}
+      {/* Stats */}
       {stats && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <StatsCard
             title="Study Today"
             value={fmtTime(stats.todayStudyMinutes)}
             subtitle={`Goal: ${fmtTime(studyGoalMins)}`}
-            icon={<BookOpen size={20} />}
+            icon={<BookOpen size={18} />}
             color="#6366f1"
             progress={(stats.todayStudyMinutes / studyGoalMins) * 100}
           />
@@ -134,7 +123,7 @@ export const Dashboard = () => {
             title="Sleep"
             value={fmtTime(stats.todaySleepMinutes)}
             subtitle={`Goal: ${fmtTime(sleepGoalMins)}`}
-            icon={<Moon size={20} />}
+            icon={<Moon size={18} />}
             color="#8b5cf6"
             progress={(stats.todaySleepMinutes / sleepGoalMins) * 100}
           />
@@ -142,46 +131,38 @@ export const Dashboard = () => {
             title="Screen Time"
             value={fmtTime(stats.todayScreenMinutes)}
             subtitle={`Limit: ${fmtTime(screenLimitMins)}`}
-            icon={<Smartphone size={20} />}
+            icon={<Smartphone size={18} />}
             color="#f97316"
             progress={(stats.todayScreenMinutes / screenLimitMins) * 100}
           />
           <StatsCard
             title="Sessions"
             value={String(stats.sessionsToday)}
-            subtitle="completed today"
-            icon={<Zap size={20} />}
+            subtitle="today"
+            icon={<Zap size={18} />}
             color="#10b981"
           />
         </div>
       )}
 
-      {/* Main grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
-        {/* Timetable — wider */}
-        <div className="xl:col-span-3">
-          <Card>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Weekly Schedule</h2>
-            </div>
-            {timetable ? (
-              <TimetableView timetable={timetable} />
-            ) : (
-              <div className="text-center py-12 text-gray-400">
-                <p className="mb-4">No timetable yet.</p>
-                <Button onClick={handleRegenerate} loading={regenerating}>
-                  <Sparkles size={14} /> Generate with AI
-                </Button>
-              </div>
-            )}
-          </Card>
+      {/* Timetable — full width */}
+      <Card>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-semibold text-gray-900 dark:text-white">Weekly Schedule</h2>
         </div>
 
-        {/* Tracker — narrower */}
-        <div className="xl:col-span-2">
-          <TimeTracker />
-        </div>
-      </div>
+        {timetable ? (
+          <TimetableView timetable={timetable} />
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+            <Sparkles size={32} className="mb-3 opacity-40" />
+            <p className="text-sm mb-4">No timetable yet — generate one with AI</p>
+            <Button onClick={handleRegenerate} loading={regenerating}>
+              <Sparkles size={14} /> Generate Timetable
+            </Button>
+          </div>
+        )}
+      </Card>
     </Layout>
   );
 };
@@ -195,7 +176,7 @@ const fmtTime = (mins: number) => {
 
 const getGreeting = () => {
   const h = new Date().getHours();
-  if (h < 12) return 'morning';
-  if (h < 17) return 'afternoon';
-  return 'evening';
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
 };

@@ -99,7 +99,7 @@ const SessionSummary = ({ sessions }: { sessions: Session[] }) => {
     sessions.filter(s => s.type === type && !s.isActive).reduce((a, s) => a + (s.durationMinutes || 0), 0);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-6">
+    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
       {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => {
         const mins = byType(type);
         const cfg = SESSION_CONFIG[type];
@@ -165,8 +165,7 @@ export const TimeTracker = () => {
   if (loading) return <div className="text-center py-8 text-gray-400">Loading tracker...</div>;
 
   return (
-    <Card>
-      <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Time Tracker</h2>
+    <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => (
           <TrackerPanel
@@ -178,10 +177,11 @@ export const TimeTracker = () => {
           />
         ))}
       </div>
-      <div className="mt-4">
-        <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Today's Total</h3>
+
+      <Card>
+        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Today's Total</h3>
         <SessionSummary sessions={todaySessions} />
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 };

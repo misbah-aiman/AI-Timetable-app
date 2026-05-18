@@ -1,24 +1,20 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const FROM = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
-
-if (!process.env.RESEND_API_KEY) {
-  console.error('❌ RESEND_API_KEY is not set — all email sends will fail');
+if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+  console.error('❌ GMAIL_USER or GMAIL_APP_PASSWORD is not set — email sending will fail');
 }
 
-if (process.env.NODE_ENV === 'production' && FROM === 'onboarding@resend.dev') {
-  console.error(
-    '❌ RESEND_FROM_EMAIL is "onboarding@resend.dev" in production. ' +
-    'This address can only send to your own Resend account email. ' +
-    'Verify a domain at resend.com/domains and set RESEND_FROM_EMAIL=noreply@yourdomain.com'
-  );
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
 
 export const sendOtpEmail = async (to: string, otp: string): Promise<void> => {
-  const { error } = await resend.emails.send({
-    from: `AI Timetable <${FROM}>`,
+  const info = await transporter.sendMail({
+    from: `AI Timetable <${process.env.GMAIL_USER}>`,
     to,
     subject: `${otp} — your sign-in code`,
     html: `
@@ -36,7 +32,7 @@ export const sendOtpEmail = async (to: string, otp: string): Promise<void> => {
     <div style="padding:40px;">
       <h2 style="margin:0 0 8px;color:#111827;font-size:20px;font-weight:700;">Your sign-in code</h2>
       <p style="margin:0 0 28px;color:#6b7280;font-size:15px;line-height:1.6;">
-        Use the code below to sign in to your account. It expires in <strong>10 minutes</strong>.
+        Use the code below to sign in. It expires in <strong>10 minutes</strong>.
       </p>
       <div style="background:#eef2ff;border:2px dashed #6366f1;border-radius:14px;padding:28px 20px;text-align:center;margin-bottom:28px;">
         <span style="font-size:46px;font-weight:800;letter-spacing:10px;color:#4338ca;font-variant-numeric:tabular-nums;">${otp}</span>
@@ -53,8 +49,5 @@ export const sendOtpEmail = async (to: string, otp: string): Promise<void> => {
 </html>`,
   });
 
-  if (error) {
-    console.error('❌ Resend API error:', JSON.stringify(error));
-    throw new Error(`Resend error: ${error.message}`);
-  }
+  console.log('✅ Email sent:', info.messageId);
 };

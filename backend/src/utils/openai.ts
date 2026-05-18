@@ -62,7 +62,7 @@ Include proper meal times, breaks, and make the schedule realistic and achievabl
 // Scan a class schedule image using GPT-4o Vision and return extracted classes
 export const scanClassScheduleImage = async (imageBase64: string, mimeType: string) => {
   const response = await getClient().chat.completions.create({
-    model: 'gpt-4o',
+    model: 'gpt-4o-mini',
     messages: [
       {
         role: 'user',

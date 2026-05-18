@@ -1,13 +1,12 @@
 import 'dotenv/config';
-import mongoose from 'mongoose';
 import app from './app';
+import { connectDB } from './db';
 
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/ai-timetable');
-    console.log('✅ Connected to MongoDB');
+    await connectDB();
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);

@@ -252,26 +252,6 @@ export const OnboardingWizard = () => {
                   onChange={e => update('studyGoalHours', Number(e.target.value))}
                   className="w-full accent-primary-600" />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Subjects to study</label>
-                <div className="flex gap-2">
-                  <input value={data.subjectInput}
-                    onChange={e => update('subjectInput', e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && addSubject()}
-                    placeholder="e.g. Mathematics"
-                    className="flex-1 px-3 py-2 text-sm border rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  />
-                  <Button onClick={addSubject} size="sm">Add</Button>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {data.subjects.map(s => (
-                    <span key={s} className="flex items-center gap-1 px-3 py-1 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 rounded-full text-sm">
-                      {s}
-                      <button onClick={() => removeSubject(s)} className="hover:text-red-500 ml-1">×</button>
-                    </span>
-                  ))}
-                </div>
-              </div>
             </div>
           )}
 

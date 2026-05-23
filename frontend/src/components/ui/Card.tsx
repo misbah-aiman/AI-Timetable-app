@@ -9,16 +9,16 @@ interface CardProps {
 const paddingClasses = {
   none: '',
   sm: 'p-4',
-  md: 'p-6',
-  lg: 'p-8',
+  md: 'p-5',
+  lg: 'p-6',
 };
 
 export const Card = ({ children, className = '', padding = 'md' }: CardProps) => {
   return (
     <div
       className={`
-        bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700
-        shadow-sm ${paddingClasses[padding]} ${className}
+        bg-white dark:bg-[#1e1b2e] rounded-3xl shadow-card border border-primary-50 dark:border-primary-900/20
+        ${paddingClasses[padding]} ${className}
       `}
     >
       {children}

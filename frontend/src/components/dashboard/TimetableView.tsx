@@ -13,18 +13,22 @@ const categoryLabel: Record<string, string> = {
 
 const SlotCard = ({ slot }: { slot: TimeSlot }) => (
   <div
-    className="flex items-start gap-3 p-3 rounded-lg border-l-4 bg-gray-50 dark:bg-gray-900/50"
-    style={{ borderLeftColor: slot.color || '#6366f1' }}
+    className="flex items-center gap-3 p-3 rounded-2xl"
+    style={{ backgroundColor: `${slot.color || '#8b5cf6'}0d` }}
   >
+    <div
+      className="w-1 self-stretch rounded-full shrink-0"
+      style={{ backgroundColor: slot.color || '#8b5cf6' }}
+    />
     <div className="flex-1 min-w-0">
-      <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{slot.activity}</p>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+      <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{slot.activity}</p>
+      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
         {slot.startTime} – {slot.endTime}
       </p>
     </div>
     <span
-      className="text-xs px-2 py-0.5 rounded-full font-medium shrink-0"
-      style={{ backgroundColor: `${slot.color}20`, color: slot.color || '#6366f1' }}
+      className="text-xs px-2.5 py-1 rounded-xl font-semibold shrink-0"
+      style={{ backgroundColor: `${slot.color || '#8b5cf6'}1a`, color: slot.color || '#8b5cf6' }}
     >
       {categoryLabel[slot.category] || slot.category}
     </span>
@@ -41,7 +45,7 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
   return (
     <div>
       {/* Day tabs */}
-      <div className="flex gap-1 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+      <div className="flex gap-1.5 overflow-x-auto pb-2 mb-4 scrollbar-hide">
         {days.map(day => {
           const isToday = day === todayName;
           const isActive = day === activeDay;
@@ -49,16 +53,16 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
             <button
               key={day}
               onClick={() => setActiveDay(day)}
-              className={`px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all shrink-0 ${
+              className={`px-3 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
                 isActive
-                  ? 'bg-primary-600 text-white shadow-sm'
+                  ? 'bg-primary-500 text-white shadow-soft'
                   : isToday
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'text-gray-400 dark:text-gray-500 bg-surface-100 dark:bg-[#1e1b2e]'
               }`}
             >
               {day.slice(0, 3)}
-              {isToday && <span className="ml-1 text-xs opacity-70">Today</span>}
+              {isToday && !isActive && <span className="ml-1 text-primary-400">·</span>}
             </button>
           );
         })}
@@ -73,7 +77,9 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-          <Clock size={36} className="mb-2 opacity-40" />
+          <div className="w-12 h-12 rounded-full bg-surface-100 dark:bg-[#1e1b2e] flex items-center justify-center mb-3">
+            <Clock size={24} className="text-gray-300 dark:text-gray-600" />
+          </div>
           <p className="text-sm">No schedule for {activeDay}</p>
         </div>
       )}

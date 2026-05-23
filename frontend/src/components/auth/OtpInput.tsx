@@ -59,12 +59,12 @@ export const OtpInput = ({ value, onChange, disabled }: Props) => {
           onFocus={e => e.target.select()}
           disabled={disabled}
           className={[
-            'w-11 h-14 text-center text-2xl font-bold rounded-xl border-2 transition-all duration-150',
-            'focus:outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-200',
-            'dark:bg-gray-800 dark:text-white dark:focus:ring-primary-800',
+            'w-11 h-14 text-center text-2xl font-bold rounded-2xl border-2 transition-all duration-150',
+            'focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100',
+            'dark:text-white dark:focus:ring-primary-900',
             value[i]
-              ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-              : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800',
+              ? 'border-primary-400 bg-primary-50 dark:bg-primary-900/30'
+              : 'border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e]',
             disabled ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}
         />

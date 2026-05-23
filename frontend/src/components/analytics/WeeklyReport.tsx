@@ -84,9 +84,9 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
             <YAxis tick={{ fontSize: 12 }} unit="h" />
             <Tooltip formatter={(v) => `${v}h`} />
             <Legend />
-            <Bar dataKey="Study" fill="#6366f1" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="Sleep" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="Screen" fill="#f97316" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="Study" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="Sleep" fill="#a78bfa" radius={[6, 6, 0, 0]} />
+            <Bar dataKey="Screen" fill="#f97316" radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </Card>
@@ -98,7 +98,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
           <RadarChart data={radarData}>
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-            <Radar dataKey="value" stroke="#6366f1" fill="#6366f1" fillOpacity={0.3} />
+            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25} />
             <Tooltip formatter={(v) => `${Math.round(Number(v))}%`} />
           </RadarChart>
         </ResponsiveContainer>

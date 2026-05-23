@@ -5,7 +5,6 @@ import { authApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { Card } from '../components/ui/Card';
 import { OtpInput } from '../components/auth/OtpInput';
 
 type Step = 'email' | 'otp' | 'success';
@@ -117,42 +116,48 @@ export const Login = () => {
   }, [otp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-indigo-100 dark:from-gray-950 dark:to-gray-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-primary-600 rounded-2xl mb-4 shadow-lg">
-            <Sparkles className="text-white" size={28} />
+    <div className="min-h-screen flex justify-center bg-[#e8e4f2] dark:bg-[#0d0b14]">
+      <div className="w-full max-w-[430px] min-h-screen bg-surface-50 dark:bg-[#16141f] flex flex-col shadow-soft-lg">
+        {/* Top decorative area */}
+        <div className="relative overflow-hidden px-6 pt-16 pb-12 text-center bg-gradient-to-b from-primary-500 to-primary-600">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute -top-8 -right-8 w-48 h-48 rounded-full bg-white" />
+            <div className="absolute -bottom-12 -left-8 w-56 h-56 rounded-full bg-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">AI Timetable</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
-            {step === 'otp' ? 'Check your inbox' : step === 'success' ? 'Signing you in…' : 'Your AI-powered daily planner'}
-          </p>
+          <div className="relative">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur rounded-3xl mb-4 shadow-soft">
+              <Sparkles className="text-white" size={30} />
+            </div>
+            <h1 className="text-3xl font-bold text-white">AI Timetable</h1>
+            <p className="text-primary-100 mt-2 text-sm">
+              {step === 'otp' ? 'Check your inbox' : step === 'success' ? 'Signing you in…' : 'Your AI-powered daily planner'}
+            </p>
+          </div>
         </div>
 
-        {/* Session expired banner */}
-        {sessionExpired && step === 'email' && (
-          <div className="mb-4 flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
-            <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
-            <p className="text-sm text-amber-700 dark:text-amber-300">Your session expired. Sign in again.</p>
-          </div>
-        )}
+        {/* Card content */}
+        <div className="flex-1 px-6 py-8 -mt-6 rounded-t-[2rem] bg-surface-50 dark:bg-[#16141f]">
 
-        <Card>
+          {/* Session expired banner */}
+          {sessionExpired && step === 'email' && (
+            <div className="mb-5 flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-3xl">
+              <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
+              <p className="text-sm text-amber-700 dark:text-amber-300">Your session expired. Sign in again.</p>
+            </div>
+          )}
+
           {/* ── Step 1: Email ── */}
           {step === 'email' && (
             <>
-              {/* Mode tabs */}
-              <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-6">
+              <div className="flex bg-surface-100 dark:bg-[#1e1b2e] rounded-3xl p-1 mb-6">
                 {(['signin', 'signup'] as Mode[]).map(m => (
                   <button
                     key={m}
                     onClick={() => switchMode(m)}
-                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                    className={`flex-1 py-2.5 text-sm font-semibold rounded-2xl transition-all ${
                       mode === m
-                        ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                        ? 'bg-white dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 shadow-card'
+                        : 'text-gray-400 dark:text-gray-500'
                     }`}
                   >
                     {m === 'signin' ? 'Sign In' : 'Create Account'}
@@ -172,17 +177,17 @@ export const Login = () => {
                 />
 
                 {error && (
-                  <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg">{error}</p>
+                  <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>
                 )}
 
                 <Button type="submit" className="w-full" loading={loading} size="lg">
                   {mode === 'signin' ? 'Sign In' : 'Create Account'}
                 </Button>
 
-                <p className="text-center text-xs text-gray-400 dark:text-gray-500">
+                <p className="text-center text-xs text-gray-400 dark:text-gray-500 leading-relaxed">
                   {mode === 'signin'
                     ? "We'll email you a sign-in code — no password needed."
-                    : 'Enter your email and we\'ll send a verification code to get started.'}
+                    : "Enter your email and we'll send a verification code to get started."}
                 </p>
               </form>
             </>
@@ -195,41 +200,43 @@ export const Login = () => {
                 <button
                   type="button"
                   onClick={() => { setStep('email'); setError(''); setOtp(''); }}
-                  className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mb-4 transition-colors"
+                  className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 mb-5 transition-colors"
                 >
                   <ArrowLeft size={15} /> Change email
                 </button>
 
-                <div className="flex items-center gap-3 p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800 mb-4">
-                  <Mail size={18} className="text-primary-500 shrink-0" />
+                <div className="flex items-center gap-3 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-3xl border border-primary-100 dark:border-primary-800/50 mb-5">
+                  <div className="w-9 h-9 rounded-2xl bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center shrink-0">
+                    <Mail size={16} className="text-primary-500" />
+                  </div>
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Code sent to</p>
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{email}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">Code sent to</p>
+                    <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{email}</p>
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Enter the 6-digit code from your email:</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Enter the 6-digit code:</p>
                 <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
               </div>
 
               {error && (
-                <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-3 py-2 rounded-lg text-center">{error}</p>
+                <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl text-center">{error}</p>
               )}
 
               <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>
                 Verify Code
               </Button>
 
-              <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+              <p className="text-center text-sm text-gray-400">
                 Didn't receive it?{' '}
                 {countdown > 0 ? (
-                  <span className="text-gray-400">Resend in {countdown}s</span>
+                  <span className="text-gray-300">Resend in {countdown}s</span>
                 ) : (
                   <button
                     type="button"
                     onClick={handleResend}
                     disabled={loading}
-                    className="text-primary-600 hover:underline font-medium disabled:opacity-50"
+                    className="text-primary-500 hover:underline font-semibold disabled:opacity-50"
                   >
                     Resend code
                   </button>
@@ -240,17 +247,17 @@ export const Login = () => {
 
           {/* ── Step 3: Success ── */}
           {step === 'success' && (
-            <div className="flex flex-col items-center gap-4 py-4">
-              <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-                <CheckCircle size={36} className="text-green-500" />
+            <div className="flex flex-col items-center gap-5 py-8">
+              <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-soft">
+                <CheckCircle size={40} className="text-green-500" />
               </div>
               <div className="text-center">
-                <p className="font-semibold text-gray-900 dark:text-white text-lg">You're in!</p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Redirecting…</p>
+                <p className="font-bold text-gray-800 dark:text-white text-xl">You're in!</p>
+                <p className="text-sm text-gray-400 mt-1">Redirecting…</p>
               </div>
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

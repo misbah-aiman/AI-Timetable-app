@@ -10,11 +10,11 @@ type SessionType = 'study' | 'sleep' | 'screen' | 'exercise' | 'hobby';
 
 const SESSION_CONFIG: Record<SessionType, { label: string; icon: React.ReactNode; color: string; examples: string[] }> = {
   study: {
-    label: 'Study', icon: <BookOpen size={18} />, color: '#6366f1',
+    label: 'Study', icon: <BookOpen size={18} />, color: '#8b5cf6',
     examples: ['Mathematics', 'Physics', 'English', 'Coding'],
   },
   sleep: {
-    label: 'Sleep', icon: <Moon size={18} />, color: '#8b5cf6',
+    label: 'Sleep', icon: <Moon size={18} />, color: '#a78bfa',
     examples: ['Night sleep', 'Nap'],
   },
   screen: {
@@ -31,7 +31,6 @@ const SESSION_CONFIG: Record<SessionType, { label: string; icon: React.ReactNode
   },
 };
 
-// Single tracker panel for one session type
 const TrackerPanel = ({
   type,
   activeSession,
@@ -49,14 +48,16 @@ const TrackerPanel = ({
   const [label, setLabel] = useState(cfg.examples[0]);
 
   return (
-    <div className="flex flex-col gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-      <div className="flex items-center gap-2">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${cfg.color}20`, color: cfg.color }}>
+    <div
+      className="flex flex-col gap-3 p-4 rounded-3xl border border-primary-50 dark:border-primary-900/20 bg-white dark:bg-[#1e1b2e] shadow-card"
+    >
+      <div className="flex items-center gap-2.5">
+        <div className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${cfg.color}18`, color: cfg.color }}>
           {cfg.icon}
         </div>
-        <span className="font-semibold text-gray-900 dark:text-white text-sm">{cfg.label}</span>
+        <span className="font-bold text-gray-800 dark:text-white text-sm flex-1">{cfg.label}</span>
         {isRunning && (
-          <span className="ml-auto text-sm font-mono font-bold" style={{ color: cfg.color }}>
+          <span className="text-sm font-mono font-bold" style={{ color: cfg.color }}>
             {formatted}
           </span>
         )}
@@ -66,7 +67,7 @@ const TrackerPanel = ({
         <select
           value={label}
           onChange={e => setLabel(e.target.value)}
-          className="text-sm px-2 py-1.5 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+          className="text-sm px-3 py-2 border border-primary-100 dark:border-primary-900/30 rounded-2xl bg-surface-50 dark:bg-[#16141f] dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-300"
         >
           {cfg.examples.map(ex => <option key={ex}>{ex}</option>)}
         </select>
@@ -78,37 +79,36 @@ const TrackerPanel = ({
           size="sm"
           onClick={() => activeSession && onStop(activeSession._id)}
         >
-          <Square size={14} /> Stop
+          <Square size={13} /> Stop
         </Button>
       ) : (
-        <Button
-          size="sm"
+        <button
           onClick={() => onStart(type, label)}
-          style={{ backgroundColor: cfg.color, borderColor: cfg.color }}
+          className="flex items-center justify-center gap-2 py-2 rounded-2xl text-white text-sm font-semibold transition-all active:scale-95"
+          style={{ backgroundColor: cfg.color }}
         >
-          <Play size={14} /> Start
-        </Button>
+          <Play size={13} fill="currentColor" /> Start
+        </button>
       )}
     </div>
   );
 };
 
-// Today's completed sessions summary
 const SessionSummary = ({ sessions }: { sessions: Session[] }) => {
   const byType = (type: SessionType) =>
     sessions.filter(s => s.type === type && !s.isActive).reduce((a, s) => a + (s.durationMinutes || 0), 0);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+    <div className="grid grid-cols-5 gap-2">
       {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => {
         const mins = byType(type);
         const cfg = SESSION_CONFIG[type];
         return (
-          <div key={type} className="text-center p-3 rounded-xl bg-gray-50 dark:bg-gray-900/50">
-            <div className="text-lg font-bold" style={{ color: cfg.color }}>
-              {mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins}m`}
+          <div key={type} className="text-center p-2 rounded-2xl bg-surface-100 dark:bg-[#1e1b2e]">
+            <div className="text-sm font-bold" style={{ color: cfg.color }}>
+              {mins >= 60 ? `${Math.floor(mins / 60)}h` : `${mins}m`}
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{cfg.label}</div>
+            <div className="text-[10px] text-gray-400 mt-0.5 leading-tight">{cfg.label.split(' ')[0]}</div>
           </div>
         );
       })}
@@ -162,11 +162,11 @@ export const TimeTracker = () => {
     }
   };
 
-  if (loading) return <div className="text-center py-8 text-gray-400">Loading tracker...</div>;
+  if (loading) return <div className="text-center py-8 text-gray-400 text-sm">Loading tracker...</div>;
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+    <div className="space-y-3">
+      <div className="grid grid-cols-2 gap-3">
         {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => (
           <TrackerPanel
             key={type}
@@ -178,8 +178,8 @@ export const TimeTracker = () => {
         ))}
       </div>
 
-      <Card>
-        <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3">Today's Total</h3>
+      <Card padding="sm">
+        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Today's Total</h3>
         <SessionSummary sessions={todaySessions} />
       </Card>
     </div>

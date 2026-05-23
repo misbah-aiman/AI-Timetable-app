@@ -42,24 +42,25 @@ export const Analytics = () => {
 
   return (
     <Layout>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Analytics</h1>
+      <div className="mb-5">
+        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-0.5">This week</p>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Analytics</h1>
       </div>
 
       {loading && <LoadingSpinner message="Loading..." />}
 
       {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-xl text-sm">{error}</div>
+        <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-3xl text-sm">{error}</div>
       )}
 
       {stats && !loading && (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <StatsCard
             title="Study Today"
             value={fmtTime(stats.todayStudyMinutes)}
             subtitle={`Goal: ${fmtTime(studyGoalMins)}`}
             icon={<BookOpen size={18} />}
-            color="#6366f1"
+            color="#8b5cf6"
             progress={(stats.todayStudyMinutes / studyGoalMins) * 100}
           />
           <StatsCard
@@ -67,7 +68,7 @@ export const Analytics = () => {
             value={fmtTime(stats.todaySleepMinutes)}
             subtitle={`Goal: ${fmtTime(sleepGoalMins)}`}
             icon={<Moon size={18} />}
-            color="#8b5cf6"
+            color="#a78bfa"
             progress={(stats.todaySleepMinutes / sleepGoalMins) * 100}
           />
           <StatsCard

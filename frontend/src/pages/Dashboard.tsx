@@ -70,44 +70,49 @@ export const Dashboard = () => {
   return (
     <Layout>
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            {getGreeting()}, {user?.name?.split(' ')[0]} 👋
-          </h1>
-          <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">
-            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+          <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-0.5">
+            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
           </p>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-white leading-tight">
+            {getGreeting()},<br />
+            <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋
+          </h1>
         </div>
-        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
-          <RefreshCw size={14} /> Regenerate
+        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating} className="mt-1">
+          <RefreshCw size={14} />
         </Button>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mb-5 p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl flex items-center justify-between text-sm">
+        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl flex items-center justify-between text-sm">
           <span>{error}</span>
           <Button size="sm" onClick={() => navigate('/onboarding')}>
-            <Sparkles size={13} /> Re-onboard
+            <Sparkles size={13} /> Fix
           </Button>
         </div>
       )}
 
-      {/* Timetable — full width */}
+      {/* Timetable */}
       <Card>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-gray-900 dark:text-white">Weekly Schedule</h2>
+          <h2 className="text-base font-bold text-gray-800 dark:text-white">Weekly Schedule</h2>
         </div>
 
         {timetable ? (
           <TimetableView timetable={timetable} />
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-            <Sparkles size={32} className="mb-3 opacity-40" />
-            <p className="text-sm mb-4">No timetable yet — generate one with AI</p>
-            <Button onClick={handleRegenerate} loading={regenerating}>
-              <Sparkles size={14} /> Generate Timetable
+          <div className="flex flex-col items-center justify-center py-14 text-gray-400">
+            <div className="w-16 h-16 rounded-full bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center mb-4">
+              <Sparkles size={28} className="text-primary-400" />
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5 text-center">
+              No timetable yet — let AI plan your week
+            </p>
+            <Button onClick={handleRegenerate} loading={regenerating} size="lg">
+              <Sparkles size={16} /> Generate Timetable
             </Button>
           </div>
         )}

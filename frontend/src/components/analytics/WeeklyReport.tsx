@@ -22,7 +22,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
     day: DAY_SHORT[i] || d.date.slice(5),
     Study: +(d.studyMinutes / 60).toFixed(1),
     Sleep: +(d.sleepMinutes / 60).toFixed(1),
-    Screen: +(d.screenMinutes / 60).toFixed(1),
+    Scroll: +(d.screenMinutes / 60).toFixed(1),
   }));
 
   // Radar chart data
@@ -86,8 +86,8 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
               <Tooltip formatter={(v) => `${v}h`} />
               <Legend />
               <Bar dataKey="Study" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Sleep" fill="#a78bfa" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Screen" fill="#f97316" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Sleep" fill="#6366f1" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Scroll" fill="#f97316" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Card>

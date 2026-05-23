@@ -5,14 +5,39 @@ import { WeeklyAnalytics, DashboardStats } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { Layout } from '../components/layout/Layout';
 import { WeeklyReport } from '../components/analytics/WeeklyReport';
-import { StatsCard } from '../components/dashboard/StatsCard';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { Card } from '../components/ui/Card';
 
-const fmtTime = (mins: number) => {
+const fmt = (mins: number) => {
+  if (mins === 0) return '0m';
   if (mins < 60) return `${mins}m`;
   const h = Math.floor(mins / 60);
   const m = mins % 60;
   return m ? `${h}h ${m}m` : `${h}h`;
+};
+
+const ActivityBar = ({
+  label, value, max, color, icon,
+}: { label: string; value: number; max: number; color: string; icon: React.ReactNode }) => {
+  const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2" style={{ color }}>
+          {icon}
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label}</span>
+        </div>
+        <span className="text-sm font-bold" style={{ color }}>{fmt(value)}</span>
+      </div>
+      <div className="h-2.5 bg-surface-100 dark:bg-[#1e1b2e] rounded-full overflow-hidden">
+        <div
+          className="h-full rounded-full transition-all duration-700"
+          style={{ width: `${pct}%`, backgroundColor: color }}
+        />
+      </div>
+      <p className="text-xs text-gray-400">{Math.round(pct)}% of goal</p>
+    </div>
+  );
 };
 
 export const Analytics = () => {
@@ -23,10 +48,7 @@ export const Analytics = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    Promise.all([
-      analyticsApi.getWeekly(),
-      analyticsApi.getStats(),
-    ])
+    Promise.all([analyticsApi.getWeekly(), analyticsApi.getStats()])
       .then(([weeklyRes, statsRes]) => {
         setAnalytics(weeklyRes.data.analytics);
         setStats(statsRes.data.stats);
@@ -35,10 +57,10 @@ export const Analytics = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const onboarding = user?.onboarding;
-  const studyGoalMins = (onboarding?.studyGoalHours || 4) * 60;
-  const sleepGoalMins = (onboarding?.sleepHours || 8) * 60;
-  const screenLimitMins = (onboarding?.screenTimeLimitHours || 2) * 60;
+  const ob = user?.onboarding;
+  const studyGoalMins = (ob?.studyGoalHours || 4) * 60;
+  const sleepGoalMins = (ob?.sleepHours || 8) * 60;
+  const screenLimitMins = (ob?.screenTimeLimitHours || 2) * 60;
 
   return (
     <Layout>
@@ -48,45 +70,48 @@ export const Analytics = () => {
       </div>
 
       {loading && <LoadingSpinner message="Loading..." />}
-
-      {error && (
-        <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-3xl text-sm">{error}</div>
-      )}
+      {error && <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-3xl text-sm">{error}</div>}
 
       {stats && !loading && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
-          <StatsCard
-            title="Study Today"
-            value={fmtTime(stats.todayStudyMinutes)}
-            subtitle={`Goal: ${fmtTime(studyGoalMins)}`}
-            icon={<BookOpen size={18} />}
-            color="#8b5cf6"
-            progress={(stats.todayStudyMinutes / studyGoalMins) * 100}
-          />
-          <StatsCard
-            title="Sleep"
-            value={fmtTime(stats.todaySleepMinutes)}
-            subtitle={`Goal: ${fmtTime(sleepGoalMins)}`}
-            icon={<Moon size={18} />}
-            color="#a78bfa"
-            progress={(stats.todaySleepMinutes / sleepGoalMins) * 100}
-          />
-          <StatsCard
-            title="Screen Time"
-            value={fmtTime(stats.todayScreenMinutes)}
-            subtitle={`Limit: ${fmtTime(screenLimitMins)}`}
-            icon={<Smartphone size={18} />}
-            color="#f97316"
-            progress={(stats.todayScreenMinutes / screenLimitMins) * 100}
-          />
-          <StatsCard
-            title="Sessions"
-            value={String(stats.sessionsToday)}
-            subtitle="today"
-            icon={<Zap size={18} />}
-            color="#10b981"
-          />
-        </div>
+        <>
+          {/* Quick stats row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+            {[
+              { label: 'Study', value: stats.todayStudyMinutes, goal: studyGoalMins, color: '#8b5cf6', icon: <BookOpen size={18} /> },
+              { label: 'Sleep', value: stats.todaySleepMinutes, goal: sleepGoalMins, color: '#6366f1', icon: <Moon size={18} /> },
+              { label: 'Scroll', value: stats.todayScreenMinutes, goal: screenLimitMins, color: '#f97316', icon: <Smartphone size={18} /> },
+              { label: 'Sessions', value: stats.sessionsToday, goal: null, color: '#10b981', icon: <Zap size={18} /> },
+            ].map(({ label, value, goal, color, icon }) => (
+              <div key={label} className="bg-white dark:bg-[#1e1b2e] rounded-3xl shadow-card border border-primary-50 dark:border-primary-900/20 p-4">
+                <div className="w-9 h-9 rounded-2xl flex items-center justify-center mb-3" style={{ backgroundColor: `${color}18`, color }}>
+                  {icon}
+                </div>
+                <p className="text-2xl font-bold text-gray-800 dark:text-white">
+                  {goal !== null ? fmt(value) : String(value)}
+                </p>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-0.5">{label}</p>
+                {goal !== null && (
+                  <div className="mt-2 h-1.5 bg-gray-100 dark:bg-gray-700 rounded-full">
+                    <div
+                      className="h-1.5 rounded-full"
+                      style={{ width: `${Math.min((value / goal) * 100, 100)}%`, backgroundColor: color }}
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Today's activity progress */}
+          <Card className="mb-5">
+            <h2 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-5">Today's Activity</h2>
+            <div className="space-y-5">
+              <ActivityBar label="Study" value={stats.todayStudyMinutes} max={studyGoalMins} color="#8b5cf6" icon={<BookOpen size={15} />} />
+              <ActivityBar label="Sleep" value={stats.todaySleepMinutes} max={sleepGoalMins} color="#6366f1" icon={<Moon size={15} />} />
+              <ActivityBar label="Scroll" value={stats.todayScreenMinutes} max={screenLimitMins} color="#f97316" icon={<Smartphone size={15} />} />
+            </div>
+          </Card>
+        </>
       )}
 
       {analytics && !loading && <WeeklyReport analytics={analytics} />}

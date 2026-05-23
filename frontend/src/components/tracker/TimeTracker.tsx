@@ -1,125 +1,186 @@
 import { useEffect, useState } from 'react';
-import { Play, Square, BookOpen, Moon, Smartphone, Dumbbell, Heart } from 'lucide-react';
+import { BookOpen, Moon, Smartphone } from 'lucide-react';
 import { sessionsApi } from '../../services/api';
 import { Session } from '../../types';
 import { useTimer } from '../../hooks/useTimer';
-import { Button } from '../ui/Button';
-import { Card } from '../ui/Card';
 
-type SessionType = 'study' | 'sleep' | 'screen' | 'exercise' | 'hobby';
+type ActivityType = 'study' | 'sleep' | 'screen';
 
-const SESSION_CONFIG: Record<SessionType, { label: string; icon: React.ReactNode; color: string; examples: string[] }> = {
+const ACTIVITIES: Record<ActivityType, {
+  label: string;
+  sublabel: string;
+  icon: React.ReactNode;
+  color: string;
+  track: string;
+  goalMins: number;
+}> = {
   study: {
-    label: 'Study', icon: <BookOpen size={18} />, color: '#8b5cf6',
-    examples: ['Mathematics', 'Physics', 'English', 'Coding'],
+    label: 'Study',
+    sublabel: 'Focus session',
+    icon: <BookOpen size={22} />,
+    color: '#8b5cf6',
+    track: '#ede9fe',
+    goalMins: 4 * 60,
   },
   sleep: {
-    label: 'Sleep', icon: <Moon size={18} />, color: '#a78bfa',
-    examples: ['Night sleep', 'Nap'],
+    label: 'Sleep',
+    sublabel: 'Rest & recovery',
+    icon: <Moon size={22} />,
+    color: '#6366f1',
+    track: '#e0e7ff',
+    goalMins: 8 * 60,
   },
   screen: {
-    label: 'Screen Time', icon: <Smartphone size={18} />, color: '#f97316',
-    examples: ['YouTube', 'Instagram', 'Netflix', 'Gaming'],
-  },
-  exercise: {
-    label: 'Exercise', icon: <Dumbbell size={18} />, color: '#10b981',
-    examples: ['Gym', 'Running', 'Yoga', 'Walk'],
-  },
-  hobby: {
-    label: 'Hobby', icon: <Heart size={18} />, color: '#ec4899',
-    examples: ['Reading', 'Music', 'Art', 'Cooking'],
+    label: 'Scroll',
+    sublabel: 'Screen time',
+    icon: <Smartphone size={22} />,
+    color: '#f97316',
+    track: '#ffedd5',
+    goalMins: 2 * 60,
   },
 };
 
-const TrackerPanel = ({
-  type,
-  activeSession,
-  onStart,
-  onStop,
+// SVG circular progress ring
+const CircleTimer = ({
+  elapsed,
+  goalMins,
+  color,
+  track,
+  isRunning,
+  label,
+  sublabel,
+  icon,
 }: {
-  type: SessionType;
-  activeSession: Session | null;
-  onStart: (type: SessionType, label: string) => void;
-  onStop: (id: string) => void;
+  elapsed: number;
+  goalMins: number;
+  color: string;
+  track: string;
+  isRunning: boolean;
+  label: string;
+  sublabel: string;
+  icon: React.ReactNode;
 }) => {
-  const cfg = SESSION_CONFIG[type];
-  const isRunning = !!activeSession;
-  const { formatted } = useTimer(activeSession?.startTime || null, isRunning);
-  const [label, setLabel] = useState(cfg.examples[0]);
+  const size = 280;
+  const cx = size / 2;
+  const cy = size / 2;
+  const r = 118;
+  const circumference = 2 * Math.PI * r;
+  const progress = Math.min(elapsed / (goalMins * 60), 1);
+  const offset = circumference * (1 - progress);
+
+  const h = Math.floor(elapsed / 3600);
+  const m = Math.floor((elapsed % 3600) / 60);
+  const s = elapsed % 60;
+  const timeStr = h > 0
+    ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+    : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 
   return (
-    <div
-      className="flex flex-col gap-3 p-4 rounded-3xl border border-primary-50 dark:border-primary-900/20 bg-white dark:bg-[#1e1b2e] shadow-card"
-    >
-      <div className="flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${cfg.color}18`, color: cfg.color }}>
-          {cfg.icon}
-        </div>
-        <span className="font-bold text-gray-800 dark:text-white text-sm flex-1">{cfg.label}</span>
-        {isRunning && (
-          <span className="text-sm font-mono font-bold" style={{ color: cfg.color }}>
-            {formatted}
-          </span>
+    <div className="relative flex items-center justify-center select-none">
+      <svg width={size} height={size} className="-rotate-90">
+        {/* Track ring */}
+        <circle
+          cx={cx} cy={cy} r={r}
+          fill="none"
+          stroke={track}
+          strokeWidth={14}
+          className="dark:opacity-20"
+        />
+        {/* Progress ring */}
+        <circle
+          cx={cx} cy={cy} r={r}
+          fill="none"
+          stroke={color}
+          strokeWidth={14}
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ transition: 'stroke-dashoffset 1s linear' }}
+        />
+        {/* Subtle glow dot at progress head */}
+        {isRunning && progress > 0 && (
+          <circle
+            cx={cx + r * Math.cos((progress * 2 * Math.PI) - Math.PI / 2)}
+            cy={cy + r * Math.sin((progress * 2 * Math.PI) - Math.PI / 2)}
+            r={7}
+            fill={color}
+            className="rotate-90"
+            style={{ filter: `drop-shadow(0 0 6px ${color})` }}
+          />
         )}
+      </svg>
+
+      {/* Center content */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <div className="flex items-center gap-2 mb-2" style={{ color }}>
+          {icon}
+          <span className="text-sm font-semibold">{label}</span>
+        </div>
+
+        <div
+          className="font-mono font-bold leading-none tracking-tight"
+          style={{
+            fontSize: h > 0 ? '2.8rem' : '3.5rem',
+            color: isRunning ? color : '#9ca3af',
+          }}
+        >
+          {isRunning ? timeStr : (h > 0 ? '00:00:00' : '00:00')}
+        </div>
+
+        <div className="text-xs text-gray-400 mt-2">
+          {isRunning
+            ? `${Math.round((elapsed / (goalMins * 60)) * 100)}% of goal`
+            : sublabel
+          }
+        </div>
       </div>
-
-      {!isRunning && (
-        <select
-          value={label}
-          onChange={e => setLabel(e.target.value)}
-          className="text-sm px-3 py-2 border border-primary-100 dark:border-primary-900/30 rounded-2xl bg-surface-50 dark:bg-[#16141f] dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-300"
-        >
-          {cfg.examples.map(ex => <option key={ex}>{ex}</option>)}
-        </select>
-      )}
-
-      {isRunning ? (
-        <Button
-          variant="danger"
-          size="sm"
-          onClick={() => activeSession && onStop(activeSession._id)}
-        >
-          <Square size={13} /> Stop
-        </Button>
-      ) : (
-        <button
-          onClick={() => onStart(type, label)}
-          className="flex items-center justify-center gap-2 py-2 rounded-2xl text-white text-sm font-semibold transition-all active:scale-95"
-          style={{ backgroundColor: cfg.color }}
-        >
-          <Play size={13} fill="currentColor" /> Start
-        </button>
-      )}
     </div>
   );
 };
 
-const SessionSummary = ({ sessions }: { sessions: Session[] }) => {
-  const byType = (type: SessionType) =>
-    sessions.filter(s => s.type === type && !s.isActive).reduce((a, s) => a + (s.durationMinutes || 0), 0);
+// Today's totals bar
+const TodaySummary = ({ sessions }: { sessions: Session[] }) => {
+  const total = (type: ActivityType) =>
+    sessions.filter(s => s.type === type && !s.isActive)
+      .reduce((sum, s) => sum + (s.durationMinutes || 0), 0);
+
+  const fmt = (mins: number) => {
+    if (mins === 0) return '—';
+    if (mins < 60) return `${mins}m`;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return m ? `${h}h ${m}m` : `${h}h`;
+  };
 
   return (
-    <div className="grid grid-cols-5 gap-2">
-      {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => {
-        const mins = byType(type);
-        const cfg = SESSION_CONFIG[type];
-        return (
-          <div key={type} className="text-center p-2 rounded-2xl bg-surface-100 dark:bg-[#1e1b2e]">
-            <div className="text-sm font-bold" style={{ color: cfg.color }}>
-              {mins >= 60 ? `${Math.floor(mins / 60)}h` : `${mins}m`}
-            </div>
-            <div className="text-[10px] text-gray-400 mt-0.5 leading-tight">{cfg.label.split(' ')[0]}</div>
-          </div>
-        );
-      })}
+    <div className="grid grid-cols-3 gap-3">
+      {(Object.entries(ACTIVITIES) as [ActivityType, typeof ACTIVITIES[ActivityType]][]).map(([type, cfg]) => (
+        <div
+          key={type}
+          className="flex flex-col items-center gap-1 py-4 px-2 rounded-3xl"
+          style={{ backgroundColor: `${cfg.color}10` }}
+        >
+          <div style={{ color: cfg.color }}>{cfg.icon}</div>
+          <span className="text-lg font-bold" style={{ color: cfg.color }}>{fmt(total(type))}</span>
+          <span className="text-[11px] font-medium text-gray-400">{cfg.label}</span>
+        </div>
+      ))}
     </div>
   );
 };
 
 export const TimeTracker = () => {
-  const [activeSessions, setActiveSessions] = useState<Record<string, Session>>({});
+  const [selected, setSelected] = useState<ActivityType>('study');
+  const [activeSession, setActiveSession] = useState<Session | null>(null);
   const [todaySessions, setTodaySessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  const isRunning = !!activeSession;
+  const activeType = (activeSession?.type as ActivityType) || selected;
+  const cfg = ACTIVITIES[activeType];
+
+  const { elapsed } = useTimer(activeSession?.startTime || null, isRunning);
 
   const fetchData = async () => {
     try {
@@ -127,9 +188,10 @@ export const TimeTracker = () => {
         sessionsApi.getActive(),
         sessionsApi.getToday(),
       ]);
-      const active: Record<string, Session> = {};
-      activeRes.data.sessions.forEach((s: Session) => { active[s.type] = s; });
-      setActiveSessions(active);
+      const sessions: Session[] = activeRes.data.sessions;
+      const relevant = sessions.find(s => ['study', 'sleep', 'screen'].includes(s.type));
+      setActiveSession(relevant || null);
+      if (relevant) setSelected(relevant.type as ActivityType);
       setTodaySessions(todayRes.data.sessions);
     } finally {
       setLoading(false);
@@ -138,50 +200,94 @@ export const TimeTracker = () => {
 
   useEffect(() => { fetchData(); }, []);
 
-  const handleStart = async (type: SessionType, label: string) => {
+  const handleStart = async () => {
+    setActionLoading(true);
     try {
-      const res = await sessionsApi.start({ type, label });
-      setActiveSessions(prev => ({ ...prev, [type]: res.data.session }));
-    } catch (e) {
-      console.error(e);
-    }
+      const res = await sessionsApi.start({ type: selected, label: ACTIVITIES[selected].label });
+      setActiveSession(res.data.session);
+    } catch (e) { console.error(e); }
+    finally { setActionLoading(false); }
   };
 
-  const handleStop = async (id: string) => {
+  const handleStop = async () => {
+    if (!activeSession) return;
+    setActionLoading(true);
     try {
-      const res = await sessionsApi.stop(id);
+      const res = await sessionsApi.stop(activeSession._id);
       const stopped: Session = res.data.session;
-      setActiveSessions(prev => {
-        const next = { ...prev };
-        delete next[stopped.type];
-        return next;
-      });
+      setActiveSession(null);
       setTodaySessions(prev => [...prev.filter(s => s._id !== stopped._id), stopped]);
-    } catch (e) {
-      console.error(e);
-    }
+    } catch (e) { console.error(e); }
+    finally { setActionLoading(false); }
   };
 
-  if (loading) return <div className="text-center py-8 text-gray-400 text-sm">Loading tracker...</div>;
+  if (loading) return (
+    <div className="flex items-center justify-center py-20">
+      <div className="w-10 h-10 border-4 border-primary-100 border-t-primary-500 rounded-full animate-spin" />
+    </div>
+  );
 
   return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => (
-          <TrackerPanel
-            key={type}
-            type={type}
-            activeSession={activeSessions[type] || null}
-            onStart={handleStart}
-            onStop={handleStop}
-          />
-        ))}
+    <div className="flex flex-col items-center gap-6 max-w-sm mx-auto md:max-w-md">
+
+      {/* Circle timer */}
+      <CircleTimer
+        elapsed={elapsed}
+        goalMins={cfg.goalMins}
+        color={cfg.color}
+        track={cfg.track}
+        isRunning={isRunning}
+        label={cfg.label}
+        sublabel={cfg.sublabel}
+        icon={cfg.icon}
+      />
+
+      {/* Activity selector — disabled while running */}
+      <div className="flex gap-2 w-full">
+        {(Object.entries(ACTIVITIES) as [ActivityType, typeof ACTIVITIES[ActivityType]][]).map(([type, a]) => {
+          const active = isRunning ? activeType === type : selected === type;
+          return (
+            <button
+              key={type}
+              disabled={isRunning}
+              onClick={() => setSelected(type)}
+              className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-3xl border-2 transition-all duration-200 ${
+                active
+                  ? 'border-transparent shadow-soft'
+                  : 'border-transparent bg-surface-100 dark:bg-[#1e1b2e] opacity-60'
+              } ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-90'}`}
+              style={active ? { backgroundColor: `${a.color}15`, borderColor: `${a.color}40` } : {}}
+            >
+              <span style={{ color: active ? a.color : '#9ca3af' }}>{a.icon}</span>
+              <span className={`text-xs font-bold ${active ? '' : 'text-gray-400'}`}
+                style={active ? { color: a.color } : {}}>
+                {a.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <Card padding="sm">
-        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Today's Total</h3>
-        <SessionSummary sessions={todaySessions} />
-      </Card>
+      {/* Start / Stop button */}
+      <button
+        onClick={isRunning ? handleStop : handleStart}
+        disabled={actionLoading}
+        className={`w-full py-4 rounded-3xl text-white text-base font-bold tracking-wide transition-all duration-200 active:scale-[0.97] shadow-soft disabled:opacity-60 ${
+          isRunning ? 'bg-red-500 hover:bg-red-600' : ''
+        }`}
+        style={!isRunning ? { backgroundColor: ACTIVITIES[selected].color } : {}}
+      >
+        {actionLoading ? '…' : isRunning ? 'Stop Session' : `Start ${ACTIVITIES[selected].label}`}
+      </button>
+
+      {/* Divider */}
+      <div className="w-full border-t border-primary-50 dark:border-primary-900/20" />
+
+      {/* Today's summary */}
+      <div className="w-full">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 text-center">Today</p>
+        <TodaySummary sessions={todaySessions} />
+      </div>
     </div>
   );
 };

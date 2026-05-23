@@ -166,7 +166,7 @@ export const TimeTracker = () => {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {(Object.keys(SESSION_CONFIG) as SessionType[]).map(type => (
           <TrackerPanel
             key={type}

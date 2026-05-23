@@ -42,9 +42,9 @@ export const Analytics = () => {
 
   return (
     <Layout>
-      <div className="mb-5">
-        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-0.5">This week</p>
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Analytics</h1>
+      <div className="mb-6">
+        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1">This week</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Analytics</h1>
       </div>
 
       {loading && <LoadingSpinner message="Loading..." />}
@@ -54,7 +54,7 @@ export const Analytics = () => {
       )}
 
       {stats && !loading && (
-        <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
           <StatsCard
             title="Study Today"
             value={fmtTime(stats.todayStudyMinutes)}

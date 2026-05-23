@@ -72,16 +72,15 @@ export const Dashboard = () => {
       {/* Header */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-0.5">
+          <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
           </p>
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white leading-tight">
-            {getGreeting()},<br />
-            <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
+            {getGreeting()}, <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋
           </h1>
         </div>
-        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating} className="mt-1">
-          <RefreshCw size={14} />
+        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
+          <RefreshCw size={14} /> <span className="hidden sm:inline">Regenerate</span>
         </Button>
       </div>
 
@@ -104,7 +103,7 @@ export const Dashboard = () => {
         {timetable ? (
           <TimetableView timetable={timetable} />
         ) : (
-          <div className="flex flex-col items-center justify-center py-14 text-gray-400">
+          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
             <div className="w-16 h-16 rounded-full bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center mb-4">
               <Sparkles size={28} className="text-primary-400" />
             </div>

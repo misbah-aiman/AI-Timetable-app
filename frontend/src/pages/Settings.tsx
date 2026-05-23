@@ -84,39 +84,39 @@ export const Settings = () => {
 
   return (
     <Layout>
-      <div className="mb-5">
-        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-0.5">Account</p>
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Settings</h1>
+      <div className="mb-6">
+        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1">Account</p>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Settings</h1>
       </div>
 
-      {/* Profile hero */}
-      <Card className="mb-4 flex items-center gap-4">
-        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-soft">
-          {user?.name?.charAt(0).toUpperCase()}
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="font-bold text-gray-800 dark:text-white truncate">{user?.name}</p>
-          <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-        </div>
-        <button
-          onClick={logout}
-          className="p-2.5 rounded-2xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-          title="Logout"
-        >
-          <LogOut size={18} />
-        </button>
-      </Card>
+      <div className="max-w-2xl space-y-4">
+        {/* Profile hero */}
+        <Card className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-soft">
+            {user?.name?.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="font-bold text-gray-800 dark:text-white truncate">{user?.name}</p>
+            <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+          </div>
+          <button
+            onClick={logout}
+            className="p-2.5 rounded-2xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+            title="Logout"
+          >
+            <LogOut size={18} />
+          </button>
+        </Card>
 
-      <div className="space-y-4">
         {/* Profile name */}
         <Card>
-          <h2 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Profile</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Profile</h2>
           <Input label="Display Name" {...field('name')} />
         </Card>
 
         {/* Routine */}
         <Card>
-          <h2 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Routine</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Routine</h2>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <Input label="Bedtime" type="time" {...field('sleepTime')} />
@@ -145,7 +145,7 @@ export const Settings = () => {
 
         {/* Appearance */}
         <Card>
-          <h2 className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Appearance</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Appearance</h2>
           <button
             onClick={toggleTheme}
             className="flex items-center gap-3 w-full p-3 rounded-2xl bg-surface-100 dark:bg-primary-900/20 hover:bg-surface-200 dark:hover:bg-primary-900/30 transition-colors"
@@ -176,15 +176,15 @@ export const Settings = () => {
         )}
 
         {/* Actions */}
-        <div className="flex flex-col gap-2.5">
-          <Button onClick={handleSave} loading={saving} size="lg" className="w-full">
+        <div className="flex flex-col sm:flex-row gap-2.5">
+          <Button onClick={handleSave} loading={saving} size="lg" className="flex-1">
             <Save size={16} /> Save Changes
           </Button>
-          <Button onClick={handleRegenerate} loading={regenerating} variant="secondary" size="lg" className="w-full">
-            <RefreshCw size={16} /> Save & Regenerate Timetable
+          <Button onClick={handleRegenerate} loading={regenerating} variant="secondary" size="lg" className="flex-1">
+            <RefreshCw size={16} /> Save & Regenerate
           </Button>
-          <Button onClick={() => setDeleteModal(true)} variant="danger" size="lg" className="w-full">
-            <Trash2 size={16} /> Delete Account
+          <Button onClick={() => setDeleteModal(true)} variant="danger" size="lg">
+            <Trash2 size={16} />
           </Button>
         </div>
       </div>
@@ -194,12 +194,8 @@ export const Settings = () => {
           This will permanently delete your account, timetable, and all session data. This cannot be undone.
         </p>
         <div className="flex gap-3">
-          <Button variant="secondary" onClick={() => setDeleteModal(false)} className="flex-1">
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDelete} loading={deleting} className="flex-1">
-            Delete Everything
-          </Button>
+          <Button variant="secondary" onClick={() => setDeleteModal(false)} className="flex-1">Cancel</Button>
+          <Button variant="danger" onClick={handleDelete} loading={deleting} className="flex-1">Delete Everything</Button>
         </div>
       </Modal>
     </Layout>

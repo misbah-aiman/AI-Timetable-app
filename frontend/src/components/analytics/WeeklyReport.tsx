@@ -74,35 +74,36 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
         </Card>
       </div>
 
-      {/* Bar chart */}
-      <Card>
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Daily Hours Breakdown</h3>
-        <ResponsiveContainer width="100%" height={240}>
-          <BarChart data={barData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis dataKey="day" tick={{ fontSize: 12 }} />
-            <YAxis tick={{ fontSize: 12 }} unit="h" />
-            <Tooltip formatter={(v) => `${v}h`} />
-            <Legend />
-            <Bar dataKey="Study" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
-            <Bar dataKey="Sleep" fill="#a78bfa" radius={[6, 6, 0, 0]} />
-            <Bar dataKey="Screen" fill="#f97316" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </Card>
+      {/* Charts — side by side on desktop */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Card>
+          <h3 className="font-semibold text-gray-800 dark:text-white mb-4">Daily Hours Breakdown</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={barData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#ede9fe" />
+              <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} unit="h" />
+              <Tooltip formatter={(v) => `${v}h`} />
+              <Legend />
+              <Bar dataKey="Study" fill="#8b5cf6" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Sleep" fill="#a78bfa" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Screen" fill="#f97316" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </Card>
 
-      {/* Radar chart */}
-      <Card>
-        <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Activity Balance</h3>
-        <ResponsiveContainer width="100%" height={240}>
-          <RadarChart data={radarData}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-            <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25} />
-            <Tooltip formatter={(v) => `${Math.round(Number(v))}%`} />
-          </RadarChart>
-        </ResponsiveContainer>
-      </Card>
+        <Card>
+          <h3 className="font-semibold text-gray-800 dark:text-white mb-4">Activity Balance</h3>
+          <ResponsiveContainer width="100%" height={220}>
+            <RadarChart data={radarData}>
+              <PolarGrid />
+              <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
+              <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25} />
+              <Tooltip formatter={(v) => `${Math.round(Number(v))}%`} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </Card>
+      </div>
     </div>
   );
 };

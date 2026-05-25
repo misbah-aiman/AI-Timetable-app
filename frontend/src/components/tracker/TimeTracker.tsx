@@ -178,7 +178,7 @@ export const TimeTracker = () => {
     if (!activeSession) return;
     setActionLoading(true);
     try {
-      const res = await sessionsApi.stop(activeSession._id);
+      await sessionsApi.stop(activeSession._id);
       setActiveSession(null);
     } catch (e) { console.error(e); }
     finally { setActionLoading(false); }

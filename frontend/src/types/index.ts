@@ -82,6 +82,17 @@ export interface WeeklyAnalytics {
   };
 }
 
+export interface Task {
+  _id: string;
+  title: string;
+  subject: string;
+  dueDate: string;
+  estimatedHours: number;
+  priority: 'low' | 'medium' | 'high';
+  status: 'pending' | 'done';
+  createdAt: string;
+}
+
 export interface DashboardStats {
   todayStudyMinutes: number;
   todaySleepMinutes: number;

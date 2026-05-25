@@ -1,4 +1,4 @@
-import { Home, Clock, BarChart2, Settings, Moon, Sun, LogOut, Sparkles } from 'lucide-react';
+import { Home, Clock, BarChart2, Settings, Moon, Sun, LogOut, Sparkles, ListTodo } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';

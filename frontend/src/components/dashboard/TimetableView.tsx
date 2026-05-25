@@ -12,24 +12,15 @@ const categoryLabel: Record<string, string> = {
 };
 
 const SlotCard = ({ slot }: { slot: TimeSlot }) => (
-  <div
-    className="flex items-center gap-3 p-3 rounded-2xl"
-    style={{ backgroundColor: `${slot.color || '#8b5cf6'}0d` }}
-  >
-    <div
-      className="w-1 self-stretch rounded-full shrink-0"
-      style={{ backgroundColor: slot.color || '#8b5cf6' }}
-    />
+  <div className="flex items-center gap-3 p-3 rounded-2xl bg-surface-100 dark:bg-[#1e1b2e]">
+    <div className="w-0.5 self-stretch rounded-full bg-primary-300 dark:bg-primary-700 shrink-0" />
     <div className="flex-1 min-w-0">
       <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{slot.activity}</p>
       <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
         {slot.startTime} – {slot.endTime}
       </p>
     </div>
-    <span
-      className="text-xs px-2.5 py-1 rounded-xl font-semibold shrink-0"
-      style={{ backgroundColor: `${slot.color || '#8b5cf6'}1a`, color: slot.color || '#8b5cf6' }}
-    >
+    <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-400 dark:text-gray-500 bg-surface-200 dark:bg-[#28243a] shrink-0">
       {categoryLabel[slot.category] || slot.category}
     </span>
   </div>

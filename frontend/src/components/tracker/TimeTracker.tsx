@@ -142,7 +142,6 @@ const CircleTimer = ({
 export const TimeTracker = () => {
   const [selected, setSelected] = useState<ActivityType>('study');
   const [activeSession, setActiveSession] = useState<Session | null>(null);
-  const [todaySessions, setTodaySessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 

@@ -53,6 +53,7 @@ const AppRoutes = () => (
     <Route path="/dashboard" element={<OnboardedRoute><Dashboard /></OnboardedRoute>} />
     <Route path="/tracker" element={<OnboardedRoute><TrackerPage /></OnboardedRoute>} />
     <Route path="/analytics" element={<OnboardedRoute><Analytics /></OnboardedRoute>} />
+    <Route path="/tasks" element={<OnboardedRoute><TasksPage /></OnboardedRoute>} />
     <Route path="/settings" element={<OnboardedRoute><Settings /></OnboardedRoute>} />
 
     {/* Default redirect */}

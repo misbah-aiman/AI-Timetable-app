@@ -560,9 +560,6 @@ export const Settings = () => {
           >
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-800 dark:text-white">Edit Routine</p>
-              {routinePreview && (
-                <p className="text-xs text-gray-400 mt-0.5 truncate">{routinePreview}</p>
-              )}
             </div>
             <ChevronRight size={16} className="text-gray-400 shrink-0" />
           </button>

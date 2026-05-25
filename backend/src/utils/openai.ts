@@ -192,6 +192,10 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
   const screenMins = Math.min((onboarding.screenTimeLimitHours || 2) * 60, 90);
   const subjects = onboarding.subjects.length > 0 ? onboarding.subjects : ['General Study'];
   const hobbies = onboarding.hobbies.length > 0 ? onboarding.hobbies : [];
+  // Build ordered task labels for study block naming (urgent tasks first)
+  const taskLabels = tasks && tasks.length > 0
+    ? tasks.sort((a, b) => a.dueDays - b.dueDays).map(t => t.title)
+    : subjects;
 
   return DAYS.map(day => {
     const slots: Slot[] = [];

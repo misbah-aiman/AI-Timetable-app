@@ -416,7 +416,7 @@ export const TasksPage = () => {
       )}
 
       <Modal isOpen={showAdd} title="Add Task" onClose={() => setShowAdd(false)}>
-        <AddTaskModal onAdd={t => setTasks(prev => [...prev, t])} onClose={() => setShowAdd(false)} />
+        <AddTaskForm onAdd={t => setTasks(prev => [...prev, t])} onClose={() => setShowAdd(false)} />
       </Modal>
     </Layout>
   );

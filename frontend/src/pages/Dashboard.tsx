@@ -95,15 +95,13 @@ export const Dashboard = () => {
         {timetable ? (
           <TimetableView timetable={timetable} />
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-            <div className="w-16 h-16 rounded-full bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center mb-4">
-              <Sparkles size={28} className="text-primary-400" />
+          <div className="flex flex-col items-center justify-center py-14 gap-4">
+            <div className="w-14 h-14 rounded-3xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
+              <Sparkles size={24} className="text-primary-400" />
             </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5 text-center">
-              No timetable yet — let AI plan your week
-            </p>
+            <p className="text-sm text-gray-400 text-center">No timetable yet</p>
             <Button onClick={handleRegenerate} loading={regenerating} size="lg">
-              <Sparkles size={16} /> Generate Timetable
+              <Sparkles size={16} /> Generate with AI
             </Button>
           </div>
         )}

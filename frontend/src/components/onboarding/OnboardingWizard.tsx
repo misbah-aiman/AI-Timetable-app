@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import {
   ChevronRight, ChevronLeft, Sparkles, X, ImageIcon, ScanLine,
-  CheckCircle, RefreshCw, Moon, AlertCircle,
+  CheckCircle, RefreshCw, AlertCircle,
 } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';

@@ -10,14 +10,11 @@ export const saveOnboarding = async (req: AuthRequest, res: Response): Promise<v
   console.log('[saveOnboarding] userId:', req.userId, 'body keys:', Object.keys(req.body));
   try {
     const {
-      sleepTime,
-      wakeTime,
-      sleepHours,
-      studyGoalHours,
-      subjects,
-      hobbies,
-      screenTimeLimitHours,
-      classes,
+      sleepTime, wakeTime, sleepHours, studyGoalHours,
+      subjects, hobbies, screenTimeLimitHours, classes,
+      chronotype, studyStyle,
+      exerciseEnabled, exerciseTime, exerciseDuration,
+      workEnabled, workDays, workStartTime, workEndTime,
     } = req.body;
 
     const user = await User.findByIdAndUpdate(
@@ -31,6 +28,15 @@ export const saveOnboarding = async (req: AuthRequest, res: Response): Promise<v
         'onboarding.hobbies': hobbies,
         'onboarding.screenTimeLimitHours': screenTimeLimitHours,
         'onboarding.classes': classes || [],
+        'onboarding.chronotype': chronotype || 'morning',
+        'onboarding.studyStyle': studyStyle || 'medium',
+        'onboarding.exerciseEnabled': exerciseEnabled ?? false,
+        'onboarding.exerciseTime': exerciseTime || 'morning',
+        'onboarding.exerciseDuration': exerciseDuration || 30,
+        'onboarding.workEnabled': workEnabled ?? false,
+        'onboarding.workDays': workDays || [],
+        'onboarding.workStartTime': workStartTime || '09:00',
+        'onboarding.workEndTime': workEndTime || '17:00',
         'onboarding.completed': true,
       },
       { new: true }

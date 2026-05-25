@@ -179,9 +179,7 @@ export const TimeTracker = () => {
     setActionLoading(true);
     try {
       const res = await sessionsApi.stop(activeSession._id);
-      const stopped: Session = res.data.session;
       setActiveSession(null);
-      setTodaySessions(prev => [...prev.filter(s => s._id !== stopped._id), stopped]);
     } catch (e) { console.error(e); }
     finally { setActionLoading(false); }
   };

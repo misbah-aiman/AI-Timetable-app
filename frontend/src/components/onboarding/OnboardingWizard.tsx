@@ -494,9 +494,6 @@ export const OnboardingWizard = () => {
             <div className="space-y-5">
               <div>
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white">Screen Time Limit</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                  {STEP_LABELS.screen.subtitle}
-                </p>
               </div>
 
               {/* Large value display */}

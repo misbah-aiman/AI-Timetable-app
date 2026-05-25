@@ -508,7 +508,7 @@ export const OnboardingWizard = () => {
                           className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
                             data.exerciseDuration === mins
                               ? 'bg-primary-500 text-white shadow-soft'
-                              : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
                           }`}
                         >
                           {mins}m
@@ -520,7 +520,7 @@ export const OnboardingWizard = () => {
               )}
 
               {!data.exerciseEnabled && (
-                <div className="flex items-center gap-3 p-4 bg-surface-100 dark:bg-[#1e1b2e] rounded-2xl">
+                <div className="flex items-center gap-3 p-4 bg-surface-100 dark:bg-[#261f15] rounded-2xl">
                   <Dumbbell size={18} className="text-gray-300 dark:text-gray-600 shrink-0" />
                   <p className="text-sm text-gray-400">No exercise blocks will be added to your timetable.</p>
                 </div>
@@ -563,7 +563,7 @@ export const OnboardingWizard = () => {
                           className={`py-2 rounded-2xl text-xs font-semibold transition-all ${
                             data.workDays.includes(d)
                               ? 'bg-primary-500 text-white shadow-soft'
-                              : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
                           }`}
                         >
                           {d.slice(0, 3)}
@@ -583,7 +583,7 @@ export const OnboardingWizard = () => {
               )}
 
               {!data.workEnabled && (
-                <div className="flex items-center gap-3 p-4 bg-surface-100 dark:bg-[#1e1b2e] rounded-2xl">
+                <div className="flex items-center gap-3 p-4 bg-surface-100 dark:bg-[#261f15] rounded-2xl">
                   <Briefcase size={18} className="text-gray-300 dark:text-gray-600 shrink-0" />
                   <p className="text-sm text-gray-400">No work blocks will be reserved in your timetable.</p>
                 </div>
@@ -642,7 +642,7 @@ export const OnboardingWizard = () => {
                       setCustomHobby('');
                     }
                   }}
-                  className="flex-1 px-4 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+                  className="flex-1 px-4 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
                 />
                 <button
                   onClick={() => { const val = customHobby.trim(); if (val && !data.hobbies.includes(val)) toggleHobby(val); setCustomHobby(''); }}
@@ -762,7 +762,7 @@ export const OnboardingWizard = () => {
                   <div>
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Day</label>
                     <select value={newClass.day} onChange={e => setNewClass(c => ({ ...c, day: e.target.value }))}
-                      className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
                     >
                       {DAYS.map(d => <option key={d}>{d}</option>)}
                     </select>
@@ -771,14 +771,14 @@ export const OnboardingWizard = () => {
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Start time</label>
                     <input type="time" value={newClass.startTime}
                       onChange={e => { setNewClass(c => ({ ...c, startTime: e.target.value })); setClassError(''); }}
-                      className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+                      className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
                     />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">End time</label>
                     <input type="time" value={newClass.endTime}
                       onChange={e => { setNewClass(c => ({ ...c, endTime: e.target.value })); setClassError(''); }}
-                      className={`w-full px-3 py-2.5 text-sm rounded-2xl border bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:border-transparent ${
+                      className={`w-full px-3 py-2.5 text-sm rounded-2xl border bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:border-transparent ${
                         newClass.endTime && newClass.endTime <= newClass.startTime
                           ? 'border-red-400 focus:ring-red-300'
                           : 'border-primary-100 dark:border-primary-900/30 focus:ring-primary-300'

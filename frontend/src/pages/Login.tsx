@@ -190,9 +190,6 @@ export const Login = () => {
             <Sparkles size={36} />
           </div>
           <h1 className="text-4xl font-bold mb-3">AI Timetable</h1>
-          <p className="text-primary-100 text-lg leading-relaxed max-w-xs">
-            Your AI-powered daily planner. Study smarter, sleep better, live balanced.
-          </p>
         </div>
       </div>
 

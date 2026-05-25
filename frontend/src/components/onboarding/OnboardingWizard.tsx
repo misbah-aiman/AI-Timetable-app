@@ -54,12 +54,6 @@ const computeSleepHours = (bedtime: string, wakeTime: string): number => {
   return Math.round((mins / 60) * 10) / 10;
 };
 
-const fmtHours = (h: number): string => {
-  const whole = Math.floor(h);
-  const mins = Math.round((h - whole) * 60);
-  return mins ? `${whole}h ${mins}m` : `${whole}h`;
-};
-
 // ── Shared inline error ───────────────────────────────────
 
 const InlineError = ({ message }: { message: string }) => (

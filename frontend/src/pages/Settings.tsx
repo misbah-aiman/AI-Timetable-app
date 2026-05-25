@@ -97,11 +97,9 @@ interface RoutineForm {
 const RoutineEditor = ({
   initial,
   onSave,
-  onClose,
 }: {
   initial: RoutineForm;
   onSave: (data: RoutineForm, regenerate: boolean) => Promise<void>;
-  onClose: () => void;
 }) => {
   const [r, setR] = useState<RoutineForm>(initial);
   const [saving, setSaving] = useState(false);

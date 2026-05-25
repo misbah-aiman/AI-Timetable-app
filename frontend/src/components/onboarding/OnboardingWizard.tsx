@@ -407,13 +407,9 @@ export const OnboardingWizard = () => {
           {/* ── Step: Hobbies ───────────────────────────── */}
           {step === 'hobbies' && (
             <div className="space-y-5">
-              <div>
-                <h2 className="text-lg font-bold text-gray-900 dark:text-white">Your Hobbies</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                  {STEP_LABELS.hobbies.subtitle} You can skip this if you prefer.
-                </p>
-              </div>
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">Your Hobbies</h2>
 
+              {/* Preset options */}
               <div className="grid grid-cols-2 gap-2.5">
                 {HOBBY_OPTIONS.map(label => {
                   const selected = data.hobbies.includes(label);
@@ -434,11 +430,62 @@ export const OnboardingWizard = () => {
                 })}
               </div>
 
-              <p className="text-xs text-center text-gray-400">
-                {data.hobbies.length > 0
-                  ? `${data.hobbies.length} selected`
-                  : 'None selected — that\'s fine, you can continue.'}
-              </p>
+              {/* Custom hobbies (user-added) */}
+              {data.hobbies.filter(h => !HOBBY_OPTIONS.includes(h)).length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {data.hobbies.filter(h => !HOBBY_OPTIONS.includes(h)).map(h => (
+                    <span
+                      key={h}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300 text-sm font-medium rounded-2xl"
+                    >
+                      {h}
+                      <button
+                        onClick={() => toggleHobby(h)}
+                        className="text-primary-400 hover:text-red-500 transition-colors"
+                        aria-label={`Remove ${h}`}
+                      >
+                        <X size={13} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Custom hobby input */}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  placeholder="Add your own hobby..."
+                  value={customHobby}
+                  onChange={e => setCustomHobby(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      const val = customHobby.trim();
+                      if (val && !data.hobbies.includes(val)) {
+                        toggleHobby(val);
+                      }
+                      setCustomHobby('');
+                    }
+                  }}
+                  className="flex-1 px-4 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+                />
+                <button
+                  onClick={() => {
+                    const val = customHobby.trim();
+                    if (val && !data.hobbies.includes(val)) toggleHobby(val);
+                    setCustomHobby('');
+                  }}
+                  className="px-4 py-2.5 text-sm font-semibold rounded-2xl bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-40"
+                  disabled={!customHobby.trim() || data.hobbies.includes(customHobby.trim())}
+                >
+                  Add
+                </button>
+              </div>
+
+              {data.hobbies.length > 0 && (
+                <p className="text-xs text-center text-gray-400">{data.hobbies.length} selected</p>
+              )}
             </div>
           )}
 

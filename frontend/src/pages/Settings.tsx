@@ -44,7 +44,7 @@ const OptionPill = ({
     className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
       selected
         ? 'bg-primary-500 text-white shadow-soft'
-        : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+        : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
     }`}
   >
     {label}
@@ -252,7 +252,7 @@ const RoutineEditor = ({
             </>
           )}
           {!r.exerciseEnabled && (
-            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#1e1b2e] rounded-2xl">
+            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#261f15] rounded-2xl">
               <Dumbbell size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />
               <p className="text-xs text-gray-400">No exercise blocks will be scheduled.</p>
             </div>
@@ -277,7 +277,7 @@ const RoutineEditor = ({
                       className={`py-2 rounded-2xl text-xs font-semibold transition-all ${
                         r.workDays.includes(d)
                           ? 'bg-primary-500 text-white shadow-soft'
-                          : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                          : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
                       }`}
                     >
                       {d.slice(0, 3)}
@@ -295,7 +295,7 @@ const RoutineEditor = ({
             </>
           )}
           {!r.workEnabled && (
-            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#1e1b2e] rounded-2xl">
+            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#261f15] rounded-2xl">
               <Briefcase size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />
               <p className="text-xs text-gray-400">No work hours will be blocked.</p>
             </div>
@@ -343,7 +343,7 @@ const RoutineEditor = ({
               value={customHobby}
               onChange={e => setCustomHobby(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addHobby(); } }}
-              className="flex-1 px-3 py-2 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+              className="flex-1 px-3 py-2 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
             />
             <button
               onClick={addHobby}
@@ -387,7 +387,7 @@ const RoutineEditor = ({
               <div>
                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Day</label>
                 <select value={newClass.day} onChange={e => setNewClass(c => ({ ...c, day: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
                 >
                   {DAYS.map(d => <option key={d}>{d}</option>)}
                 </select>
@@ -396,14 +396,14 @@ const RoutineEditor = ({
                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Start</label>
                 <input type="time" value={newClass.startTime}
                   onChange={e => setNewClass(c => ({ ...c, startTime: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
                 />
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">End</label>
                 <input type="time" value={newClass.endTime}
                   onChange={e => setNewClass(c => ({ ...c, endTime: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#1e1b2e] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
                 />
               </div>
             </div>
@@ -556,7 +556,7 @@ export const Settings = () => {
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Routine</h2>
           <button
             onClick={() => setRoutineModal(true)}
-            className="w-full flex items-center gap-3 p-3.5 rounded-2xl bg-surface-100 dark:bg-[#1e1b2e] hover:bg-surface-200 dark:hover:bg-primary-900/20 transition-colors text-left"
+            className="w-full flex items-center gap-3 p-3.5 rounded-2xl bg-surface-100 dark:bg-[#261f15] hover:bg-surface-200 dark:hover:bg-primary-900/20 transition-colors text-left"
           >
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-800 dark:text-white">Edit Routine</p>

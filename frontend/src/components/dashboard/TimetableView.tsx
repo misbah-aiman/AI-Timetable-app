@@ -27,36 +27,38 @@ const getTodayName = () =>
 const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' | 'next' | 'future' }) => (
   <div className={`flex items-center gap-3 p-3 rounded-2xl transition-all ${
     status === 'active'
-      ? 'bg-primary-50 dark:bg-primary-900/25 ring-1 ring-primary-200 dark:ring-primary-800/50'
+      ? 'bg-primary-50 dark:bg-primary-900/30 ring-1 ring-primary-300 dark:ring-primary-700/60'
       : status === 'past'
-      ? 'bg-surface-50 dark:bg-[#201a12] opacity-50'
-      : 'bg-surface-100 dark:bg-[#261f15]'
+      ? 'bg-surface-50 dark:bg-[#1e1812] opacity-50'
+      : 'bg-surface-100 dark:bg-[#312619]'
   }`}>
     <div className={`w-0.5 self-stretch rounded-full shrink-0 ${
-      status === 'active' ? 'bg-primary-500' : 'bg-primary-300 dark:bg-primary-700'
+      status === 'active' ? 'bg-primary-500' : 'bg-primary-300 dark:bg-primary-600'
     }`} />
     <div className="flex-1 min-w-0">
       <p className={`text-sm font-semibold truncate ${
-        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-100'
+        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-white'
       }`}>
         {slot.activity}
       </p>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+      <p className={`text-xs mt-0.5 ${
+        status === 'past' ? 'text-gray-400 dark:text-gray-600' : 'text-gray-500 dark:text-gray-300'
+      }`}>
         {slot.startTime} – {slot.endTime}
       </p>
     </div>
     <div className="flex items-center gap-1.5 shrink-0">
       {status === 'active' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300">
           Now
         </span>
       )}
       {status === 'next' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#30271a] text-gray-600 dark:text-gray-300">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#3a2e1e] text-gray-600 dark:text-gray-200">
           Next
         </span>
       )}
-      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-600 dark:text-gray-300 bg-surface-200 dark:bg-[#30271a]">
+      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-600 dark:text-gray-200 bg-surface-200 dark:bg-[#3a2e1e]">
         {categoryLabel[slot.category] || slot.category}
       </span>
     </div>

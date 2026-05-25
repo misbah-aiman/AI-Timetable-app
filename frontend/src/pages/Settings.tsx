@@ -44,7 +44,7 @@ const OptionPill = ({
     className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
       selected
         ? 'bg-primary-500 text-white shadow-soft'
-        : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+        : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
     }`}
   >
     {label}
@@ -277,7 +277,7 @@ const RoutineEditor = ({
                       className={`py-2 rounded-2xl text-xs font-semibold transition-all ${
                         r.workDays.includes(d)
                           ? 'bg-primary-500 text-white shadow-soft'
-                          : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                          : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
                       }`}
                     >
                       {d.slice(0, 3)}
@@ -556,7 +556,7 @@ export const Settings = () => {
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Routine</h2>
           <button
             onClick={() => setRoutineModal(true)}
-            className="w-full flex items-center gap-3 p-3.5 rounded-2xl bg-surface-100 dark:bg-[#261f15] hover:bg-surface-200 dark:hover:bg-primary-900/20 transition-colors text-left"
+            className="w-full flex items-center gap-3 p-3.5 rounded-2xl bg-surface-100 dark:bg-[#261f15] hover:bg-surface-200 dark:hover:bg-primary-900/25 transition-colors text-left"
           >
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-gray-800 dark:text-white">Edit Routine</p>

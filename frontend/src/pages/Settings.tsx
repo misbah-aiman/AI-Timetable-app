@@ -513,14 +513,6 @@ export const Settings = () => {
     }
   };
 
-  // Summarise routine for the preview row
-  const routinePreview = [
-    `${ob?.wakeTime || '06:30'} wake`,
-    `${ob?.studyGoalHours ?? 4}h study`,
-    ob?.exerciseEnabled ? `${ob.exerciseDuration ?? 30}m exercise` : null,
-    ob?.workEnabled ? 'work days blocked' : null,
-  ].filter(Boolean).join(' · ');
-
   return (
     <Layout>
       <PageHeader eyebrow="Account" title="Settings" />

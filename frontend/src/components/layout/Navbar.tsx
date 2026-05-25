@@ -85,7 +85,7 @@ const BottomNav = () => {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-      <div className="bg-white/90 dark:bg-[#16141f]/90 backdrop-blur-xl border-t border-primary-100 dark:border-primary-900/30 safe-pb">
+      <div className="bg-white/90 dark:bg-[#1a1410]/90 backdrop-blur-xl border-t border-primary-100 dark:border-primary-900/30 safe-pb">
         <div className="flex">
           {tabs.map(({ to, label, icon: Icon }) => {
             const active = pathname === to;

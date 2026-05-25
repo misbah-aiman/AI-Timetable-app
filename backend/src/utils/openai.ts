@@ -207,12 +207,29 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
 
   return DAYS.map(day => {
     const slots: Slot[] = [];
+    const isWorkDay = onboarding.workEnabled && (onboarding.workDays || []).includes(day);
+    const workStart = isWorkDay ? toMins(onboarding.workStartTime || '09:00') : -1;
+    const workEnd   = isWorkDay ? toMins(onboarding.workEndTime   || '17:00') : -1;
+
     let cur = wakeMin;
     let studyLeft = studyMinsPerDay;
 
     // Morning routine + breakfast
     slots.push(slot(cur, cur + 30, 'Morning Routine', 'other')); cur += 30;
+
+    // Morning exercise (if enabled)
+    if (exerciseMins > 0 && exerciseInMorning && cur + exerciseMins <= sleepMin - 6 * 60) {
+      slots.push(slot(cur, cur + exerciseMins, 'Exercise', 'exercise')); cur += exerciseMins;
+    }
+
     slots.push(slot(cur, cur + 30, 'Breakfast', 'meal')); cur += 30;
+
+    // Work block — insert and skip over
+    if (isWorkDay && workStart > cur) {
+      [cur, studyLeft] = addStudyBlocks(slots, taskLabels, cur, workStart, studyLeft);
+      if (cur < workStart) { slots.push(slot(cur, workStart, 'Break', 'break')); cur = workStart; }
+      slots.push(slot(workStart, workEnd, 'Work', 'other')); cur = workEnd;
+    }
 
     // Fixed classes for this day
     const dayClasses = (onboarding.classes || [])

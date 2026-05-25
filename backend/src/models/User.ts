@@ -14,6 +14,16 @@ export interface IOnboarding {
     startTime: string;
     endTime: string;
   }[];
+  // Lifestyle additions
+  chronotype: string;      // 'morning' | 'afternoon' | 'evening'
+  studyStyle: string;      // 'pomodoro' | 'medium' | 'long'
+  exerciseEnabled: boolean;
+  exerciseTime: string;    // 'morning' | 'evening'
+  exerciseDuration: number; // minutes
+  workEnabled: boolean;
+  workDays: string[];
+  workStartTime: string;
+  workEndTime: string;
   completed: boolean;
 }
 

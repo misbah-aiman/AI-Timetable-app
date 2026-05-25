@@ -182,7 +182,7 @@ function addStudyBlocks(slots: Slot[], subjects: string[], cur: number, limit: n
   return [c, left];
 }
 
-function generateFallbackTimetable(onboarding: IOnboarding): DaySchedule[] {
+function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[]): DaySchedule[] {
   const wakeMin = toMins(onboarding.wakeTime);
   const sleepMin = toMins(onboarding.sleepTime) <= wakeMin
     ? toMins(onboarding.sleepTime) + 24 * 60

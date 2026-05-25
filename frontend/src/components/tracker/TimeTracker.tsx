@@ -18,8 +18,8 @@ const ACTIVITIES: Record<ActivityType, {
     label: 'Study',
     sublabel: 'Focus session',
     icon: <BookOpen size={22} />,
-    color: '#8b5cf6',
-    track: '#ede9fe',
+    color: '#A76D60',
+    track: '#eed9d1',
     goalMins: 4 * 60,
   },
   sleep: {

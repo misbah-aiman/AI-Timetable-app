@@ -99,7 +99,7 @@ export const Login = () => {
       {/* Step 1: Email */}
       {step === 'email' && (
         <>
-          <div className="flex bg-surface-100 dark:bg-[#1e1b2e] rounded-3xl p-1 mb-6">
+          <div className="flex bg-surface-100 dark:bg-[#261f15] rounded-3xl p-1 mb-6">
             {(['signin', 'signup'] as Mode[]).map(m => (
               <button
                 key={m}

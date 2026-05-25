@@ -579,21 +579,24 @@ export const Settings = () => {
         {/* Appearance */}
         <Card>
           <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Appearance</h2>
-          <button
-            onClick={toggleTheme}
-            className="flex items-center gap-3 w-full p-3 rounded-2xl bg-surface-100 dark:bg-primary-900/20 hover:bg-surface-200 dark:hover:bg-primary-900/30 transition-colors"
-          >
-            {theme === 'dark'
-              ? <Sun size={20} className="text-yellow-400" />
-              : <Moon size={20} className="text-primary-400" />
-            }
-            <div className="text-left">
-              <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              </p>
-              <p className="text-xs text-gray-400">Currently: {theme} mode</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              {theme === 'dark' ? <Sun size={17} className="text-yellow-400" /> : <Moon size={17} className="text-primary-400" />}
+              <span className="text-sm font-semibold text-gray-800 dark:text-white">
+                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+              </span>
             </div>
-          </button>
+            <button
+              onClick={toggleTheme}
+              className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                theme === 'dark' ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'
+              }`}
+            >
+              <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${
+                theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
+              }`} />
+            </button>
+          </div>
         </Card>
 
         {/* Feedback */}

@@ -8,6 +8,7 @@ import { Onboarding } from './pages/Onboarding';
 import { Dashboard } from './pages/Dashboard';
 import { TrackerPage } from './pages/Tracker';
 import { Analytics } from './pages/Analytics';
+import { TasksPage } from './pages/Tasks';
 import { Settings } from './pages/Settings';
 import { LoadingSpinner } from './components/ui/LoadingSpinner';
 

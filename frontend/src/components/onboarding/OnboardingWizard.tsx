@@ -269,8 +269,6 @@ export const OnboardingWizard = () => {
     }
   };
 
-  const computedSleep = computeSleepHours(data.sleepTime, data.wakeTime);
-
   // ── Render ───────────────────────────────────────────────
 
   return (

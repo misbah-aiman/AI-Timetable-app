@@ -16,11 +16,18 @@ const getClient = () => {
   return _openai;
 };
 
-// Build a prompt from the user's onboarding data
-const buildPrompt = (onboarding: IOnboarding): string => {
+// Build a prompt from the user's onboarding data and optional pending tasks
+const buildPrompt = (onboarding: IOnboarding, tasks?: TaskSummary[]): string => {
   const classesText = onboarding.classes.length > 0
     ? onboarding.classes.map(c => `${c.name} on ${c.day} from ${c.startTime} to ${c.endTime}`).join(', ')
     : 'No fixed classes';
+
+  const tasksText = tasks && tasks.length > 0
+    ? `\nPending tasks to schedule (prioritise by urgency):\n${tasks
+        .sort((a, b) => a.dueDays - b.dueDays)
+        .map(t => `- "${t.title}"${t.subject ? ` (${t.subject})` : ''}, due in ${t.dueDays} day${t.dueDays !== 1 ? 's' : ''}, needs ~${t.estimatedHours}h total, priority: ${t.priority}`)
+        .join('\n')}\nAllocate dedicated study sessions for these tasks across the week. Label those slots as "Study: [Task Title]". Spread hours across days based on due date urgency.`
+    : '';
 
   return `You are a smart scheduling assistant. Create a structured weekly timetable for a student based on their routine preferences.
 
@@ -31,7 +38,7 @@ Student Profile:
 - Hobbies: ${onboarding.hobbies.join(', ') || 'None specified'}
 - Screen time limit: ${onboarding.screenTimeLimitHours} hours/day
 - Fixed classes: ${classesText}
-
+${tasksText}
 Generate a realistic, balanced weekly schedule for Monday through Sunday.
 
 IMPORTANT: Return ONLY valid JSON in this exact format, no extra text:

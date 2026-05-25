@@ -52,11 +52,11 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
         </span>
       )}
       {status === 'next' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#28243a] text-gray-400">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#30271a] text-gray-400">
           Next
         </span>
       )}
-      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-400 dark:text-gray-500 bg-surface-200 dark:bg-[#28243a]">
+      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-400 dark:text-gray-500 bg-surface-200 dark:bg-[#30271a]">
         {categoryLabel[slot.category] || slot.category}
       </span>
     </div>

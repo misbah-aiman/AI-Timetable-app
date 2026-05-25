@@ -378,9 +378,6 @@ export const OnboardingWizard = () => {
             <div className="space-y-5">
               <div>
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white">Daily Study Goal</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                  {STEP_LABELS.study.subtitle} AI will schedule dedicated focus blocks around your classes.
-                </p>
               </div>
 
               {/* Large value display */}

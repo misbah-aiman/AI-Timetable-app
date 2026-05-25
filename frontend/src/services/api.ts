@@ -61,6 +61,16 @@ export const sessionsApi = {
   getToday: () => api.get('/sessions/today'),
 };
 
+// ─── Tasks ───────────────────────────────────────────────
+export const tasksApi = {
+  getAll: () => api.get('/tasks'),
+  create: (data: { title: string; subject: string; dueDate: string; estimatedHours: number; priority: string }) =>
+    api.post('/tasks', data),
+  update: (id: string, data: Partial<{ title: string; subject: string; dueDate: string; estimatedHours: number; priority: string; status: string }>) =>
+    api.put(`/tasks/${id}`, data),
+  delete: (id: string) => api.delete(`/tasks/${id}`),
+};
+
 // ─── Analytics ───────────────────────────────────────────
 export const analyticsApi = {
   getWeekly: () => api.get('/analytics/weekly'),

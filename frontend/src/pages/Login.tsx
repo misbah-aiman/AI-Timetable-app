@@ -206,7 +206,6 @@ export const Login = () => {
               <Sparkles className="text-white" size={26} />
             </div>
             <h1 className="text-2xl font-bold text-white">AI Timetable</h1>
-            <p className="text-primary-100 mt-1.5 text-sm">Your AI-powered daily planner</p>
           </div>
         </div>
 

@@ -216,14 +216,6 @@ export const Login = () => {
         {/* Form area */}
         <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 -mt-5 md:mt-0 rounded-t-[2rem] md:rounded-none bg-surface-50 dark:bg-[#16141f]">
           <div className="max-w-sm mx-auto">
-            <div className="hidden md:block mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
-                {step === 'otp' ? 'Check your inbox' : step === 'success' ? 'Signing you in…' : 'Welcome back'}
-              </h2>
-              <p className="text-gray-400 mt-1 text-sm">
-                {step === 'email' ? "Sign in or create your account below." : ''}
-              </p>
-            </div>
             {formContent}
           </div>
         </div>

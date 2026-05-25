@@ -29,7 +29,7 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
     status === 'active'
       ? 'bg-primary-50 dark:bg-primary-900/25 ring-1 ring-primary-200 dark:ring-primary-800/50'
       : status === 'past'
-      ? 'bg-surface-50 dark:bg-[#19172a] opacity-50'
+      ? 'bg-surface-50 dark:bg-[#201a12] opacity-50'
       : 'bg-surface-100 dark:bg-[#1e1b2e]'
   }`}>
     <div className={`w-0.5 self-stretch rounded-full shrink-0 ${

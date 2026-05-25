@@ -72,7 +72,7 @@ export const Dashboard = () => {
     <Layout>
       <PageHeader
         eyebrow={new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
-        title={<>{getGreeting()}, <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋</>}
+        title={`${getGreeting()}, ${user?.name?.split(' ')[0]}`}
         action={
           <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
             <RefreshCw size={14} /> <span className="hidden sm:inline">Regenerate</span>

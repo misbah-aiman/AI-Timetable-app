@@ -1,6 +1,14 @@
 import OpenAI from 'openai';
 import { IOnboarding } from '../models/User';
 
+export interface TaskSummary {
+  title: string;
+  subject: string;
+  dueDays: number;
+  estimatedHours: number;
+  priority: string;
+}
+
 // Instantiated lazily so dotenv.config() in server.ts runs first
 let _openai: OpenAI | null = null;
 const getClient = () => {

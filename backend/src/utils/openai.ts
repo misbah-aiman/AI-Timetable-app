@@ -267,9 +267,9 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
     const eveningStart = sleepMin - 4 * 60;
     [cur, studyLeft] = addStudyBlocks(slots, taskLabels, cur, eveningStart, studyLeft);
 
-    // Exercise
-    if (cur + 30 < sleepMin - 2 * 60) {
-      slots.push(slot(cur, cur + 30, 'Exercise', 'exercise')); cur += 30;
+    // Evening exercise (if enabled and not morning)
+    if (exerciseMins > 0 && !exerciseInMorning && cur + exerciseMins < sleepMin - 2 * 60) {
+      slots.push(slot(cur, cur + exerciseMins, 'Exercise', 'exercise')); cur += exerciseMins;
     }
 
     // Hobby

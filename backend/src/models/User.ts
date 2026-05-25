@@ -59,6 +59,15 @@ const OnboardingSchema = new Schema({
   hobbies: [{ type: String }],
   screenTimeLimitHours: { type: Number, default: 2 },
   classes: [ClassSchema],
+  chronotype: { type: String, default: 'morning' },
+  studyStyle: { type: String, default: 'medium' },
+  exerciseEnabled: { type: Boolean, default: false },
+  exerciseTime: { type: String, default: 'morning' },
+  exerciseDuration: { type: Number, default: 30 },
+  workEnabled: { type: Boolean, default: false },
+  workDays: [{ type: String }],
+  workStartTime: { type: String, default: '09:00' },
+  workEndTime: { type: String, default: '17:00' },
   completed: { type: Boolean, default: false },
 });
 

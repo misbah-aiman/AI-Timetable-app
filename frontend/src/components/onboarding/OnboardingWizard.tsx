@@ -353,23 +353,6 @@ export const OnboardingWizard = () => {
                 />
               </div>
 
-              {/* Computed duration badge */}
-              <div className="flex items-center gap-3 px-4 py-3 bg-primary-50 dark:bg-primary-900/20 rounded-2xl">
-                <Moon size={17} className="text-primary-500 shrink-0" />
-                <div>
-                  <p className="text-sm font-semibold text-primary-700 dark:text-primary-300">
-                    {fmtHours(computedSleep)} of sleep
-                  </p>
-                  <p className="text-xs text-primary-500 dark:text-primary-400 mt-0.5">
-                    {computedSleep >= 7
-                      ? 'Within the recommended 7–9h range'
-                      : computedSleep >= 5
-                      ? 'A bit below the recommended 7–9h'
-                      : 'Quite low — consider adjusting your times'}
-                  </p>
-                </div>
-              </div>
-
               {/* Sleep goal slider */}
               <div>
                 <div className="flex items-center justify-between mb-2">

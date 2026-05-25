@@ -146,7 +146,7 @@ export const generateTimetable = async (onboarding: IOnboarding, tasks?: TaskSum
     const status = (err as { status?: number })?.status;
     if (code === 'insufficient_quota' || status === 429 || status === 503) {
       console.warn('[openai] quota/unavailable — using fallback generator');
-      return generateFallbackTimetable(onboarding);
+      return generateFallbackTimetable(onboarding, tasks);
     }
     throw err;
   }

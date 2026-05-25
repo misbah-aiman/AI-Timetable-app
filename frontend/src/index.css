@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply font-sans antialiased bg-surface-50 dark:bg-[#16141f];
+    @apply font-sans antialiased bg-surface-50 dark:bg-[#1a1410];
     overscroll-behavior: none;
   }
 

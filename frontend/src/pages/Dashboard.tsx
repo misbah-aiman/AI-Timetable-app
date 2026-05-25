@@ -92,10 +92,6 @@ export const Dashboard = () => {
 
       {/* Timetable */}
       <Card>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold text-gray-800 dark:text-white">Weekly Schedule</h2>
-        </div>
-
         {timetable ? (
           <TimetableView timetable={timetable} />
         ) : (

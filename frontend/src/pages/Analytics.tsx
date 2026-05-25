@@ -17,30 +17,6 @@ const fmt = (mins: number) => {
   return m ? `${h}h ${m}m` : `${h}h`;
 };
 
-const ActivityBar = ({
-  label, value, max, color, icon,
-}: { label: string; value: number; max: number; color: string; icon: React.ReactNode }) => {
-  const pct = max > 0 ? Math.min((value / max) * 100, 100) : 0;
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2" style={{ color }}>
-          {icon}
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label}</span>
-        </div>
-        <span className="text-sm font-bold" style={{ color }}>{fmt(value)}</span>
-      </div>
-      <div className="h-2 bg-surface-100 dark:bg-[#1e1b2e] rounded-full overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-700"
-          style={{ width: `${pct}%`, backgroundColor: color }}
-        />
-      </div>
-      <p className="text-xs text-gray-400">{Math.round(pct)}% of goal</p>
-    </div>
-  );
-};
-
 const STAT_ITEMS = (
   studyGoalMins: number,
   sleepGoalMins: number,

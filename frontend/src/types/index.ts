@@ -15,6 +15,15 @@ export interface OnboardingData {
   hobbies: string[];
   screenTimeLimitHours: number;
   classes: ClassEntry[];
+  chronotype?: string;
+  studyStyle?: string;
+  exerciseEnabled?: boolean;
+  exerciseTime?: string;
+  exerciseDuration?: number;
+  workEnabled?: boolean;
+  workDays?: string[];
+  workStartTime?: string;
+  workEndTime?: string;
   completed: boolean;
 }
 

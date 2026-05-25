@@ -18,7 +18,7 @@ const TopNav = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="hidden md:block sticky top-0 z-40 bg-white/80 dark:bg-[#16141f]/80 backdrop-blur-md border-b border-primary-100 dark:border-primary-900/20">
+    <nav className="hidden md:block sticky top-0 z-40 bg-white/80 dark:bg-[#1a1410]/80 backdrop-blur-md border-b border-primary-100 dark:border-primary-900/20">
       <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/dashboard" className="flex items-center gap-2.5">

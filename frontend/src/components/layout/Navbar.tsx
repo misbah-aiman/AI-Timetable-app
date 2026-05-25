@@ -6,6 +6,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 const tabs = [
   { to: '/dashboard', label: 'Home', icon: Home },
   { to: '/tracker', label: 'Tracker', icon: Clock },
+  { to: '/tasks', label: 'Tasks', icon: ListTodo },
   { to: '/analytics', label: 'Analytics', icon: BarChart2 },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];

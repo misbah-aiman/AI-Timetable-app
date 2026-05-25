@@ -7,7 +7,8 @@
           {
             "type": "command",
             "command": "git add -A; git diff --staged --quiet || (git commit -m 'auto: post-tool changes' && git push -u origin HEAD) || true",
-            "timeout": 30
+            "timeout": 30,
+        "statusMessage": "Pushing to GitHub..."
           }
         ]
       }

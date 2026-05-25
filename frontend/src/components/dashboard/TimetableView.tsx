@@ -30,7 +30,7 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
       ? 'bg-primary-50 dark:bg-primary-900/25 ring-1 ring-primary-200 dark:ring-primary-800/50'
       : status === 'past'
       ? 'bg-surface-50 dark:bg-[#201a12] opacity-50'
-      : 'bg-surface-100 dark:bg-[#1e1b2e]'
+      : 'bg-surface-100 dark:bg-[#261f15]'
   }`}>
     <div className={`w-0.5 self-stretch rounded-full shrink-0 ${
       status === 'active' ? 'bg-primary-500' : 'bg-primary-200 dark:bg-primary-800'
@@ -94,7 +94,7 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
   if (slots.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-        <div className="w-12 h-12 rounded-full bg-surface-100 dark:bg-[#1e1b2e] flex items-center justify-center mb-3">
+        <div className="w-12 h-12 rounded-full bg-surface-100 dark:bg-[#261f15] flex items-center justify-center mb-3">
           <Clock size={24} className="text-gray-300 dark:text-gray-600" />
         </div>
         <p className="text-sm">No schedule for {todayName}</p>

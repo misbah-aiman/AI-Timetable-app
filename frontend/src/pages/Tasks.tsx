@@ -204,7 +204,6 @@ const AddTaskForm = ({
   const minDate = new Date().toISOString().split('T')[0];
 
   return (
-    <Modal title="Add Task" onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           label="Task title"

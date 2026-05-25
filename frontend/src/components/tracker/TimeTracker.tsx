@@ -245,14 +245,6 @@ export const TimeTracker = () => {
         {actionLoading ? '…' : isRunning ? 'Stop Session' : `Start ${ACTIVITIES[selected].label}`}
       </button>
 
-      {/* Divider */}
-      <div className="w-full border-t border-primary-50 dark:border-primary-900/20" />
-
-      {/* Today's summary */}
-      <div className="w-full">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 text-center">Today</p>
-        <TodaySummary sessions={todaySessions} />
-      </div>
     </div>
   );
 };

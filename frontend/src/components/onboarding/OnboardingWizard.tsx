@@ -401,24 +401,6 @@ export const OnboardingWizard = () => {
                 </div>
               </div>
 
-              {/* Contextual hint */}
-              <div className={`px-4 py-3 rounded-2xl text-sm font-medium ${
-                data.studyGoalHours <= 3
-                  ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                  : data.studyGoalHours <= 6
-                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
-                  : data.studyGoalHours <= 9
-                  ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
-                  : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
-              }`}>
-                {data.studyGoalHours <= 3
-                  ? 'Light — good for revision or part-time students.'
-                  : data.studyGoalHours <= 6
-                  ? 'Balanced — a solid daily study load.'
-                  : data.studyGoalHours <= 9
-                  ? 'Intensive — plan short breaks between sessions.'
-                  : 'Very heavy — make sure to rest to avoid burnout.'}
-              </div>
             </div>
           )}
 

@@ -220,7 +220,7 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
       if (clsStart > cur) {
         const fillLimit = Math.min(clsStart, lunchTarget);
         if (fillLimit > cur) {
-          [cur, studyLeft] = addStudyBlocks(slots, subjects, cur, fillLimit, studyLeft);
+          [cur, studyLeft] = addStudyBlocks(slots, taskLabels, cur, fillLimit, studyLeft);
         }
         if (cur < clsStart) { slots.push(slot(cur, clsStart, 'Break', 'break')); cur = clsStart; }
       }
@@ -229,7 +229,7 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
 
     // Morning study (fill up to lunch target)
     if (cur < lunchTarget) {
-      [cur, studyLeft] = addStudyBlocks(slots, subjects, cur, lunchTarget, studyLeft);
+      [cur, studyLeft] = addStudyBlocks(slots, taskLabels, cur, lunchTarget, studyLeft);
     }
 
     // Lunch
@@ -240,7 +240,7 @@ function generateFallbackTimetable(onboarding: IOnboarding, tasks?: TaskSummary[
 
     // Afternoon study
     const eveningStart = sleepMin - 4 * 60;
-    [cur, studyLeft] = addStudyBlocks(slots, subjects, cur, eveningStart, studyLeft);
+    [cur, studyLeft] = addStudyBlocks(slots, taskLabels, cur, eveningStart, studyLeft);
 
     // Exercise
     if (cur + 30 < sleepMin - 2 * 60) {

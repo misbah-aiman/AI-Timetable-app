@@ -55,7 +55,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
             <RadarChart data={radarData}>
               <PolarGrid />
               <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-              <Radar dataKey="value" stroke="#8b5cf6" fill="#8b5cf6" fillOpacity={0.25} />
+              <Radar dataKey="value" stroke="#A76D60" fill="#A76D60" fillOpacity={0.25} />
               <Tooltip formatter={(v) => `${Math.round(Number(v))}%`} />
             </RadarChart>
           </ResponsiveContainer>

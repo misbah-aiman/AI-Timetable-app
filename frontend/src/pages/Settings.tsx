@@ -624,7 +624,6 @@ export const Settings = () => {
         <RoutineEditor
           initial={initialRoutine}
           onSave={handleSaveRoutine}
-          onClose={() => setRoutineModal(false)}
         />
       </Modal>
 

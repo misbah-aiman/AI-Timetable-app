@@ -33,30 +33,30 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
       : 'bg-surface-100 dark:bg-[#261f15]'
   }`}>
     <div className={`w-0.5 self-stretch rounded-full shrink-0 ${
-      status === 'active' ? 'bg-primary-500' : 'bg-primary-200 dark:bg-primary-800'
+      status === 'active' ? 'bg-primary-500' : 'bg-primary-300 dark:bg-primary-700'
     }`} />
     <div className="flex-1 min-w-0">
       <p className={`text-sm font-semibold truncate ${
-        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-white'
+        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-100'
       }`}>
         {slot.activity}
       </p>
-      <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
         {slot.startTime} – {slot.endTime}
       </p>
     </div>
     <div className="flex items-center gap-1.5 shrink-0">
       {status === 'active' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-500">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400">
           Now
         </span>
       )}
       {status === 'next' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#30271a] text-gray-400">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#30271a] text-gray-600 dark:text-gray-300">
           Next
         </span>
       )}
-      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-400 dark:text-gray-500 bg-surface-200 dark:bg-[#30271a]">
+      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-600 dark:text-gray-300 bg-surface-200 dark:bg-[#30271a]">
         {categoryLabel[slot.category] || slot.category}
       </span>
     </div>

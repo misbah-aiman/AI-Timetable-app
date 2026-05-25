@@ -27,7 +27,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative bg-white dark:bg-[#1e1b2e] rounded-t-[2rem] sm:rounded-3xl shadow-soft-lg w-full max-w-[430px] border border-primary-50 dark:border-primary-900/20 animate-in">
+      <div className="relative bg-white dark:bg-[#261f15] rounded-t-[2rem] sm:rounded-3xl shadow-soft-lg w-full max-w-[430px] border border-primary-50 dark:border-primary-900/20 animate-in">
         <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-surface-100 dark:border-primary-900/20">
           <h2 className="text-base font-bold text-gray-800 dark:text-white">{title}</h2>
           <button

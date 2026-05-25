@@ -26,6 +26,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/timetable', timetableRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/sessions', sessionRoutes);
+app.use('/api/tasks', taskRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'OK', message: 'AI Timetable API is running' });

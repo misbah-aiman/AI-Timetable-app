@@ -527,9 +527,6 @@ export const OnboardingWizard = () => {
             <div className="space-y-5">
               <div>
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white">Classes & Schedule</h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                  {STEP_LABELS.classes.subtitle}
-                </p>
               </div>
 
               {/* Image upload zone */}

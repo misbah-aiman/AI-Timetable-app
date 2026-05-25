@@ -93,6 +93,7 @@ export const OnboardingWizard = () => {
   const [classError, setClassError] = useState('');
   const [globalError, setGlobalError] = useState('');
   const [loading, setLoading]   = useState(false);
+  const [customHobby, setCustomHobby] = useState('');
 
   // Image scan
   const [imageFile, setImageFile]     = useState<File | null>(null);

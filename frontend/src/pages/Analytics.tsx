@@ -83,15 +83,6 @@ export const Analytics = () => {
             ))}
           </div>
 
-          {/* Today's activity progress */}
-          <Card className="mb-6">
-            <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-5">Today's Activity</h2>
-            <div className="space-y-6">
-              <ActivityBar label="Study" value={stats.todayStudyMinutes} max={studyGoalMins} color="#8b5cf6" icon={<BookOpen size={15} />} />
-              <ActivityBar label="Sleep" value={stats.todaySleepMinutes} max={sleepGoalMins} color="#6366f1" icon={<Moon size={15} />} />
-              <ActivityBar label="Scroll" value={stats.todayScreenMinutes} max={screenLimitMins} color="#f97316" icon={<Smartphone size={15} />} />
-            </div>
-          </Card>
         </>
       )}
 

@@ -39,7 +39,7 @@ const TopNav = () => {
                 className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl text-sm font-medium transition-all ${
                   active
                     ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-surface-100 dark:hover:bg-primary-900/20'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white hover:bg-surface-100 dark:hover:bg-primary-900/25'
                 }`}
               >
                 <Icon size={15} strokeWidth={active ? 2.5 : 1.8} />
@@ -53,7 +53,7 @@ const TopNav = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-xl text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-surface-100 dark:hover:bg-primary-900/20 transition-colors"
+            className="p-2 rounded-xl text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-surface-100 dark:hover:bg-primary-900/25 transition-colors"
           >
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>

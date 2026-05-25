@@ -32,8 +32,19 @@ export const generate = async (req: AuthRequest, res: Response): Promise<void> =
       return;
     }
 
+    // Fetch pending tasks and convert to summaries for AI prompt
+    const now = new Date();
+    const pendingTasks = await Task.find({ userId: req.userId, status: 'pending' }).sort({ dueDate: 1 });
+    const taskSummaries = pendingTasks.map(t => ({
+      title: t.title,
+      subject: t.subject,
+      dueDays: Math.max(0, Math.ceil((t.dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))),
+      estimatedHours: t.estimatedHours,
+      priority: t.priority,
+    }));
+
     // Call OpenAI to generate schedule
-    const schedule = await generateTimetable(user.onboarding);
+    const schedule = await generateTimetable(user.onboarding, taskSummaries.length > 0 ? taskSummaries : undefined);
 
     const weekStartDate = getWeekStart();
 

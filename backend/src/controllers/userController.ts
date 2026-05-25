@@ -59,18 +59,33 @@ export const saveOnboarding = async (req: AuthRequest, res: Response): Promise<v
 // PUT /api/user/settings - update routine settings
 export const updateSettings = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { name, sleepTime, wakeTime, sleepHours, studyGoalHours, screenTimeLimitHours, subjects, hobbies, classes } = req.body;
+    const {
+      name, sleepTime, wakeTime, sleepHours, studyGoalHours,
+      screenTimeLimitHours, subjects, hobbies, classes,
+      chronotype, studyStyle,
+      exerciseEnabled, exerciseTime, exerciseDuration,
+      workEnabled, workDays, workStartTime, workEndTime,
+    } = req.body;
 
     const updateData: Record<string, unknown> = {};
-    if (name) updateData.name = name;
-    if (sleepTime) updateData['onboarding.sleepTime'] = sleepTime;
-    if (wakeTime) updateData['onboarding.wakeTime'] = wakeTime;
-    if (sleepHours !== undefined) updateData['onboarding.sleepHours'] = sleepHours;
-    if (studyGoalHours !== undefined) updateData['onboarding.studyGoalHours'] = studyGoalHours;
+    if (name)                              updateData.name = name;
+    if (sleepTime)                         updateData['onboarding.sleepTime'] = sleepTime;
+    if (wakeTime)                          updateData['onboarding.wakeTime'] = wakeTime;
+    if (sleepHours !== undefined)          updateData['onboarding.sleepHours'] = sleepHours;
+    if (studyGoalHours !== undefined)      updateData['onboarding.studyGoalHours'] = studyGoalHours;
     if (screenTimeLimitHours !== undefined) updateData['onboarding.screenTimeLimitHours'] = screenTimeLimitHours;
-    if (subjects) updateData['onboarding.subjects'] = subjects;
-    if (hobbies) updateData['onboarding.hobbies'] = hobbies;
-    if (classes) updateData['onboarding.classes'] = classes;
+    if (subjects)                          updateData['onboarding.subjects'] = subjects;
+    if (hobbies !== undefined)             updateData['onboarding.hobbies'] = hobbies;
+    if (classes !== undefined)             updateData['onboarding.classes'] = classes;
+    if (chronotype)                        updateData['onboarding.chronotype'] = chronotype;
+    if (studyStyle)                        updateData['onboarding.studyStyle'] = studyStyle;
+    if (exerciseEnabled !== undefined)     updateData['onboarding.exerciseEnabled'] = exerciseEnabled;
+    if (exerciseTime)                      updateData['onboarding.exerciseTime'] = exerciseTime;
+    if (exerciseDuration !== undefined)    updateData['onboarding.exerciseDuration'] = exerciseDuration;
+    if (workEnabled !== undefined)         updateData['onboarding.workEnabled'] = workEnabled;
+    if (workDays !== undefined)            updateData['onboarding.workDays'] = workDays;
+    if (workStartTime)                     updateData['onboarding.workStartTime'] = workStartTime;
+    if (workEndTime)                       updateData['onboarding.workEndTime'] = workEndTime;
 
     const user = await User.findByIdAndUpdate(req.userId, updateData, { new: true }).select('-password');
 

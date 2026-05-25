@@ -363,7 +363,7 @@ const RoutineEditor = ({
           {r.classes.length > 0 && (
             <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
               {r.classes.map((c, i) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-surface-100 dark:bg-[#16141f] rounded-2xl">
+                <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-surface-100 dark:bg-[#1a1410] rounded-2xl">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{c.name}</p>
                     <p className="text-xs text-gray-400">{c.day} · {c.startTime}–{c.endTime}</p>

@@ -508,7 +508,7 @@ export const OnboardingWizard = () => {
                           className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
                             data.exerciseDuration === mins
                               ? 'bg-primary-500 text-white shadow-soft'
-                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
                           }`}
                         >
                           {mins}m
@@ -563,7 +563,7 @@ export const OnboardingWizard = () => {
                           className={`py-2 rounded-2xl text-xs font-semibold transition-all ${
                             data.workDays.includes(d)
                               ? 'bg-primary-500 text-white shadow-soft'
-                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                              : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
                           }`}
                         >
                           {d.slice(0, 3)}

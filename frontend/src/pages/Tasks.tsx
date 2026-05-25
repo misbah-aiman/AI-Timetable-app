@@ -281,7 +281,6 @@ const AddTaskForm = ({
           Add Task
         </Button>
       </form>
-    </Modal>
   );
 };
 

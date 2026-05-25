@@ -126,9 +126,9 @@ Rules:
   return JSON.parse(clean);
 };
 
-export const generateTimetable = async (onboarding: IOnboarding) => {
+export const generateTimetable = async (onboarding: IOnboarding, tasks?: TaskSummary[]) => {
   try {
-    const prompt = buildPrompt(onboarding);
+    const prompt = buildPrompt(onboarding, tasks);
     const completion = await getClient().chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: prompt }],

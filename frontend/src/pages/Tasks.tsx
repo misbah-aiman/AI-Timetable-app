@@ -33,7 +33,7 @@ const formatDue = (iso: string) => {
 const PRIORITY_CONFIG = {
   high: { label: 'High', color: 'text-red-500', bg: 'bg-red-50 dark:bg-red-900/20' },
   medium: { label: 'Med', color: 'text-amber-500', bg: 'bg-amber-50 dark:bg-amber-900/20' },
-  low: { label: 'Low', color: 'text-gray-400', bg: 'bg-surface-100 dark:bg-[#1e1b2e]' },
+  low: { label: 'Low', color: 'text-gray-400', bg: 'bg-surface-100 dark:bg-[#261f15]' },
 };
 
 // ─── Task Card ────────────────────────────────────────────
@@ -54,7 +54,7 @@ const TaskCard = ({
 
   return (
     <div className={`flex items-center gap-3 p-3.5 rounded-2xl transition-all ${
-      isDone ? 'opacity-50' : 'bg-white dark:bg-[#1e1b2e]'
+      isDone ? 'opacity-50' : 'bg-white dark:bg-[#261f15]'
     } ${!isDone ? 'shadow-[0_1px_4px_rgba(0,0,0,0.06)] dark:shadow-none border border-surface-200 dark:border-primary-900/20' : ''}`}>
 
       {/* Checkbox */}
@@ -134,7 +134,7 @@ const TaskGroup = ({
         <span className={`text-xs font-bold uppercase tracking-widest ${accent || 'text-gray-400'}`}>
           {label}
         </span>
-        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${accent ? 'bg-red-50 dark:bg-red-900/20 text-red-400' : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-400'}`}>
+        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${accent ? 'bg-red-50 dark:bg-red-900/20 text-red-400' : 'bg-surface-100 dark:bg-[#261f15] text-gray-400'}`}>
           {tasks.length}
         </span>
         {collapsible && (
@@ -238,7 +238,7 @@ const AddTaskForm = ({
                 className={`flex-1 py-2 rounded-2xl text-sm font-semibold transition-all ${
                   form.estimatedHours === h
                     ? 'bg-primary-500 text-white shadow-soft'
-                    : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                    : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
                 }`}
               >
                 {h}h
@@ -260,7 +260,7 @@ const AddTaskForm = ({
                   type="button"
                   onClick={() => set('priority', p)}
                   className={`flex-1 py-2 rounded-2xl text-sm font-semibold transition-all capitalize ${
-                    active ? `${cfg.bg} ${cfg.color}` : 'bg-surface-100 dark:bg-[#1e1b2e] text-gray-400'
+                    active ? `${cfg.bg} ${cfg.color}` : 'bg-surface-100 dark:bg-[#261f15] text-gray-400'
                   }`}
                 >
                   {p}

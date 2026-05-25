@@ -26,8 +26,8 @@ const ACTIVITIES: Record<ActivityType, {
     label: 'Sleep',
     sublabel: 'Rest & recovery',
     icon: <Moon size={22} />,
-    color: '#6366f1',
-    track: '#e0e7ff',
+    color: '#b8967a',
+    track: '#f3ede5',
     goalMins: 8 * 60,
   },
   screen: {

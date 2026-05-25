@@ -238,7 +238,7 @@ const AddTaskForm = ({
                 className={`flex-1 py-2 rounded-2xl text-sm font-semibold transition-all ${
                   form.estimatedHours === h
                     ? 'bg-primary-500 text-white shadow-soft'
-                    : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/20'
+                    : 'bg-surface-100 dark:bg-[#261f15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
                 }`}
               >
                 {h}h

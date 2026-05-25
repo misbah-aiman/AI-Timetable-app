@@ -44,6 +44,12 @@ interface FormData {
   classes: ClassEntry[];
 }
 
+const computeSleepHours = (bedtime: string, wake: string): number => {
+  const toMins = (t: string) => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+  const diff = toMins(wake) - toMins(bedtime);
+  return (diff > 0 ? diff : 1440 + diff) / 60;
+};
+
 // ── Shared inline error ───────────────────────────────────
 
 const InlineError = ({ message }: { message: string }) => (

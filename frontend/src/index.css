@@ -46,4 +46,13 @@
   .safe-pb {
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: slide-up 0.2s ease-out both;
+  }
 }

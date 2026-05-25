@@ -58,7 +58,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
               { label: 'Sleep Goal', met: goals.sleepGoalMet, detail: fmtHours(analytics.totalSleepMinutes) },
               { label: 'Screen Limit', met: goals.screenLimitMet, detail: fmtHours(analytics.totalScreenMinutes) },
             ].map(g => (
-              <div key={g.label} className={`flex items-center gap-3 p-3 rounded-xl ${
+              <div key={g.label} className={`flex items-center gap-3 p-4 rounded-2xl ${
                 g.met ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'
               }`}>
                 {g.met

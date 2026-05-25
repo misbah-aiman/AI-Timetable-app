@@ -243,7 +243,7 @@ export const TimeTracker = () => {
       />
 
       {/* Activity selector — disabled while running */}
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-2.5 w-full">
         {(Object.entries(ACTIVITIES) as [ActivityType, typeof ACTIVITIES[ActivityType]][]).map(([type, a]) => {
           const active = isRunning ? activeType === type : selected === type;
           return (
@@ -251,16 +251,18 @@ export const TimeTracker = () => {
               key={type}
               disabled={isRunning}
               onClick={() => setSelected(type)}
-              className={`flex-1 flex flex-col items-center gap-1.5 py-3 rounded-3xl border-2 transition-all duration-200 ${
+              className={`flex-1 flex flex-col items-center gap-2 py-3.5 rounded-3xl border-2 transition-all duration-200 ${
                 active
                   ? 'border-transparent shadow-soft'
                   : 'border-transparent bg-surface-100 dark:bg-[#1e1b2e] opacity-60'
-              } ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-90'}`}
+              } ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-90 active:scale-[0.97]'}`}
               style={active ? { backgroundColor: `${a.color}15`, borderColor: `${a.color}40` } : {}}
             >
               <span style={{ color: active ? a.color : '#9ca3af' }}>{a.icon}</span>
-              <span className={`text-xs font-bold ${active ? '' : 'text-gray-400'}`}
-                style={active ? { color: a.color } : {}}>
+              <span
+                className={`text-xs font-bold tracking-wide ${active ? '' : 'text-gray-400'}`}
+                style={active ? { color: a.color } : {}}
+              >
                 {a.label}
               </span>
             </button>
@@ -272,7 +274,7 @@ export const TimeTracker = () => {
       <button
         onClick={isRunning ? handleStop : handleStart}
         disabled={actionLoading}
-        className={`w-full py-4 rounded-3xl text-white text-base font-bold tracking-wide transition-all duration-200 active:scale-[0.97] shadow-soft disabled:opacity-60 ${
+        className={`w-full py-4 rounded-3xl text-white text-base font-bold tracking-wide transition-all duration-200 active:scale-[0.97] shadow-soft disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-400 ${
           isRunning ? 'bg-red-500 hover:bg-red-600' : ''
         }`}
         style={!isRunning ? { backgroundColor: ACTIVITIES[selected].color } : {}}
@@ -285,7 +287,7 @@ export const TimeTracker = () => {
 
       {/* Today's summary */}
       <div className="w-full">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 text-center">Today</p>
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 text-center">Today</p>
         <TodaySummary sessions={todaySessions} />
       </div>
     </div>

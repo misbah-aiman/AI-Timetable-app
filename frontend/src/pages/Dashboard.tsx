@@ -10,6 +10,7 @@ import { TimetableView } from '../components/dashboard/TimetableView';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { PageHeader } from '../components/ui/PageHeader';
 
 export const Dashboard = () => {
   const { user } = useAuth();
@@ -69,20 +70,15 @@ export const Dashboard = () => {
 
   return (
     <Layout>
-      {/* Header */}
-      <div className="mb-6 flex items-start justify-between">
-        <div>
-          <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1">
-            {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
-          </p>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
-            {getGreeting()}, <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋
-          </h1>
-        </div>
-        <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
-          <RefreshCw size={14} /> <span className="hidden sm:inline">Regenerate</span>
-        </Button>
-      </div>
+      <PageHeader
+        eyebrow={new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+        title={<>{getGreeting()}, <span className="text-primary-500">{user?.name?.split(' ')[0]}</span> 👋</>}
+        action={
+          <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
+            <RefreshCw size={14} /> <span className="hidden sm:inline">Regenerate</span>
+          </Button>
+        }
+      />
 
       {/* Error */}
       {error && (

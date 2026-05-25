@@ -45,7 +45,7 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
   return (
     <div>
       {/* Day tabs */}
-      <div className="flex gap-1.5 overflow-x-auto pb-2 mb-4 scrollbar-hide">
+      <div className="flex gap-2 overflow-x-auto pb-2 mb-5 scrollbar-hide">
         {days.map(day => {
           const isToday = day === todayName;
           const isActive = day === activeDay;
@@ -53,16 +53,16 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
             <button
               key={day}
               onClick={() => setActiveDay(day)}
-              className={`px-3 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+              className={`px-3.5 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
                 isActive
                   ? 'bg-primary-500 text-white shadow-soft'
                   : isToday
                   ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
-                  : 'text-gray-400 dark:text-gray-500 bg-surface-100 dark:bg-[#1e1b2e]'
+                  : 'text-gray-400 dark:text-gray-500 bg-surface-100 dark:bg-[#1e1b2e] hover:bg-surface-200 dark:hover:bg-primary-900/20'
               }`}
             >
               {day.slice(0, 3)}
-              {isToday && !isActive && <span className="ml-1 text-primary-400">·</span>}
+              {isToday && !isActive && <span className="ml-1 w-1 h-1 rounded-full bg-primary-400 inline-block align-middle" />}
             </button>
           );
         })}
@@ -70,7 +70,7 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
 
       {/* Slots */}
       {daySchedule && daySchedule.slots.length > 0 ? (
-        <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+        <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
           {daySchedule.slots.map((slot, i) => (
             <SlotCard key={i} slot={slot} />
           ))}

@@ -21,7 +21,7 @@ const TopNav = () => {
       <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-primary-500 rounded-xl flex items-center justify-center shadow-soft">
+          <div className="w-8 h-8 bg-primary-500 rounded-2xl flex items-center justify-center shadow-soft">
             <Sparkles size={16} className="text-white" />
           </div>
           <span className="font-bold text-gray-800 dark:text-white text-base">AI Timetable</span>

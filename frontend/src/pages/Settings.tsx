@@ -10,6 +10,7 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Modal } from '../components/ui/Modal';
+import { PageHeader } from '../components/ui/PageHeader';
 
 export const Settings = () => {
   const { user, logout, updateUser } = useAuth();
@@ -84,10 +85,7 @@ export const Settings = () => {
 
   return (
     <Layout>
-      <div className="mb-6">
-        <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1">Account</p>
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">Settings</h1>
-      </div>
+      <PageHeader eyebrow="Account" title="Settings" />
 
       <div className="max-w-2xl space-y-4">
         {/* Profile hero */}
@@ -110,13 +108,13 @@ export const Settings = () => {
 
         {/* Profile name */}
         <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Profile</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Profile</h2>
           <Input label="Display Name" {...field('name')} />
         </Card>
 
         {/* Routine */}
         <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Routine</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Routine</h2>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <Input label="Bedtime" type="time" {...field('sleepTime')} />
@@ -145,7 +143,7 @@ export const Settings = () => {
 
         {/* Appearance */}
         <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Appearance</h2>
+          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Appearance</h2>
           <button
             onClick={toggleTheme}
             className="flex items-center gap-3 w-full p-3 rounded-2xl bg-surface-100 dark:bg-primary-900/20 hover:bg-surface-200 dark:hover:bg-primary-900/30 transition-colors"

@@ -32,11 +32,18 @@ const buildPrompt = (onboarding: IOnboarding, tasks?: TaskSummary[]): string => 
   return `You are a smart scheduling assistant. Create a structured weekly timetable for a student based on their routine preferences.
 
 Student Profile:
-- Sleep time: ${onboarding.sleepTime} (wake up at ${onboarding.wakeTime}, ~${onboarding.sleepHours} hours/night)
-- Daily study goal: ${onboarding.studyGoalHours} hours
-- Subjects to study: ${onboarding.subjects.join(', ') || 'General'}
-- Hobbies: ${onboarding.hobbies.join(', ') || 'None specified'}
-- Screen time limit: ${onboarding.screenTimeLimitHours} hours/day
+- Sleep: ${onboarding.sleepTime} to ${onboarding.wakeTime} (~${onboarding.sleepHours}h/night)
+- Chronotype: ${onboarding.chronotype || 'morning'} person — schedule deep study during ${onboarding.chronotype === 'afternoon' ? '12pm–6pm' : onboarding.chronotype === 'evening' ? '6pm–11pm' : '6am–12pm'}
+- Daily study goal: ${onboarding.studyGoalHours} hours using ${
+  onboarding.studyStyle === 'pomodoro' ? 'Pomodoro blocks (25 min focus + 5 min break)' :
+  onboarding.studyStyle === 'long' ? 'long deep-work sessions (2+ hours)' :
+  'medium blocks (1–1.5 hours)'
+}
+- Subjects: ${onboarding.subjects.join(', ') || 'General'}
+- Hobbies: ${onboarding.hobbies.join(', ') || 'None'}
+- Screen time limit: ${onboarding.screenTimeLimitHours}h/day
+- Exercise: ${onboarding.exerciseEnabled ? `${onboarding.exerciseDuration} min in the ${onboarding.exerciseTime || 'morning'}` : 'none'}
+- Work schedule: ${onboarding.workEnabled && onboarding.workDays?.length ? `${onboarding.workDays.join(', ')} from ${onboarding.workStartTime} to ${onboarding.workEndTime} (block these hours — no study/class during work)` : 'none'}
 - Fixed classes: ${classesText}
 ${tasksText}
 Generate a realistic, balanced weekly schedule for Monday through Sunday.

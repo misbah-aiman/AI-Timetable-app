@@ -37,12 +37,12 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
     }`} />
     <div className="flex-1 min-w-0">
       <p className={`text-sm font-semibold truncate ${
-        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-[#E0D0C1]'
+        status === 'past' ? 'text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-white'
       }`}>
         {slot.activity}
       </p>
       <p className={`text-xs mt-0.5 ${
-        status === 'past' ? 'text-gray-400 dark:text-gray-600' : 'text-gray-600 dark:text-[#c4ae9a]'
+        status === 'past' ? 'text-gray-400 dark:text-gray-600' : 'text-gray-600 dark:text-gray-200'
       }`}>
         {slot.startTime} – {slot.endTime}
       </p>
@@ -54,11 +54,11 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
         </span>
       )}
       {status === 'next' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#352e1e] text-gray-700 dark:text-[#E0D0C1]">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#352e1e] text-gray-700 dark:text-white">
           Next
         </span>
       )}
-      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-700 dark:text-[#E0D0C1] bg-surface-200 dark:bg-[#352e1e]">
+      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-700 dark:text-white bg-surface-200 dark:bg-[#352e1e]">
         {categoryLabel[slot.category] || slot.category}
       </span>
     </div>

@@ -37,14 +37,14 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
           <h3 className="font-semibold text-gray-800 dark:text-white mb-4">Daily Hours Breakdown</h3>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={barData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#eed9d1" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#f7eedf" />
               <XAxis dataKey="day" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} unit="h" />
               <Tooltip formatter={(v) => `${v}h`} />
               <Legend />
-              <Bar dataKey="Study" fill="#A76D60" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Sleep" fill="#b8967a" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Scroll" fill="#d4844a" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Study" fill="#C4A882" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Sleep" fill="#d4be9e" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Scroll" fill="#e8a96a" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Card>
@@ -55,7 +55,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
             <RadarChart data={radarData}>
               <PolarGrid />
               <PolarAngleAxis dataKey="subject" tick={{ fontSize: 12 }} />
-              <Radar dataKey="value" stroke="#A76D60" fill="#A76D60" fillOpacity={0.25} />
+              <Radar dataKey="value" stroke="#C4A882" fill="#C4A882" fillOpacity={0.25} />
               <Tooltip formatter={(v) => `${Math.round(Number(v))}%`} />
             </RadarChart>
           </ResponsiveContainer>

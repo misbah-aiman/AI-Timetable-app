@@ -169,13 +169,13 @@ const slot = (start: number, end: number, activity: string, cat: string): Slot =
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-function addStudyBlocks(slots: Slot[], subjects: string[], cur: number, limit: number, studyLeft: number): [number, number] {
+function addStudyBlocks(slots: Slot[], labels: string[], cur: number, limit: number, studyLeft: number): [number, number] {
   let c = cur;
   let left = studyLeft;
   while (left >= 60 && c + 60 <= limit) {
     const block = Math.min(left, 90);
-    const sub = subjects[slots.filter(s => s.category === 'study').length % subjects.length];
-    slots.push(slot(c, c + block, `Study: ${sub}`, 'study'));
+    const label = labels[slots.filter(s => s.category === 'study').length % labels.length];
+    slots.push(slot(c, c + block, `Study: ${label}`, 'study'));
     left -= block; c += block;
     if (left >= 60 && c + 60 <= limit) { slots.push(slot(c, c + 15, 'Break', 'break')); c += 15; }
   }

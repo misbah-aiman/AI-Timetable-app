@@ -18,7 +18,7 @@ const TopNav = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <nav className="hidden md:block sticky top-0 z-40 bg-white/80 dark:bg-[#1a1410]/80 backdrop-blur-md border-b border-primary-100 dark:border-primary-900/20">
+    <nav className="hidden md:block sticky top-0 z-40 bg-white/80 dark:bg-[#18160f]/80 backdrop-blur-md border-b border-primary-100 dark:border-primary-900/20">
       <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-16">
         {/* Logo */}
         <Link to="/dashboard" className="flex items-center gap-2.5">
@@ -85,7 +85,7 @@ const BottomNav = () => {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50">
-      <div className="bg-white/90 dark:bg-[#1a1410]/90 backdrop-blur-xl border-t border-primary-100 dark:border-primary-900/30 safe-pb">
+      <div className="bg-white/90 dark:bg-[#18160f]/90 backdrop-blur-xl border-t border-primary-100 dark:border-primary-900/30 safe-pb">
         <div className="flex">
           {tabs.map(({ to, label, icon: Icon }) => {
             const active = pathname === to;

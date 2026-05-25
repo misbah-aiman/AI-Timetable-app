@@ -217,7 +217,7 @@ export const TimeTracker = () => {
               className={`flex-1 flex flex-col items-center gap-2 py-3.5 rounded-3xl border-2 transition-all duration-200 ${
                 active
                   ? 'border-transparent shadow-soft'
-                  : 'border-transparent bg-surface-100 dark:bg-[#261f15] opacity-60'
+                  : 'border-transparent bg-surface-100 dark:bg-[#221e15] opacity-60'
               } ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-90 active:scale-[0.97]'}`}
               style={active ? { backgroundColor: `${a.color}15`, borderColor: `${a.color}40` } : {}}
             >

@@ -29,8 +29,8 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
     status === 'active'
       ? 'bg-primary-50 dark:bg-primary-900/30 ring-1 ring-primary-300 dark:ring-primary-700/60'
       : status === 'past'
-      ? 'bg-surface-50 dark:bg-[#1e1812] opacity-50'
-      : 'bg-surface-100 dark:bg-[#312619]'
+      ? 'bg-surface-50 dark:bg-[#1c1910] opacity-50'
+      : 'bg-surface-100 dark:bg-[#2c2619]'
   }`}>
     <div className={`w-0.5 self-stretch rounded-full shrink-0 ${
       status === 'active' ? 'bg-primary-500' : 'bg-primary-300 dark:bg-primary-600'
@@ -54,11 +54,11 @@ const SlotCard = ({ slot, status }: { slot: TimeSlot; status: 'past' | 'active' 
         </span>
       )}
       {status === 'next' && (
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#3a2e1e] text-gray-700 dark:text-[#E0D0C1]">
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-surface-200 dark:bg-[#352e1e] text-gray-700 dark:text-[#E0D0C1]">
           Next
         </span>
       )}
-      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-700 dark:text-[#E0D0C1] bg-surface-200 dark:bg-[#3a2e1e]">
+      <span className="text-[11px] px-2 py-0.5 rounded-lg font-medium text-gray-700 dark:text-[#E0D0C1] bg-surface-200 dark:bg-[#352e1e]">
         {categoryLabel[slot.category] || slot.category}
       </span>
     </div>
@@ -96,7 +96,7 @@ export const TimetableView = ({ timetable }: TimetableViewProps) => {
   if (slots.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-12 text-gray-400">
-        <div className="w-12 h-12 rounded-full bg-surface-100 dark:bg-[#261f15] flex items-center justify-center mb-3">
+        <div className="w-12 h-12 rounded-full bg-surface-100 dark:bg-[#221e15] flex items-center justify-center mb-3">
           <Clock size={24} className="text-gray-300 dark:text-gray-600" />
         </div>
         <p className="text-sm">No schedule for {todayName}</p>

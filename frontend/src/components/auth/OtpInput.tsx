@@ -64,7 +64,7 @@ export const OtpInput = ({ value, onChange, disabled }: Props) => {
             'dark:text-white dark:focus:ring-primary-900',
             value[i]
               ? 'border-primary-400 bg-primary-50 dark:bg-primary-900/30'
-              : 'border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#261f15]',
+              : 'border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#221e15]',
             disabled ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}
         />

@@ -519,24 +519,6 @@ export const OnboardingWizard = () => {
                 </div>
               </div>
 
-              {/* Contextual hint */}
-              <div className={`px-4 py-3 rounded-2xl text-sm font-medium ${
-                data.screenTimeLimitHours <= 1
-                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
-                  : data.screenTimeLimitHours <= 3
-                  ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300'
-                  : data.screenTimeLimitHours <= 5
-                  ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300'
-                  : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
-              }`}>
-                {data.screenTimeLimitHours === 0
-                  ? 'No limit — the tracker will still log usage for awareness.'
-                  : data.screenTimeLimitHours <= 3
-                  ? 'Great — helps protect your focus and study time.'
-                  : data.screenTimeLimitHours <= 5
-                  ? 'Moderate — consider setting it lower for better productivity.'
-                  : 'High — this may crowd out study and sleep time.'}
-              </div>
             </div>
           )}
 

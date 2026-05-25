@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import User from '../models/User';
 import Timetable from '../models/Timetable';
+import Task from '../models/Task';
 import { generateTimetable, scanClassScheduleImage } from '../utils/openai';
 import { AuthRequest } from '../middleware/auth';
 

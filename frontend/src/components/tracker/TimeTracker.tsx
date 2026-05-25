@@ -138,36 +138,6 @@ const CircleTimer = ({
   );
 };
 
-// Today's totals bar
-const TodaySummary = ({ sessions }: { sessions: Session[] }) => {
-  const total = (type: ActivityType) =>
-    sessions.filter(s => s.type === type && !s.isActive)
-      .reduce((sum, s) => sum + (s.durationMinutes || 0), 0);
-
-  const fmt = (mins: number) => {
-    if (mins === 0) return '—';
-    if (mins < 60) return `${mins}m`;
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return m ? `${h}h ${m}m` : `${h}h`;
-  };
-
-  return (
-    <div className="grid grid-cols-3 gap-3">
-      {(Object.entries(ACTIVITIES) as [ActivityType, typeof ACTIVITIES[ActivityType]][]).map(([type, cfg]) => (
-        <div
-          key={type}
-          className="flex flex-col items-center gap-1 py-4 px-2 rounded-3xl"
-          style={{ backgroundColor: `${cfg.color}10` }}
-        >
-          <div style={{ color: cfg.color }}>{cfg.icon}</div>
-          <span className="text-lg font-bold" style={{ color: cfg.color }}>{fmt(total(type))}</span>
-          <span className="text-[11px] font-medium text-gray-400">{cfg.label}</span>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 export const TimeTracker = () => {
   const [selected, setSelected] = useState<ActivityType>('study');

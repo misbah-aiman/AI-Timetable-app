@@ -164,7 +164,7 @@ const INITIAL_FORM = {
   priority: 'medium' as Task['priority'],
 };
 
-const AddTaskModal = ({
+const AddTaskForm = ({
   onAdd,
   onClose,
 }: {

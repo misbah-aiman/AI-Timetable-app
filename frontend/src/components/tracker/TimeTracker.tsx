@@ -153,15 +153,11 @@ export const TimeTracker = () => {
 
   const fetchData = async () => {
     try {
-      const [activeRes, todayRes] = await Promise.all([
-        sessionsApi.getActive(),
-        sessionsApi.getToday(),
-      ]);
+      const activeRes = await sessionsApi.getActive();
       const sessions: Session[] = activeRes.data.sessions;
       const relevant = sessions.find(s => ['study', 'sleep', 'screen'].includes(s.type));
       setActiveSession(relevant || null);
       if (relevant) setSelected(relevant.type as ActivityType);
-      setTodaySessions(todayRes.data.sessions);
     } finally {
       setLoading(false);
     }

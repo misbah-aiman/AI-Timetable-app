@@ -6,6 +6,7 @@ import userRoutes from './routes/user';
 import timetableRoutes from './routes/timetable';
 import analyticsRoutes from './routes/analytics';
 import sessionRoutes from './routes/sessions';
+import taskRoutes from './routes/tasks';
 
 const app = express();
 

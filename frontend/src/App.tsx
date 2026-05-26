@@ -44,7 +44,7 @@ const AppRoutes = () => (
   <Routes>
     {/* Public */}
     <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-    <Route path="/signup" element={<Signup />} />
+    <Route path="/signup" element={<PublicRoute><Signup /></PublicRoute>} />
 
     {/* Onboarding — requires auth but not completed onboarding */}
     <Route path="/onboarding" element={<PrivateRoute><Onboarding /></PrivateRoute>} />

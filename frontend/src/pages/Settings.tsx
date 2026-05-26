@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Moon, Sun, Trash2, LogOut, ChevronRight,
   Save, RefreshCw, X, CheckCircle,
-  Dumbbell, Briefcase, User, Palette, BookOpen,
+  Dumbbell, Briefcase, BookOpen,
 } from 'lucide-react';
 import { userApi, timetableApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';

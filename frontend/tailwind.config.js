@@ -32,8 +32,8 @@ module.exports = {
         '4xl': '1.5rem',
       },
       boxShadow: {
-        soft: '0 2px 16px 0 rgba(196,168,130,0.12)',
-        'soft-lg': '0 4px 32px 0 rgba(196,168,130,0.18)',
+        soft: '0 2px 16px 0 rgba(117,6,8,0.12)',
+        'soft-lg': '0 4px 32px 0 rgba(117,6,8,0.18)',
         card: '0 1px 8px 0 rgba(0,0,0,0.06)',
       },
     },

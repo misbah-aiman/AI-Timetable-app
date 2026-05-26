@@ -8,11 +8,17 @@ interface PageHeaderProps {
 }
 
 export const PageHeader = ({ eyebrow, title, action, className = '' }: PageHeaderProps) => (
-  <div className={`mb-8 flex items-start justify-between ${className}`}>
+  <div className={`mb-6 flex items-start justify-between ${className}`}>
     <div>
-      <p className="text-xs font-medium text-primary-400 uppercase tracking-widest mb-1.5">{eyebrow}</p>
-      <h1 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">{title}</h1>
+      <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+        {eyebrow}
+      </p>
+      <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+        {title}
+      </h1>
     </div>
-    {action && <div className="shrink-0 mt-1">{action}</div>}
+    {action && (
+      <div className="shrink-0 mt-1.5">{action}</div>
+    )}
   </div>
 );

@@ -28,6 +28,7 @@ api.interceptors.response.use(
 
 // ─── Auth ────────────────────────────────────────────────
 export const authApi = {
+  checkEmail: (email: string) => api.post<{ exists: boolean }>('/auth/check-email', { email }),
   sendOtp: (email: string) => api.post('/auth/send-otp', { email }),
   verifyOtp: (data: { email: string; otp: string }) => api.post('/auth/verify-otp', data),
   getMe: () => api.get('/auth/me'),

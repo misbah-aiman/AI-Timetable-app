@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import {
   Moon, Sun, Trash2, LogOut, ChevronRight,
   Save, RefreshCw, X, CheckCircle,
-  Dumbbell, Briefcase,
+  Dumbbell, Briefcase, User, Palette, BookOpen,
 } from 'lucide-react';
 import { userApi, timetableApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { storage } from '../utils/localStorage';
 import { Layout } from '../components/layout/Layout';
-import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Modal } from '../components/ui/Modal';
@@ -26,81 +25,64 @@ const HOBBY_OPTIONS = [
   'Cooking', 'Art', 'Gym', 'Meditation', 'Walking', 'Coding',
 ];
 
-// ── Local sub-components ─────────────────────────────────
+// ── Sub-components ───────────────────────────────────────
 
 const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">{children}</p>
+  <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-[0.08em] mb-2 px-1">
+    {children}
+  </p>
 );
 
 const Divider = () => (
-  <div className="border-t border-surface-100 dark:border-primary-900/20" />
+  <div className="border-t border-black/[0.06] dark:border-white/[0.06] ml-0" />
 );
 
-const OptionPill = ({
-  selected, onClick, label,
-}: { selected: boolean; onClick: () => void; label: string }) => (
+const OptionPill = ({ selected, onClick, label }: { selected: boolean; onClick: () => void; label: string }) => (
   <button
     onClick={onClick}
-    className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold transition-all ${
+    className={`flex-1 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-150 active:scale-95 ${
       selected
-        ? 'bg-primary-500 text-white shadow-soft'
-        : 'bg-surface-100 dark:bg-[#221e15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
+        ? 'bg-primary-700 text-white shadow-soft'
+        : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-600 dark:text-gray-300 hover:bg-black/[0.08] dark:hover:bg-white/[0.10]'
     }`}
   >
     {label}
   </button>
 );
 
-const Toggle = ({
-  value, onChange,
-}: { value: boolean; onChange: (v: boolean) => void }) => (
-  <div className="flex gap-3">
-    {([true, false] as const).map(v => (
-      <button
-        key={String(v)}
-        onClick={() => onChange(v)}
-        className={`flex-1 py-2.5 rounded-2xl text-sm font-semibold border-2 transition-all ${
-          value === v
-            ? 'border-primary-400 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-300'
-            : 'border-gray-200 dark:border-gray-700 text-gray-500 hover:border-primary-200'
-        }`}
-      >
-        {v ? 'Yes' : 'No'}
-      </button>
-    ))}
-  </div>
+const IOSToggle = ({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) => (
+  <button
+    onClick={() => onChange(!value)}
+    className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-300 focus:outline-none ${
+      value ? 'bg-[#34C759]' : 'bg-black/[0.12] dark:bg-white/[0.15]'
+    }`}
+    role="switch"
+    aria-checked={value}
+  >
+    <span className={`
+      absolute top-[2px] left-[2px] w-[27px] h-[27px] rounded-full bg-white shadow-card
+      transition-transform duration-300 ease-in-out
+      ${value ? 'translate-x-5' : 'translate-x-0'}
+    `} />
+  </button>
 );
 
-// ── Routine state type ───────────────────────────────────
+// ── Routine state ────────────────────────────────────────
 
 interface RoutineForm {
-  sleepTime: string;
-  wakeTime: string;
-  sleepHours: number;
-  chronotype: string;
-  studyGoalHours: number;
-  studyStyle: string;
-  screenTimeLimitHours: number;
-  exerciseEnabled: boolean;
-  exerciseTime: string;
-  exerciseDuration: number;
-  workEnabled: boolean;
-  workDays: string[];
-  workStartTime: string;
-  workEndTime: string;
-  hobbies: string[];
-  classes: ClassEntry[];
+  sleepTime: string; wakeTime: string; sleepHours: number;
+  chronotype: string; studyGoalHours: number; studyStyle: string;
+  screenTimeLimitHours: number; exerciseEnabled: boolean;
+  exerciseTime: string; exerciseDuration: number;
+  workEnabled: boolean; workDays: string[]; workStartTime: string; workEndTime: string;
+  hobbies: string[]; classes: ClassEntry[];
 }
 
-// ── Routine Editor Modal ─────────────────────────────────
+// ── Routine Editor ───────────────────────────────────────
 
 const RoutineEditor = ({
-  initial,
-  onSave,
-}: {
-  initial: RoutineForm;
-  onSave: (data: RoutineForm, regenerate: boolean) => Promise<void>;
-}) => {
+  initial, onSave,
+}: { initial: RoutineForm; onSave: (data: RoutineForm, regenerate: boolean) => Promise<void> }) => {
   const [r, setR] = useState<RoutineForm>(initial);
   const [saving, setSaving] = useState(false);
   const [regenerating, setRegenerating] = useState(false);
@@ -113,7 +95,6 @@ const RoutineEditor = ({
 
   const toggleHobby = (h: string) =>
     set('hobbies', r.hobbies.includes(h) ? r.hobbies.filter(x => x !== h) : [...r.hobbies, h]);
-
   const toggleWorkDay = (d: string) =>
     set('workDays', r.workDays.includes(d) ? r.workDays.filter(x => x !== d) : [...r.workDays, d]);
 
@@ -143,29 +124,30 @@ const RoutineEditor = ({
     if (!validate()) return;
     regenerate ? setRegenerating(true) : setSaving(true);
     await onSave(r, regenerate);
-    setSaving(false);
-    setRegenerating(false);
+    setSaving(false); setRegenerating(false);
   };
 
+  const inputBase = "w-full px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white focus:outline-none focus:border-primary-400/60 focus:shadow-[0_0_0_3px_rgba(192,22,25,0.10)] transition-all";
+
   return (
-    <div className="overflow-y-auto max-h-[72vh] -mx-1 px-1">
+    <div className="overflow-y-auto max-h-[70vh] scrollbar-hide">
       <div className="space-y-6 pb-2">
 
         {/* Sleep */}
         <div className="space-y-4">
           <SectionLabel>Sleep</SectionLabel>
           <div className="grid grid-cols-2 gap-3">
-            <Input label="Bedtime" type="time" value={r.sleepTime} onChange={e => set('sleepTime', e.target.value)} />
-            <Input label="Wake-up" type="time" value={r.wakeTime} onChange={e => set('wakeTime', e.target.value)} />
+            <Input label="Bedtime"  type="time" value={r.sleepTime} onChange={e => set('sleepTime', e.target.value)} />
+            <Input label="Wake-up"  type="time" value={r.wakeTime}  onChange={e => set('wakeTime',  e.target.value)} />
           </div>
           <div>
-            <div className="flex justify-between mb-1.5">
-              <span className="text-sm text-gray-600 dark:text-gray-300">Sleep goal</span>
-              <span className="text-sm font-bold text-primary-500">{r.sleepHours}h</span>
+            <div className="flex justify-between mb-2">
+              <span className="text-[14px] text-gray-700 dark:text-gray-300">Sleep goal</span>
+              <span className="text-[14px] font-bold text-primary-700">{r.sleepHours}h</span>
             </div>
             <input type="range" min={4} max={12} value={r.sleepHours}
               onChange={e => set('sleepHours', Number(e.target.value))}
-              className="w-full accent-primary-500"
+              className="w-full accent-primary-700" style={{ accentColor: '#750608' }}
             />
           </div>
         </div>
@@ -176,9 +158,9 @@ const RoutineEditor = ({
         <div className="space-y-3">
           <SectionLabel>Peak Focus Hours</SectionLabel>
           <div className="flex gap-2">
-            <OptionPill selected={r.chronotype === 'morning'} onClick={() => set('chronotype', 'morning')} label="Morning" />
+            <OptionPill selected={r.chronotype === 'morning'}   onClick={() => set('chronotype', 'morning')}   label="Morning" />
             <OptionPill selected={r.chronotype === 'afternoon'} onClick={() => set('chronotype', 'afternoon')} label="Afternoon" />
-            <OptionPill selected={r.chronotype === 'evening'} onClick={() => set('chronotype', 'evening')} label="Evening" />
+            <OptionPill selected={r.chronotype === 'evening'}   onClick={() => set('chronotype', 'evening')}   label="Evening" />
           </div>
         </div>
 
@@ -188,21 +170,21 @@ const RoutineEditor = ({
         <div className="space-y-4">
           <SectionLabel>Study</SectionLabel>
           <div>
-            <div className="flex justify-between mb-1.5">
-              <span className="text-sm text-gray-600 dark:text-gray-300">Daily goal</span>
-              <span className="text-sm font-bold text-primary-500">{r.studyGoalHours}h</span>
+            <div className="flex justify-between mb-2">
+              <span className="text-[14px] text-gray-700 dark:text-gray-300">Daily goal</span>
+              <span className="text-[14px] font-bold text-primary-700">{r.studyGoalHours}h</span>
             </div>
             <input type="range" min={1} max={12} value={r.studyGoalHours}
               onChange={e => set('studyGoalHours', Number(e.target.value))}
-              className="w-full accent-primary-500"
+              style={{ accentColor: '#750608' }} className="w-full"
             />
           </div>
           <div>
-            <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">Study style</p>
+            <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-2">Study style</p>
             <div className="flex gap-2">
               <OptionPill selected={r.studyStyle === 'pomodoro'} onClick={() => set('studyStyle', 'pomodoro')} label="Pomodoro" />
-              <OptionPill selected={r.studyStyle === 'medium'} onClick={() => set('studyStyle', 'medium')} label="Medium" />
-              <OptionPill selected={r.studyStyle === 'long'} onClick={() => set('studyStyle', 'long')} label="Deep work" />
+              <OptionPill selected={r.studyStyle === 'medium'}   onClick={() => set('studyStyle', 'medium')}   label="Medium" />
+              <OptionPill selected={r.studyStyle === 'long'}     onClick={() => set('studyStyle', 'long')}     label="Deep work" />
             </div>
           </div>
         </div>
@@ -213,15 +195,15 @@ const RoutineEditor = ({
         <div className="space-y-3">
           <SectionLabel>Screen Time Limit</SectionLabel>
           <div>
-            <div className="flex justify-between mb-1.5">
-              <span className="text-sm text-gray-600 dark:text-gray-300">Daily limit</span>
-              <span className="text-sm font-bold text-orange-500">
+            <div className="flex justify-between mb-2">
+              <span className="text-[14px] text-gray-700 dark:text-gray-300">Daily limit</span>
+              <span className="text-[14px] font-bold text-orange-500">
                 {r.screenTimeLimitHours === 0 ? 'No limit' : `${r.screenTimeLimitHours}h`}
               </span>
             </div>
             <input type="range" min={0} max={8} value={r.screenTimeLimitHours}
               onChange={e => set('screenTimeLimitHours', Number(e.target.value))}
-              className="w-full accent-orange-500"
+              style={{ accentColor: '#f97316' }} className="w-full"
             />
           </div>
         </div>
@@ -231,18 +213,21 @@ const RoutineEditor = ({
         {/* Exercise */}
         <div className="space-y-3">
           <SectionLabel>Exercise</SectionLabel>
-          <Toggle value={r.exerciseEnabled} onChange={v => set('exerciseEnabled', v)} />
+          <div className="flex items-center justify-between">
+            <span className="text-[15px] text-gray-800 dark:text-white">Enable exercise blocks</span>
+            <IOSToggle value={r.exerciseEnabled} onChange={v => set('exerciseEnabled', v)} />
+          </div>
           {r.exerciseEnabled && (
             <>
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">When</p>
+                <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-2">When</p>
                 <div className="flex gap-2">
                   <OptionPill selected={r.exerciseTime === 'morning'} onClick={() => set('exerciseTime', 'morning')} label="Morning" />
                   <OptionPill selected={r.exerciseTime === 'evening'} onClick={() => set('exerciseTime', 'evening')} label="Evening" />
                 </div>
               </div>
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Duration</p>
+                <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-2">Duration</p>
                 <div className="flex gap-2">
                   {[30, 45, 60, 90].map(m => (
                     <OptionPill key={m} selected={r.exerciseDuration === m} onClick={() => set('exerciseDuration', m)} label={`${m}m`} />
@@ -252,9 +237,9 @@ const RoutineEditor = ({
             </>
           )}
           {!r.exerciseEnabled && (
-            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#221e15] rounded-2xl">
-              <Dumbbell size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />
-              <p className="text-xs text-gray-400">No exercise blocks will be scheduled.</p>
+            <div className="flex items-center gap-2.5 p-3 bg-black/[0.04] dark:bg-white/[0.05] rounded-2xl">
+              <Dumbbell size={15} className="text-gray-300 dark:text-gray-600 shrink-0" />
+              <p className="text-[13px] text-gray-400">No exercise blocks will be scheduled.</p>
             </div>
           )}
         </div>
@@ -264,20 +249,21 @@ const RoutineEditor = ({
         {/* Work */}
         <div className="space-y-3">
           <SectionLabel>Work Schedule</SectionLabel>
-          <Toggle value={r.workEnabled} onChange={v => { set('workEnabled', v); setWorkError(''); }} />
+          <div className="flex items-center justify-between">
+            <span className="text-[15px] text-gray-800 dark:text-white">Enable work hours</span>
+            <IOSToggle value={r.workEnabled} onChange={v => { set('workEnabled', v); setWorkError(''); }} />
+          </div>
           {r.workEnabled && (
             <>
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Work days</p>
+                <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-2">Work days</p>
                 <div className="grid grid-cols-4 gap-2">
                   {DAYS.map(d => (
-                    <button
-                      key={d}
-                      onClick={() => { toggleWorkDay(d); setWorkError(''); }}
-                      className={`py-2 rounded-2xl text-xs font-semibold transition-all ${
+                    <button key={d} onClick={() => { toggleWorkDay(d); setWorkError(''); }}
+                      className={`py-2 rounded-xl text-[12px] font-semibold transition-all active:scale-95 ${
                         r.workDays.includes(d)
-                          ? 'bg-primary-500 text-white shadow-soft'
-                          : 'bg-surface-100 dark:bg-[#221e15] text-gray-500 hover:bg-surface-200 dark:hover:bg-primary-900/25'
+                          ? 'bg-primary-700 text-white shadow-soft'
+                          : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-600 dark:text-gray-300'
                       }`}
                     >
                       {d.slice(0, 3)}
@@ -288,16 +274,16 @@ const RoutineEditor = ({
               <div className="grid grid-cols-2 gap-3">
                 <Input label="Start time" type="time" value={r.workStartTime}
                   onChange={e => { set('workStartTime', e.target.value); setWorkError(''); }} />
-                <Input label="End time" type="time" value={r.workEndTime}
-                  onChange={e => { set('workEndTime', e.target.value); setWorkError(''); }} />
+                <Input label="End time"   type="time" value={r.workEndTime}
+                  onChange={e => { set('workEndTime',   e.target.value); setWorkError(''); }} />
               </div>
-              {workError && <p className="text-xs text-red-500">{workError}</p>}
+              {workError && <p className="text-[12px] text-red-500">{workError}</p>}
             </>
           )}
           {!r.workEnabled && (
-            <div className="flex items-center gap-2.5 p-3 bg-surface-100 dark:bg-[#221e15] rounded-2xl">
-              <Briefcase size={16} className="text-gray-300 dark:text-gray-600 shrink-0" />
-              <p className="text-xs text-gray-400">No work hours will be blocked.</p>
+            <div className="flex items-center gap-2.5 p-3 bg-black/[0.04] dark:bg-white/[0.05] rounded-2xl">
+              <Briefcase size={15} className="text-gray-300 dark:text-gray-600 shrink-0" />
+              <p className="text-[13px] text-gray-400">No work hours will be blocked.</p>
             </div>
           )}
         </div>
@@ -312,14 +298,14 @@ const RoutineEditor = ({
               const sel = r.hobbies.includes(h);
               return (
                 <button key={h} onClick={() => toggleHobby(h)}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-2xl text-sm font-medium border-2 transition-all ${
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium border transition-all active:scale-95 ${
                     sel
-                      ? 'bg-primary-50 dark:bg-primary-900/30 border-primary-400 text-primary-700 dark:text-primary-300'
-                      : 'border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary-200 dark:hover:border-primary-800'
+                      ? 'bg-primary-50 dark:bg-primary-900/30 border-primary-400/60 text-primary-700 dark:text-primary-300'
+                      : 'border-black/[0.08] dark:border-white/[0.09] text-gray-700 dark:text-gray-300 bg-black/[0.03] dark:bg-white/[0.04]'
                   }`}
                 >
                   {h}
-                  {sel && <CheckCircle size={13} className="text-primary-500 shrink-0" />}
+                  {sel && <CheckCircle size={13} className="text-primary-600 shrink-0" />}
                 </button>
               );
             })}
@@ -327,10 +313,10 @@ const RoutineEditor = ({
           {r.hobbies.filter(h => !HOBBY_OPTIONS.includes(h)).length > 0 && (
             <div className="flex flex-wrap gap-2">
               {r.hobbies.filter(h => !HOBBY_OPTIONS.includes(h)).map(h => (
-                <span key={h} className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/30 border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300 text-xs font-medium rounded-2xl">
+                <span key={h} className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/30 border border-primary-300/60 dark:border-primary-700/60 text-primary-700 dark:text-primary-300 text-[12px] font-medium rounded-full">
                   {h}
                   <button onClick={() => toggleHobby(h)} className="text-primary-400 hover:text-red-500 transition-colors">
-                    <X size={11} />
+                    <X size={10} />
                   </button>
                 </span>
               ))}
@@ -339,16 +325,14 @@ const RoutineEditor = ({
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Add a hobby..."
+              placeholder="Add custom hobby…"
               value={customHobby}
               onChange={e => setCustomHobby(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addHobby(); } }}
-              className="flex-1 px-3 py-2 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#221e15] text-gray-900 dark:text-gray-100 placeholder-gray-300 dark:placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-transparent"
+              className="flex-1 px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary-400/60 transition-all"
             />
-            <button
-              onClick={addHobby}
-              disabled={!customHobby.trim() || r.hobbies.includes(customHobby.trim())}
-              className="px-4 py-2 text-sm font-semibold rounded-2xl bg-primary-500 text-white hover:bg-primary-600 transition-colors disabled:opacity-40"
+            <button onClick={addHobby} disabled={!customHobby.trim() || r.hobbies.includes(customHobby.trim())}
+              className="px-4 py-2.5 text-[13px] font-semibold rounded-xl bg-primary-700 text-white hover:bg-primary-800 active:scale-95 transition-all disabled:opacity-40"
             >
               Add
             </button>
@@ -361,78 +345,103 @@ const RoutineEditor = ({
         <div className="space-y-3">
           <SectionLabel>Classes</SectionLabel>
           {r.classes.length > 0 && (
-            <div className="space-y-2 max-h-36 overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-36 overflow-y-auto">
               {r.classes.map((c, i) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-surface-100 dark:bg-[#1a0405] rounded-2xl">
+                <div key={i} className="flex items-center gap-3 px-3 py-2.5 bg-black/[0.04] dark:bg-white/[0.05] rounded-xl">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{c.name}</p>
-                    <p className="text-xs text-gray-400">{c.day} · {c.startTime}–{c.endTime}</p>
+                    <p className="text-[14px] font-semibold text-gray-900 dark:text-white truncate">{c.name}</p>
+                    <p className="text-[12px] text-gray-400 mt-0.5">{c.day} · {c.startTime}–{c.endTime}</p>
                   </div>
-                  <button
-                    onClick={() => set('classes', r.classes.filter((_, idx) => idx !== i))}
-                    className="p-1 text-gray-300 hover:text-red-500 transition-colors shrink-0"
+                  <button onClick={() => set('classes', r.classes.filter((_, idx) => idx !== i))}
+                    className="p-1.5 text-gray-300 hover:text-red-500 transition-colors shrink-0 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20"
                   >
-                    <X size={14} />
+                    <X size={13} />
                   </button>
                 </div>
               ))}
             </div>
           )}
-          {/* Add class form */}
-          <div className="space-y-2.5 pt-1">
+          <div className="space-y-2.5">
             <Input label="Class name" placeholder="e.g. Physics, Maths" value={newClass.name}
               onChange={e => { setNewClass(c => ({ ...c, name: e.target.value })); setClassError(''); }}
             />
             <div className="grid grid-cols-3 gap-2">
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Day</label>
+                <label className="block text-[12px] font-medium text-gray-500 dark:text-gray-400 mb-1.5">Day</label>
                 <select value={newClass.day} onChange={e => setNewClass(c => ({ ...c, day: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#221e15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white focus:outline-none focus:border-primary-400/60"
                 >
                   {DAYS.map(d => <option key={d}>{d}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Start</label>
+                <label className="block text-[12px] font-medium text-gray-500 dark:text-gray-400 mb-1.5">Start</label>
                 <input type="time" value={newClass.startTime}
                   onChange={e => setNewClass(c => ({ ...c, startTime: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#221e15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white focus:outline-none focus:border-primary-400/60"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">End</label>
+                <label className="block text-[12px] font-medium text-gray-500 dark:text-gray-400 mb-1.5">End</label>
                 <input type="time" value={newClass.endTime}
                   onChange={e => setNewClass(c => ({ ...c, endTime: e.target.value }))}
-                  className="w-full px-3 py-2.5 text-sm rounded-2xl border border-primary-100 dark:border-primary-900/30 bg-surface-50 dark:bg-[#221e15] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-300"
+                  className="w-full px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white focus:outline-none focus:border-primary-400/60"
                 />
               </div>
             </div>
-            {classError && <p className="text-xs text-red-500">{classError}</p>}
-            <button
-              onClick={addClass}
-              className="w-full py-2.5 rounded-2xl text-sm font-semibold border-2 border-dashed border-gray-200 dark:border-gray-700 text-gray-500 hover:border-primary-300 hover:text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all"
+            {classError && <p className="text-[12px] text-red-500">{classError}</p>}
+            <button onClick={addClass}
+              className="w-full py-2.5 rounded-xl text-[13px] font-semibold border-2 border-dashed border-black/[0.10] dark:border-white/[0.12] text-gray-500 dark:text-gray-400 hover:border-primary-400 hover:text-primary-700 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all active:scale-[0.98]"
             >
               + Add Class
             </button>
           </div>
         </div>
-
       </div>
 
       {/* Footer actions */}
-      <div className="sticky bottom-0 pt-4 pb-1 bg-white dark:bg-[#1e2030] border-t border-surface-100 dark:border-primary-900/20 mt-4 -mx-1 px-1">
+      <div className="sticky bottom-0 pt-4 pb-1 bg-white dark:bg-[#1a0304] border-t border-black/[0.06] dark:border-white/[0.06] mt-4">
         <div className="flex gap-2.5">
           <Button onClick={() => handleSave(false)} loading={saving} className="flex-1" size="lg">
-            <Save size={15} /> Save
+            <Save size={14} /> Save
           </Button>
           <Button onClick={() => handleSave(true)} loading={regenerating} variant="secondary" size="lg" className="flex-1">
-            <RefreshCw size={15} /> Save & Regenerate
+            <RefreshCw size={14} /> Save & Regen
           </Button>
         </div>
       </div>
     </div>
   );
 };
+
+// ── iOS Settings Row ─────────────────────────────────────
+
+const SettingsRow = ({
+  icon, iconBg, label, value, onPress, last = false,
+}: {
+  icon: React.ReactNode;
+  iconBg: string;
+  label: string;
+  value?: React.ReactNode;
+  onPress?: () => void;
+  last?: boolean;
+}) => (
+  <>
+    <button
+      onClick={onPress}
+      disabled={!onPress}
+      className="w-full flex items-center gap-3 px-4 py-3 hover:bg-black/[0.03] dark:hover:bg-white/[0.04] transition-colors active:bg-black/[0.06] dark:active:bg-white/[0.08] text-left disabled:cursor-default"
+    >
+      <div className={`w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 ${iconBg}`}>
+        {icon}
+      </div>
+      <span className="flex-1 text-[15px] text-gray-900 dark:text-white tracking-tight">{label}</span>
+      {value && <span className="text-[14px] text-gray-400 dark:text-gray-500 tracking-tight shrink-0">{value}</span>}
+      {onPress && <ChevronRight size={14} className="text-gray-300 dark:text-gray-600 shrink-0" strokeWidth={2.5} />}
+    </button>
+    {!last && <div className="border-t border-black/[0.06] dark:border-white/[0.06] ml-[56px]" />}
+  </>
+);
 
 // ── Page ─────────────────────────────────────────────────
 
@@ -476,11 +485,8 @@ export const Settings = () => {
       const res = await userApi.updateSettings({ name });
       if (user) updateUser({ ...user, name: res.data.user.name, onboarding: res.data.user.onboarding });
       setSuccessMsg('Name updated!');
-    } catch {
-      setError('Failed to save name.');
-    } finally {
-      setNameSaving(false);
-    }
+    } catch { setError('Failed to save name.'); }
+    finally { setNameSaving(false); }
   };
 
   const handleSaveRoutine = async (data: RoutineForm, regenerate: boolean) => {
@@ -496,9 +502,7 @@ export const Settings = () => {
         setSuccessMsg('Routine saved!');
       }
       setRoutineModal(false);
-    } catch {
-      setError('Failed to save routine.');
-    }
+    } catch { setError('Failed to save routine.'); }
   };
 
   const handleDelete = async () => {
@@ -506,7 +510,7 @@ export const Settings = () => {
     try {
       await userApi.deleteAccount();
       logout();
-      navigate('/signup');
+      navigate('/login');
     } catch {
       setError('Failed to delete account.');
       setDeleting(false);
@@ -517,116 +521,126 @@ export const Settings = () => {
     <Layout>
       <PageHeader eyebrow="Account" title="Settings" />
 
-      <div className="max-w-2xl space-y-4">
+      <div className="max-w-xl space-y-8">
 
-        {/* Profile hero */}
-        <Card className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-xl font-bold shrink-0 shadow-soft">
-            {user?.name?.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-gray-800 dark:text-white truncate">{user?.name}</p>
-            <p className="text-xs text-gray-400 truncate">{user?.email}</p>
-          </div>
-          <button onClick={logout}
-            className="p-2.5 rounded-2xl text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-            title="Logout"
-          >
-            <LogOut size={18} />
-          </button>
-        </Card>
-
-        {/* Profile name */}
-        <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Profile</h2>
-          <div className="flex gap-2.5">
-            <div className="flex-1">
-              <Input label="Display Name" value={name} onChange={e => setName(e.target.value)} />
+        {/* Profile hero card */}
+        <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+          <div className="flex items-center gap-4 p-5">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-800 flex items-center justify-center text-white text-[20px] font-bold shrink-0 shadow-soft">
+              {user?.name?.charAt(0).toUpperCase()}
             </div>
-            <div className="pt-6">
-              <Button size="sm" onClick={handleSaveName} loading={nameSaving}>
-                <Save size={14} /> Save
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-[17px] text-gray-900 dark:text-white tracking-tight truncate">{user?.name}</p>
+              <p className="text-[13px] text-gray-400 truncate mt-0.5">{user?.email}</p>
+            </div>
+            <button onClick={logout}
+              className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors active:scale-90"
+              title="Sign out"
+            >
+              <LogOut size={17} />
+            </button>
+          </div>
+
+          {/* Name edit */}
+          <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-5 py-4">
+            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.08em] mb-3">Display Name</p>
+            <div className="flex gap-2.5">
+              <div className="flex-1">
+                <Input value={name} onChange={e => setName(e.target.value)} placeholder="Your name" />
+              </div>
+              <Button size="sm" onClick={handleSaveName} loading={nameSaving} className="mt-0 self-end mb-[1px]">
+                <Save size={13} /> Save
               </Button>
             </div>
           </div>
-        </Card>
+        </div>
 
-        {/* Routine — single clickable row */}
-        <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Routine</h2>
-          <button
-            onClick={() => setRoutineModal(true)}
-            className="w-full flex items-center gap-3 p-3.5 rounded-2xl bg-surface-100 dark:bg-[#221e15] hover:bg-surface-200 dark:hover:bg-primary-900/25 transition-colors text-left"
-          >
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-gray-800 dark:text-white">Edit Routine</p>
-            </div>
-            <ChevronRight size={16} className="text-gray-400 shrink-0" />
-          </button>
-        </Card>
-
-        {/* Appearance */}
-        <Card>
-          <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Appearance</h2>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              {theme === 'dark' ? <Sun size={17} className="text-yellow-400" /> : <Moon size={17} className="text-primary-400" />}
-              <span className="text-sm font-semibold text-gray-800 dark:text-white">
-                {theme === 'dark' ? 'Light mode' : 'Dark mode'}
-              </span>
-            </div>
-            <button
-              onClick={toggleTheme}
-              className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
-                theme === 'dark' ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'
-              }`}
-            >
-              <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${
-                theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
-              }`} />
-            </button>
+        {/* Preferences */}
+        <div>
+          <SectionLabel>Preferences</SectionLabel>
+          <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+            <SettingsRow
+              icon={<BookOpen size={16} className="text-white" />}
+              iconBg="bg-primary-700"
+              label="Routine"
+              value="Edit"
+              onPress={() => setRoutineModal(true)}
+            />
+            <SettingsRow
+              icon={theme === 'dark' ? <Sun size={16} className="text-white" /> : <Moon size={16} className="text-white" />}
+              iconBg={theme === 'dark' ? 'bg-amber-500' : 'bg-indigo-500'}
+              label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              value={
+                <button
+                  onClick={toggleTheme}
+                  className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-300 focus:outline-none ${
+                    theme === 'dark' ? 'bg-[#34C759]' : 'bg-black/[0.12] dark:bg-white/[0.15]'
+                  }`}
+                >
+                  <span className={`absolute top-[2px] left-[2px] w-[27px] h-[27px] rounded-full bg-white shadow-card transition-transform duration-300 ${
+                    theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
+                  }`} />
+                </button>
+              }
+              last
+            />
           </div>
-        </Card>
+        </div>
 
         {/* Feedback */}
         {successMsg && (
-          <div className="p-4 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-sm rounded-3xl font-medium">
+          <div className="px-4 py-3 bg-[#34C759]/10 dark:bg-[#34C759]/15 text-[#1a8a35] dark:text-[#30D158] text-[14px] rounded-2xl font-medium tracking-tight">
             {successMsg}
           </div>
         )}
         {error && (
-          <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-sm rounded-3xl">
+          <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[14px] rounded-2xl tracking-tight">
             {error}
           </div>
         )}
 
-        {/* Danger zone */}
-        <div className="pt-2">
-          <button
-            onClick={() => setDeleteModal(true)}
-            className="flex items-center gap-2 text-sm text-red-400 hover:text-red-600 transition-colors"
-          >
-            <Trash2 size={15} /> Delete account
-          </button>
+        {/* Danger */}
+        <div>
+          <SectionLabel>Danger Zone</SectionLabel>
+          <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+            <button onClick={() => setDeleteModal(true)}
+              className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-red-50/50 dark:hover:bg-red-900/10 transition-colors active:bg-red-50 text-left"
+            >
+              <div className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0 bg-red-500">
+                <Trash2 size={15} className="text-white" />
+              </div>
+              <span className="flex-1 text-[15px] text-red-500 tracking-tight">Delete Account</span>
+              <ChevronRight size={14} className="text-red-300 shrink-0" strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
+
+        <div className="pb-4" />
       </div>
 
-      {/* Routine editor modal */}
       <Modal isOpen={routineModal} onClose={() => setRoutineModal(false)} title="Edit Routine">
-        <RoutineEditor
-          initial={initialRoutine}
-          onSave={handleSaveRoutine}
-        />
+        <RoutineEditor initial={initialRoutine} onSave={handleSaveRoutine} />
       </Modal>
 
-      {/* Delete confirmation modal */}
       <Modal isOpen={deleteModal} onClose={() => setDeleteModal(false)} title="Delete Account">
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-          This will permanently delete your account, timetable, and all session data. This cannot be undone.
-        </p>
-        <div className="flex gap-3">
-          <Button variant="secondary" onClick={() => setDeleteModal(false)} className="flex-1">Cancel</Button>
-          <Button variant="danger" onClick={handleDelete} loading={deleting} className="flex-1">Delete Everything</Button>
+        <div className="flex flex-col items-center text-center gap-4 pt-2 pb-4">
+          <div className="w-14 h-14 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+            <Trash2 size={24} className="text-red-500" />
+          </div>
+          <div>
+            <p className="text-[17px] font-semibold text-gray-900 dark:text-white tracking-tight">Are you sure?</p>
+            <p className="text-[14px] text-gray-500 dark:text-gray-400 mt-1.5 tracking-tight leading-relaxed">
+              This permanently deletes your account, timetable, and all session data. This cannot be undone.
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-2.5">
+          <Button variant="danger" onClick={handleDelete} loading={deleting} className="w-full" size="lg">
+            Delete Everything
+          </Button>
+          <Button variant="secondary" onClick={() => setDeleteModal(false)} className="w-full" size="lg">
+            Cancel
+          </Button>
         </div>
       </Modal>
     </Layout>

@@ -9,16 +9,20 @@
 
   html {
     -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    @apply font-sans antialiased bg-surface-50 dark:bg-[#1a0405];
+    @apply font-sans antialiased bg-surface-100 dark:bg-[#0f0203];
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1, "liga" 1;
     overscroll-behavior: none;
   }
 
   ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 3px;
+    height: 3px;
   }
 
   ::-webkit-scrollbar-track {
@@ -26,33 +30,74 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-primary-200 dark:bg-primary-900 rounded-full;
+    @apply bg-primary-200 dark:bg-primary-900/60 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-primary-300 dark:bg-primary-800;
   }
+
+  /* iOS momentum scrolling */
+  .scroll-ios {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @layer utilities {
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
+  /* Safe area bottom padding for iOS home indicator */
   .safe-pb {
-    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
 
-  @keyframes slide-up {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+  .safe-pt {
+    padding-top: max(0, env(safe-area-inset-top));
   }
 
+  /* Glass surface */
+  .glass {
+    @apply bg-white/75 dark:bg-[#200306]/75 backdrop-blur-2xl;
+  }
+
+  .glass-heavy {
+    @apply bg-white/90 dark:bg-[#200306]/90 backdrop-blur-3xl;
+  }
+
+  /* iOS-style range input */
+  input[type="range"] {
+    @apply h-1.5 rounded-full cursor-pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    @apply w-5 h-5 rounded-full bg-white shadow-card cursor-pointer;
+    border: 0.5px solid rgba(0,0,0,0.08);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    @apply w-5 h-5 rounded-full bg-white shadow-card cursor-pointer border-0;
+  }
+
+  /* Animate utilities */
   .animate-in {
-    animation: slide-up 0.2s ease-out both;
+    animation: slide-up 0.22s ease-out both;
+  }
+
+  /* Divider line used in settings */
+  .ios-separator {
+    @apply border-t border-black/[0.06] dark:border-white/[0.06] ml-14;
+  }
+
+  /* Suppress select outline on webkit */
+  select {
+    -webkit-appearance: none;
+    appearance: none;
   }
 }

@@ -59,25 +59,26 @@ export const Analytics = () => {
       {error && <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 rounded-3xl text-sm">{error}</div>}
 
       {stats && !loading && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {STAT_ITEMS(studyGoalMins, sleepGoalMins, screenLimitMins, stats).map(({ label, value, goal, color, icon }) => (
-            <Card key={label} padding="sm">
-              <div className="w-9 h-9 rounded-2xl flex items-center justify-center mb-3" style={{ backgroundColor: `${color}18`, color }}>
+            <div key={label} className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4 flex flex-col gap-2.5">
+              <div className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${color}18`, color }}>
                 {icon}
               </div>
-              <p className="text-2xl font-bold text-gray-800 dark:text-white">
-                {goal !== null ? fmt(value) : String(value)}
-              </p>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mt-0.5">{label}</p>
+              <div>
+                <p className="text-[26px] font-bold text-gray-900 dark:text-white leading-none tracking-tight">
+                  {goal !== null ? fmt(value) : String(value)}
+                </p>
+                <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.06em] mt-1">{label}</p>
+              </div>
               {goal !== null && (
-                <div className="mt-2.5 h-1.5 bg-surface-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-1.5 rounded-full transition-all duration-700"
+                <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${color}18` }}>
+                  <div className="h-full rounded-full transition-all duration-700 ease-out"
                     style={{ width: `${Math.min((value / goal) * 100, 100)}%`, backgroundColor: color }}
                   />
                 </div>
               )}
-            </Card>
+            </div>
           ))}
         </div>
       )}

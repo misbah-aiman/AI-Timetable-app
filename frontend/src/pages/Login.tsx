@@ -36,7 +36,7 @@ export const Login = () => {
     }, 1000);
   };
 
-  const handleContinue = async (e?: React.FormEvent) => {
+  const handleSendOtp = async (e?: React.FormEvent) => {
     e?.preventDefault();
     const trimmed = email.trim().toLowerCase();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
@@ -45,12 +45,6 @@ export const Login = () => {
     }
     setError(''); setLoading(true);
     try {
-      const { data } = await authApi.checkEmail(trimmed);
-      if (!data.exists) {
-        navigate(`/signup?email=${encodeURIComponent(trimmed)}`);
-        return;
-      }
-      // Existing user — send OTP
       await authApi.sendOtp(trimmed);
       setOtp(''); setStep('otp'); startCountdown();
     } catch (err: unknown) {
@@ -106,37 +100,21 @@ export const Login = () => {
 
       {/* Step 1: Email */}
       {step === 'email' && (
-        <>
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Welcome back</h2>
-            <p className="text-sm text-gray-400 mt-1">Enter your email to continue</p>
-          </div>
-          <form onSubmit={handleContinue} className="space-y-4">
-            <Input
-              label="Email address"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={e => { setEmail(e.target.value); setError(''); }}
-              autoFocus
-              required
-            />
-            {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
-            <Button type="submit" className="w-full" loading={loading} size="lg">
-              Continue
-            </Button>
-            <p className="text-center text-xs text-gray-400">
-              New here?{' '}
-              <button
-                type="button"
-                onClick={() => navigate(email ? `/signup?email=${encodeURIComponent(email.trim().toLowerCase())}` : '/signup')}
-                className="text-primary-500 hover:underline font-semibold"
-              >
-                Create account
-              </button>
-            </p>
-          </form>
-        </>
+        <form onSubmit={handleSendOtp} className="space-y-4">
+          <Input
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={e => { setEmail(e.target.value); setError(''); }}
+            autoFocus
+            required
+          />
+          {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
+          <Button type="submit" className="w-full" loading={loading} size="lg">
+            Continue
+          </Button>
+        </form>
       )}
 
       {/* Step 2: OTP */}
@@ -206,7 +184,6 @@ export const Login = () => {
             <Sparkles size={36} />
           </div>
           <h1 className="text-4xl font-bold mb-3">AI Timetable</h1>
-          <p className="text-white/70 text-lg">Your smart schedule, built for you.</p>
         </div>
       </div>
 

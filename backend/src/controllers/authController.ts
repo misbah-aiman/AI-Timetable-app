@@ -23,6 +23,25 @@ const nameFromEmail = (email: string) =>
     .replace(/\b\w/g, c => c.toUpperCase())
     .trim() || 'User';
 
+// POST /api/auth/check-email
+export const checkEmail = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email } = req.body;
+
+    if (!email || !EMAIL_REGEX.test(email)) {
+      res.status(400).json({ message: 'A valid email address is required' });
+      return;
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
+
+    res.json({ exists: !!user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 // POST /api/auth/send-otp
 export const sendOTP = async (req: Request, res: Response): Promise<void> => {
   try {

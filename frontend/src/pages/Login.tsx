@@ -8,12 +8,10 @@ import { Input } from '../components/ui/Input';
 import { OtpInput } from '../components/auth/OtpInput';
 
 type Step = 'email' | 'otp' | 'success';
-type Mode = 'signin' | 'signup';
 
 const RESEND_COOLDOWN = 60;
 
 export const Login = () => {
-  const [mode, setMode] = useState<Mode>('signin');
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
@@ -31,8 +29,6 @@ export const Login = () => {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  const switchMode = (m: Mode) => { setMode(m); setStep('email'); setEmail(''); setOtp(''); setError(''); };
-
   const startCountdown = () => {
     setCountdown(RESEND_COOLDOWN);
     timerRef.current = setInterval(() => {
@@ -40,12 +36,21 @@ export const Login = () => {
     }, 1000);
   };
 
-  const handleSendOtp = async (e?: React.FormEvent) => {
+  const handleContinue = async (e?: React.FormEvent) => {
     e?.preventDefault();
     const trimmed = email.trim().toLowerCase();
-    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) { setError('Please enter a valid email address'); return; }
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      setError('Please enter a valid email address');
+      return;
+    }
     setError(''); setLoading(true);
     try {
+      const { data } = await authApi.checkEmail(trimmed);
+      if (!data.exists) {
+        navigate(`/signup?email=${encodeURIComponent(trimmed)}`);
+        return;
+      }
+      // Existing user — send OTP
       await authApi.sendOtp(trimmed);
       setOtp(''); setStep('otp'); startCountdown();
     } catch (err: unknown) {
@@ -53,7 +58,7 @@ export const Login = () => {
       const remaining = apiErr?.response?.data?.remaining;
       if (remaining) setCountdown(remaining);
       const detail = apiErr?.response?.data?.detail;
-      const msg = apiErr?.response?.data?.message || 'Failed to send code. Please try again.';
+      const msg = apiErr?.response?.data?.message || 'Something went wrong. Please try again.';
       setError(detail ? `${msg} (${detail})` : msg);
     } finally { setLoading(false); }
   };
@@ -76,7 +81,10 @@ export const Login = () => {
     try {
       const res = await authApi.verifyOtp({ email: email.trim().toLowerCase(), otp });
       setStep('success');
-      setTimeout(() => { login(res.data.token, res.data.user); navigate(res.data.user.onboardingCompleted ? '/dashboard' : '/onboarding'); }, 800);
+      setTimeout(() => {
+        login(res.data.token, res.data.user);
+        navigate(res.data.user.onboardingCompleted ? '/dashboard' : '/onboarding');
+      }, 800);
     } catch (err: unknown) {
       setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Invalid code. Please try again.');
     } finally { setLoading(false); }
@@ -99,30 +107,33 @@ export const Login = () => {
       {/* Step 1: Email */}
       {step === 'email' && (
         <>
-          <div className="flex bg-surface-100 dark:bg-[#221e15] rounded-3xl p-1 mb-6">
-            {(['signin', 'signup'] as Mode[]).map(m => (
-              <button
-                key={m}
-                onClick={() => switchMode(m)}
-                className={`flex-1 py-2.5 text-sm font-semibold rounded-2xl transition-all ${
-                  mode === m
-                    ? 'bg-white dark:bg-primary-900/40 text-primary-600 dark:text-primary-300 shadow-card'
-                    : 'text-gray-400 dark:text-gray-500'
-                }`}
-              >
-                {m === 'signin' ? 'Sign In' : 'Create Account'}
-              </button>
-            ))}
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Welcome back</h2>
+            <p className="text-sm text-gray-400 mt-1">Enter your email to continue</p>
           </div>
-          <form onSubmit={handleSendOtp} className="space-y-4">
-            <Input label="Email address" type="email" placeholder="you@example.com" value={email}
-              onChange={e => { setEmail(e.target.value); setError(''); }} autoFocus required />
+          <form onSubmit={handleContinue} className="space-y-4">
+            <Input
+              label="Email address"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={e => { setEmail(e.target.value); setError(''); }}
+              autoFocus
+              required
+            />
             {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
             <Button type="submit" className="w-full" loading={loading} size="lg">
-              {mode === 'signin' ? 'Sign In' : 'Create Account'}
+              Continue
             </Button>
-            <p className="text-center text-xs text-gray-400 leading-relaxed">
-              {mode === 'signin' ? "We'll email you a sign-in code — no password needed." : "Enter your email and we'll send a verification code."}
+            <p className="text-center text-xs text-gray-400">
+              New here?{' '}
+              <button
+                type="button"
+                onClick={() => navigate(email ? `/signup?email=${encodeURIComponent(email.trim().toLowerCase())}` : '/signup')}
+                className="text-primary-500 hover:underline font-semibold"
+              >
+                Create account
+              </button>
             </p>
           </form>
         </>
@@ -132,8 +143,11 @@ export const Login = () => {
       {step === 'otp' && (
         <form onSubmit={handleVerifyOtp} className="space-y-6">
           <div>
-            <button type="button" onClick={() => { setStep('email'); setError(''); setOtp(''); }}
-              className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 mb-5 transition-colors">
+            <button
+              type="button"
+              onClick={() => { setStep('email'); setError(''); setOtp(''); }}
+              className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 mb-5 transition-colors"
+            >
               <ArrowLeft size={15} /> Change email
             </button>
             <div className="flex items-center gap-3 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-3xl border border-primary-100 dark:border-primary-800/50 mb-5">
@@ -149,7 +163,9 @@ export const Login = () => {
             <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
           </div>
           {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl text-center">{error}</p>}
-          <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>Verify Code</Button>
+          <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>
+            Verify Code
+          </Button>
           <p className="text-center text-sm text-gray-400">
             Didn't receive it?{' '}
             {countdown > 0
@@ -190,6 +206,7 @@ export const Login = () => {
             <Sparkles size={36} />
           </div>
           <h1 className="text-4xl font-bold mb-3">AI Timetable</h1>
+          <p className="text-white/70 text-lg">Your smart schedule, built for you.</p>
         </div>
       </div>
 

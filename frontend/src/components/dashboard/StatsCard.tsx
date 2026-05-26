@@ -11,27 +11,39 @@ interface StatsCardProps {
 
 export const StatsCard = ({ title, value, subtitle, icon, color, progress }: StatsCardProps) => {
   return (
-    <div className="bg-white dark:bg-[#221e15] rounded-3xl shadow-card border border-primary-50 dark:border-primary-900/20 p-4">
-      <div className="flex items-start justify-between mb-3">
-        <div
-          className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0"
-          style={{ backgroundColor: `${color}18`, color }}
-        >
-          {icon}
-        </div>
+    <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4 flex flex-col gap-3">
+      <div
+        className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0"
+        style={{ backgroundColor: `${color}18`, color }}
+      >
+        {icon}
       </div>
-      <p className="text-2xl font-bold text-gray-800 dark:text-white">{value}</p>
-      <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 mt-0.5 uppercase tracking-wide">{title}</p>
-      {subtitle && <p className="text-xs text-gray-400 mt-0.5">{subtitle}</p>}
+
+      <div>
+        <p className="text-[26px] font-bold text-gray-900 dark:text-white leading-none tracking-tight">
+          {value}
+        </p>
+        <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 mt-1 uppercase tracking-[0.06em]">
+          {title}
+        </p>
+        {subtitle && (
+          <p className="text-[12px] text-gray-400 dark:text-gray-500 mt-0.5 tracking-tight">
+            {subtitle}
+          </p>
+        )}
+      </div>
+
       {progress !== undefined && (
-        <div className="mt-3">
-          <div className="bg-gray-100 dark:bg-gray-700 rounded-full h-1.5">
+        <div>
+          <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${color}18` }}>
             <div
-              className="h-1.5 rounded-full transition-all duration-500"
+              className="h-full rounded-full transition-all duration-700 ease-out"
               style={{ width: `${Math.min(progress, 100)}%`, backgroundColor: color }}
             />
           </div>
-          <p className="text-xs text-gray-300 dark:text-gray-600 mt-1">{Math.min(Math.round(progress), 100)}%</p>
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-1 tracking-tight">
+            {Math.min(Math.round(progress), 100)}% of goal
+          </p>
         </div>
       )}
     </div>

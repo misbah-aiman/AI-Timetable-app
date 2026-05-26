@@ -23,10 +23,10 @@ const STAT_ITEMS = (
   screenLimitMins: number,
   stats: DashboardStats,
 ) => [
-  { label: 'Study', value: stats.todayStudyMinutes, goal: studyGoalMins, color: '#750608', icon: <BookOpen size={18} /> },
-  { label: 'Sleep', value: stats.todaySleepMinutes, goal: sleepGoalMins, color: '#960B0D', icon: <Moon size={18} /> },
-  { label: 'Scroll', value: stats.todayScreenMinutes, goal: screenLimitMins, color: '#e8a96a', icon: <Smartphone size={18} /> },
-  { label: 'Sessions', value: stats.sessionsToday, goal: null as number | null, color: '#9db09a', icon: <Zap size={18} /> },
+  { label: 'Study',    value: stats.todayStudyMinutes,  goal: studyGoalMins,   color: '#750608', icon: <BookOpen   size={17} /> },
+  { label: 'Sleep',    value: stats.todaySleepMinutes,  goal: sleepGoalMins,   color: '#5856D6', icon: <Moon       size={17} /> },
+  { label: 'Scroll',   value: stats.todayScreenMinutes, goal: screenLimitMins, color: '#FF453A', icon: <Smartphone size={17} /> },
+  { label: 'Sessions', value: stats.sessionsToday,      goal: null as number | null, color: '#30D158', icon: <Zap size={17} /> },
 ];
 
 export const Analytics = () => {

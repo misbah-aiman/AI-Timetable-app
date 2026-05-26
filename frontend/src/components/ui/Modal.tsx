@@ -22,23 +22,46 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-center sm:p-4">
+      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-[2px] animate-fade-in"
         onClick={onClose}
       />
-      <div className="relative bg-white dark:bg-[#221e15] rounded-t-[2rem] sm:rounded-3xl shadow-soft-lg w-full max-w-[430px] border border-primary-50 dark:border-primary-900/20 animate-in">
-        <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-surface-100 dark:border-primary-900/20">
-          <h2 className="text-base font-bold text-gray-800 dark:text-white">{title}</h2>
+
+      {/* Sheet */}
+      <div className="
+        relative w-full sm:max-w-[440px]
+        bg-white dark:bg-[#1a0304]
+        rounded-t-[2rem] sm:rounded-[1.75rem]
+        border border-black/[0.06] dark:border-white/[0.08]
+        shadow-sheet
+        animate-sheet-up sm:animate-scale-in
+        max-h-[92dvh] flex flex-col
+      ">
+        {/* Handle bar — mobile only */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1 shrink-0">
+          <div className="w-9 h-[4px] rounded-full bg-black/10 dark:bg-white/15" />
+        </div>
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-5 pt-4 sm:pt-5 pb-3.5 border-b border-black/[0.06] dark:border-white/[0.06] shrink-0">
+          <h2 className="text-[17px] font-semibold text-gray-900 dark:text-white tracking-tight">
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-2xl flex items-center justify-center bg-surface-100 dark:bg-primary-900/20 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-surface-200 dark:hover:bg-primary-900/30 transition-colors"
+            className="w-7 h-7 rounded-full flex items-center justify-center bg-black/[0.06] dark:bg-white/[0.09] text-gray-500 dark:text-gray-400 hover:bg-black/[0.10] dark:hover:bg-white/[0.14] transition-colors active:scale-90"
             aria-label="Close"
           >
-            <X size={16} />
+            <X size={14} strokeWidth={2.5} />
           </button>
         </div>
-        <div className="p-6">{children}</div>
+
+        {/* Body */}
+        <div className="px-5 py-5 overflow-y-auto scroll-ios">
+          {children}
+        </div>
       </div>
     </div>
   );

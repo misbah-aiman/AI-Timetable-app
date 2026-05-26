@@ -127,8 +127,6 @@ const RoutineEditor = ({
     setSaving(false); setRegenerating(false);
   };
 
-  const inputBase = "w-full px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white focus:outline-none focus:border-primary-400/60 focus:shadow-[0_0_0_3px_rgba(192,22,25,0.10)] transition-all";
-
   return (
     <div className="overflow-y-auto max-h-[70vh] scrollbar-hide">
       <div className="space-y-6 pb-2">

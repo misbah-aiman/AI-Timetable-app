@@ -129,7 +129,7 @@ const TaskGroup = ({
       </button>
 
       {open && (
-        <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden divide-y divide-black/[0.05] dark:divide-white/[0.05]">
+        <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden divide-y divide-black/[0.05] dark:divide-white/[0.05]">
           {tasks.map(t => (
             <TaskCard key={t._id} task={t} onToggle={() => onToggle(t._id)} onDelete={() => onDelete(t._id)} />
           ))}
@@ -297,7 +297,7 @@ export const TasksPage = () => {
 
       {/* AI Schedule banner */}
       {pending.length > 0 && (
-        <div className="mb-5 bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4">
+        <div className="mb-5 bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-[15px] font-semibold text-gray-900 dark:text-white tracking-tight">

@@ -334,7 +334,7 @@ export const TasksPage = () => {
       {!loading && (
         <div className="space-y-5">
           <TaskGroup label="Overdue"    tasks={overdue}   onToggle={handleToggle} onDelete={handleDelete} accentColor="text-red-500" />
-          <TaskGroup label="Today"      tasks={today}     onToggle={handleToggle} onDelete={handleDelete} accentColor="text-primary-700" />
+          <TaskGroup label="Today"      tasks={today}     onToggle={handleToggle} onDelete={handleDelete} accentColor="text-primary-500" />
           <TaskGroup label="This Week"  tasks={thisWeek}  onToggle={handleToggle} onDelete={handleDelete} />
           <TaskGroup label="Later"      tasks={later}     onToggle={handleToggle} onDelete={handleDelete} />
           <TaskGroup label="Completed"  tasks={done}      onToggle={handleToggle} onDelete={handleDelete} collapsible />

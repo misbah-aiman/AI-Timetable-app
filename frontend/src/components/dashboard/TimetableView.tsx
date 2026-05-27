@@ -28,7 +28,7 @@ const getTodayName = () =>
   ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
 
 const SlotRow = ({ slot, status }: { slot: TimeSlot; status: 'past'|'active'|'next'|'future' }) => {
-  const color = categoryColors[slot.category] || '#636366';
+  const color = categoryColors[slot.category] || '#64748B';
   const isPast   = status === 'past';
   const isActive = status === 'active';
 

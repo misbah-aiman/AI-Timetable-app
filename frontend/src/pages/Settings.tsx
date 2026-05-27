@@ -145,7 +145,7 @@ const RoutineEditor = ({
             </div>
             <input type="range" min={4} max={12} value={r.sleepHours}
               onChange={e => set('sleepHours', Number(e.target.value))}
-              className="w-full accent-primary-700" style={{ accentColor: '#004D4D' }}
+              className="w-full accent-primary-700" style={{ accentColor: '#008080' }}
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ const RoutineEditor = ({
             </div>
             <input type="range" min={1} max={12} value={r.studyGoalHours}
               onChange={e => set('studyGoalHours', Number(e.target.value))}
-              style={{ accentColor: '#004D4D' }} className="w-full"
+              style={{ accentColor: '#008080' }} className="w-full"
             />
           </div>
           <div>

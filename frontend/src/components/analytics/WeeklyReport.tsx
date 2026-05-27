@@ -42,9 +42,9 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
               <YAxis tick={{ fontSize: 12 }} unit="h" />
               <Tooltip formatter={(v) => `${v}h`} />
               <Legend />
-              <Bar dataKey="Study" fill="#004D4D" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Sleep" fill="#006666" radius={[6, 6, 0, 0]} />
-              <Bar dataKey="Scroll" fill="#e8a96a" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Study" fill="#008080" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Sleep" fill="#6366F1" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="Scroll" fill="#F59E0B" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </Card>

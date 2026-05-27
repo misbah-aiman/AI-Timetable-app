@@ -11,7 +11,7 @@ interface StatsCardProps {
 
 export const StatsCard = ({ title, value, subtitle, icon, color, progress }: StatsCardProps) => {
   return (
-    <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4 flex flex-col gap-3">
+    <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card p-4 flex flex-col gap-3">
       <div
         className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0"
         style={{ backgroundColor: `${color}18`, color }}

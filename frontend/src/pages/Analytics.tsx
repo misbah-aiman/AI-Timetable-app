@@ -22,7 +22,7 @@ const STAT_ITEMS = (
   screenLimitMins: number,
   stats: DashboardStats,
 ) => [
-  { label: 'Study',    value: stats.todayStudyMinutes,  goal: studyGoalMins,   color: '#750608', icon: <BookOpen   size={17} /> },
+  { label: 'Study',    value: stats.todayStudyMinutes,  goal: studyGoalMins,   color: '#004D4D', icon: <BookOpen   size={17} /> },
   { label: 'Sleep',    value: stats.todaySleepMinutes,  goal: sleepGoalMins,   color: '#5856D6', icon: <Moon       size={17} /> },
   { label: 'Scroll',   value: stats.todayScreenMinutes, goal: screenLimitMins, color: '#FF453A', icon: <Smartphone size={17} /> },
   { label: 'Sessions', value: stats.sessionsToday,      goal: null as number | null, color: '#30D158', icon: <Zap size={17} /> },

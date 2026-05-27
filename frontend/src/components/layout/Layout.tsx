@@ -3,7 +3,7 @@ import { Navbar } from './Navbar';
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="min-h-screen bg-surface-100 dark:bg-[#0f0203] transition-colors duration-200">
+    <div className="min-h-screen bg-surface-100 dark:bg-[#010f0f] transition-colors duration-200">
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-6 pb-28 md:pb-10">
         {children}

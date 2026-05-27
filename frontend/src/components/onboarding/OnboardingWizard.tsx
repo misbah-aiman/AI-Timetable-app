@@ -723,7 +723,7 @@ export const OnboardingWizard = () => {
                   {scanState === 'scanning' && (
                     <div className="flex items-center justify-center gap-3 py-3.5 bg-primary-50 dark:bg-primary-900/20 rounded-2xl">
                       <div className="w-4 h-4 border-2 border-primary-300 border-t-primary-500 rounded-full animate-spin shrink-0" />
-                      <span className="text-sm text-primary-700 dark:text-primary-300 font-medium">AI is reading your schedule...</span>
+                      <span className="text-sm text-primary-600 dark:text-primary-300 font-medium">AI is reading your schedule...</span>
                     </div>
                   )}
                   {scanState === 'done' && (

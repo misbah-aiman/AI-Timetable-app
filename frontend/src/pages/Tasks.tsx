@@ -51,7 +51,7 @@ const TaskCard = ({ task, onToggle, onDelete }: { task: Task; onToggle: () => vo
         onClick={onToggle}
         className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center shrink-0 transition-all duration-200 active:scale-90 ${
           isDone
-            ? 'bg-primary-700 border-primary-700'
+            ? 'bg-primary-500 border-primary-500'
             : 'border-black/[0.18] dark:border-white/[0.20] hover:border-primary-500'
         }`}
       >

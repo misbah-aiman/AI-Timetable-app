@@ -145,7 +145,7 @@ const RoutineEditor = ({
             </div>
             <input type="range" min={4} max={12} value={r.sleepHours}
               onChange={e => set('sleepHours', Number(e.target.value))}
-              className="w-full accent-primary-700" style={{ accentColor: '#008080' }}
+              className="w-full accent-primary-500" style={{ accentColor: '#008080' }}
             />
           </div>
         </div>

@@ -330,7 +330,7 @@ const RoutineEditor = ({
               className="flex-1 px-3 py-2.5 text-[14px] rounded-xl border border-black/[0.08] dark:border-white/[0.09] bg-black/[0.04] dark:bg-white/[0.06] text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-primary-400/60 transition-all"
             />
             <button onClick={addHobby} disabled={!customHobby.trim() || r.hobbies.includes(customHobby.trim())}
-              className="px-4 py-2.5 text-[13px] font-semibold rounded-xl bg-primary-700 text-white hover:bg-primary-800 active:scale-95 transition-all disabled:opacity-40"
+              className="px-4 py-2.5 text-[13px] font-semibold rounded-xl bg-primary-500 text-white hover:bg-primary-600 active:scale-95 transition-all disabled:opacity-40"
             >
               Add
             </button>

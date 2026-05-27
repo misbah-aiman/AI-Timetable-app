@@ -12,7 +12,7 @@ const ACTIVITIES: Record<ActivityType, {
 }> = {
   study: {
     label: 'Study', sublabel: 'Focus session',
-    icon: <BookOpen size={20} />, color: '#750608', track: '#FFD6D7', goalMins: 4 * 60,
+    icon: <BookOpen size={20} />, color: '#004D4D', track: '#B3E0E0', goalMins: 4 * 60,
   },
   sleep: {
     label: 'Sleep', sublabel: 'Rest & recovery',

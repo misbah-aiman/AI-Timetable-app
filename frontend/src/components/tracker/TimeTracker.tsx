@@ -8,19 +8,19 @@ type ActivityType = 'study' | 'sleep' | 'screen';
 
 const ACTIVITIES: Record<ActivityType, {
   label: string; sublabel: string; icon: React.ReactNode;
-  color: string; track: string; goalMins: number;
+  color: string; track: string; trackDark: string; goalMins: number;
 }> = {
   study: {
     label: 'Study', sublabel: 'Focus session',
-    icon: <BookOpen size={20} />, color: '#004D4D', track: '#B3E0E0', goalMins: 4 * 60,
+    icon: <BookOpen size={20} />, color: '#008080', track: '#B3E0E0', trackDark: '#003333', goalMins: 4 * 60,
   },
   sleep: {
     label: 'Sleep', sublabel: 'Rest & recovery',
-    icon: <Moon size={20} />, color: '#5856D6', track: '#E8E8FF', goalMins: 8 * 60,
+    icon: <Moon size={20} />, color: '#6366F1', track: '#E0E7FF', trackDark: '#1e1b4b', goalMins: 8 * 60,
   },
   screen: {
     label: 'Scroll', sublabel: 'Screen time',
-    icon: <Smartphone size={20} />, color: '#FF453A', track: '#FFE5E5', goalMins: 2 * 60,
+    icon: <Smartphone size={20} />, color: '#F59E0B', track: '#FEF3C7', trackDark: '#451a03', goalMins: 2 * 60,
   },
 };
 

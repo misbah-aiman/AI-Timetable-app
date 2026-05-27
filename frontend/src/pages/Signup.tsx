@@ -177,7 +177,7 @@ export const Signup = () => {
   );
 
   return (
-    <div className="min-h-screen bg-surface-50 dark:bg-[#1a0405] flex">
+    <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex">
 
       {/* Desktop: left gradient panel */}
       <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-gradient-to-br from-primary-500 to-primary-700 flex-col items-center justify-center p-12 relative overflow-hidden">
@@ -212,7 +212,7 @@ export const Signup = () => {
         </div>
 
         {/* Form area */}
-        <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 -mt-5 md:mt-0 rounded-t-[2rem] md:rounded-none bg-surface-50 dark:bg-[#1a0405]">
+        <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 -mt-5 md:mt-0 rounded-t-[2rem] md:rounded-none bg-surface-50 dark:bg-[#011515]">
           <div className="max-w-sm mx-auto">
             {formContent}
           </div>

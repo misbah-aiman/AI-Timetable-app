@@ -156,7 +156,7 @@ export const TimeTracker = () => {
       {/* Ring timer */}
       <CircleTimer
         elapsed={elapsed} goalMins={cfg.goalMins}
-        color={cfg.color} track={cfg.track} isRunning={isRunning}
+        color={cfg.color} track={cfg.track} trackDark={cfg.trackDark} isRunning={isRunning}
         label={cfg.label} sublabel={cfg.sublabel} icon={cfg.icon}
       />
 

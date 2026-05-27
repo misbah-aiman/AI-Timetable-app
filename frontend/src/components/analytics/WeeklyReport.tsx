@@ -37,7 +37,7 @@ export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
           <h3 className="font-semibold text-gray-800 dark:text-white mb-4">Daily Hours Breakdown</h3>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={barData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#B3E0E0" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,128,128,0.15)" />
               <XAxis dataKey="day" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} unit="h" />
               <Tooltip formatter={(v) => `${v}h`} />

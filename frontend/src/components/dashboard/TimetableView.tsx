@@ -7,7 +7,7 @@ interface TimetableViewProps {
 }
 
 const categoryColors: Record<string, string> = {
-  study:    '#750608',
+  study:    '#004D4D',
   sleep:    '#5856D6',
   hobby:    '#30D158',
   class:    '#0A84FF',

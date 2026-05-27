@@ -189,7 +189,7 @@ const AddTaskForm = ({ onAdd, onClose }: { onAdd: (task: Task) => void; onClose:
             <button key={h} type="button" onClick={() => set('estimatedHours', h)}
               className={`flex-1 py-2.5 rounded-xl text-[13px] font-semibold transition-all active:scale-95 ${
                 form.estimatedHours === h
-                  ? 'bg-primary-700 text-white shadow-soft'
+                  ? 'bg-primary-500 text-white shadow-soft'
                   : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-600 dark:text-gray-300'
               }`}
             >

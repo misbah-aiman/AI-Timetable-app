@@ -522,7 +522,7 @@ export const Settings = () => {
       <div className="max-w-xl space-y-8">
 
         {/* Profile hero card */}
-        <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+        <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
           <div className="flex items-center gap-4 p-5">
             <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-800 flex items-center justify-center text-white text-[20px] font-bold shrink-0 shadow-soft">
               {user?.name?.charAt(0).toUpperCase()}
@@ -556,7 +556,7 @@ export const Settings = () => {
         {/* Preferences */}
         <div>
           <SectionLabel>Preferences</SectionLabel>
-          <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
             <SettingsRow
               icon={<BookOpen size={16} className="text-white" />}
               iconBg="bg-primary-700"
@@ -600,7 +600,7 @@ export const Settings = () => {
         {/* Danger */}
         <div>
           <SectionLabel>Danger Zone</SectionLabel>
-          <div className="bg-white dark:bg-[#200306] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
             <button onClick={() => setDeleteModal(true)}
               className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-red-50/50 dark:hover:bg-red-900/10 transition-colors active:bg-red-50 text-left"
             >

@@ -141,7 +141,7 @@ const RoutineEditor = ({
           <div>
             <div className="flex justify-between mb-2">
               <span className="text-[14px] text-gray-700 dark:text-gray-300">Sleep goal</span>
-              <span className="text-[14px] font-bold text-primary-700">{r.sleepHours}h</span>
+              <span className="text-[14px] font-bold text-primary-500">{r.sleepHours}h</span>
             </div>
             <input type="range" min={4} max={12} value={r.sleepHours}
               onChange={e => set('sleepHours', Number(e.target.value))}

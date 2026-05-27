@@ -32,7 +32,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       {/* Sheet */}
       <div className="
         relative w-full sm:max-w-[440px]
-        bg-white dark:bg-[#1a0304]
+        bg-white dark:bg-[#011515]
         rounded-t-[2rem] sm:rounded-[1.75rem]
         border border-black/[0.06] dark:border-white/[0.08]
         shadow-sheet

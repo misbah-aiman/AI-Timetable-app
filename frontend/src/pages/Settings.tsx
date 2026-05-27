@@ -260,7 +260,7 @@ const RoutineEditor = ({
                     <button key={d} onClick={() => { toggleWorkDay(d); setWorkError(''); }}
                       className={`py-2 rounded-xl text-[12px] font-semibold transition-all active:scale-95 ${
                         r.workDays.includes(d)
-                          ? 'bg-primary-700 text-white shadow-soft'
+                          ? 'bg-primary-500 text-white shadow-soft'
                           : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-600 dark:text-gray-300'
                       }`}
                     >

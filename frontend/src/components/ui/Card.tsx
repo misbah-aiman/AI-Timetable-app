@@ -20,8 +20,8 @@ export const Card = ({ children, className = '', padding = 'md', glass = false }
       className={`
         rounded-3xl border
         ${glass
-          ? 'bg-white/75 dark:bg-[#200306]/75 backdrop-blur-2xl border-black/[0.06] dark:border-white/[0.07]'
-          : 'bg-white dark:bg-[#200306] border-black/[0.05] dark:border-white/[0.06]'}
+          ? 'bg-white/75 dark:bg-[#021a1a]/75 backdrop-blur-2xl border-black/[0.06] dark:border-white/[0.07]'
+          : 'bg-white dark:bg-[#021a1a] border-black/[0.05] dark:border-white/[0.06]'}
         shadow-card
         ${paddingClasses[padding]} ${className}
       `}

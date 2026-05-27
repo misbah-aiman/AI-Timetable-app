@@ -94,7 +94,7 @@ const BottomNav = () => {
                 to={to}
                 className={`flex-1 flex flex-col items-center justify-center gap-[3px] transition-all duration-150 active:scale-90 active:opacity-70 ${
                   active
-                    ? 'text-primary-700 dark:text-primary-400'
+                    ? 'text-primary-600 dark:text-primary-400'
                     : 'text-gray-400 dark:text-gray-500'
                 }`}
               >

@@ -7,15 +7,15 @@ interface TimetableViewProps {
 }
 
 const categoryColors: Record<string, string> = {
-  study:    '#004D4D',
-  sleep:    '#5856D6',
-  hobby:    '#30D158',
-  class:    '#0A84FF',
-  break:    '#636366',
-  exercise: '#FF9F0A',
-  meal:     '#FF6B35',
-  screen:   '#FF453A',
-  other:    '#636366',
+  study:    '#008080',
+  sleep:    '#6366F1',
+  hobby:    '#3EB489',
+  class:    '#0EA5E9',
+  break:    '#64748B',
+  exercise: '#F97316',
+  meal:     '#FBBF24',
+  screen:   '#F59E0B',
+  other:    '#64748B',
 };
 
 const toMins = (t: string) => {

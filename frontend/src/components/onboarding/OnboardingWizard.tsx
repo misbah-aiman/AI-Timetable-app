@@ -90,7 +90,7 @@ const OptionCard = ({ selected, onClick, icon, label, description }: OptionCardP
     }`}
   >
     <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-      selected ? 'bg-primary-100 dark:bg-primary-900/50 text-primary-500' : 'bg-surface-100 dark:bg-[#1a0405] text-gray-400'
+      selected ? 'bg-primary-100 dark:bg-primary-900/50 text-primary-500' : 'bg-surface-100 dark:bg-[#011515] text-gray-400'
     }`}>
       {icon}
     </div>
@@ -311,7 +311,7 @@ export const OnboardingWizard = () => {
   // ── Render ───────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-surface-50 dark:bg-[#1a0405] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex items-center justify-center p-4">
       <div className="w-full max-w-lg">
 
         {/* Header */}
@@ -434,7 +434,7 @@ export const OnboardingWizard = () => {
           {step === 'study' && (
             <div className="space-y-5">
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">Daily Study Goal</h2>
-              <div className="flex items-center justify-center py-6 bg-surface-50 dark:bg-[#1a0405] rounded-2xl">
+              <div className="flex items-center justify-center py-6 bg-surface-50 dark:bg-[#011515] rounded-2xl">
                 <div className="text-center">
                   <p className="text-7xl font-bold text-primary-500 leading-none tabular-nums">{data.studyGoalHours}</p>
                   <p className="text-sm text-gray-400 mt-2">hours per day</p>
@@ -662,7 +662,7 @@ export const OnboardingWizard = () => {
           {step === 'screen' && (
             <div className="space-y-5">
               <h2 className="text-lg font-bold text-gray-900 dark:text-white">Screen Time Limit</h2>
-              <div className="flex items-center justify-center py-6 bg-surface-50 dark:bg-[#1a0405] rounded-2xl">
+              <div className="flex items-center justify-center py-6 bg-surface-50 dark:bg-[#011515] rounded-2xl">
                 <div className="text-center">
                   <p className="text-7xl font-bold text-orange-500 leading-none tabular-nums">{data.screenTimeLimitHours}</p>
                   <p className="text-sm text-gray-400 mt-2">
@@ -796,7 +796,7 @@ export const OnboardingWizard = () => {
                     {data.classes.length} class{data.classes.length !== 1 ? 'es' : ''} added
                   </p>
                   {data.classes.map((c, i) => (
-                    <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-surface-100 dark:bg-[#1a0405] rounded-2xl">
+                    <div key={i} className="flex items-center gap-2 px-3 py-2.5 bg-surface-100 dark:bg-[#011515] rounded-2xl">
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-gray-800 dark:text-white truncate">{c.name}</p>
                         <p className="text-xs text-gray-400">{c.day} · {c.startTime}–{c.endTime}</p>

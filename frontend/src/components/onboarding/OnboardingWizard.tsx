@@ -95,7 +95,7 @@ const OptionCard = ({ selected, onClick, icon, label, description }: OptionCardP
       {icon}
     </div>
     <div className="min-w-0">
-      <p className={`text-sm font-semibold ${selected ? 'text-primary-700 dark:text-primary-300' : 'text-gray-800 dark:text-white'}`}>
+      <p className={`text-sm font-semibold ${selected ? 'text-primary-600 dark:text-primary-300' : 'text-gray-800 dark:text-white'}`}>
         {label}
       </p>
       <p className="text-xs text-gray-400 mt-0.5">{description}</p>

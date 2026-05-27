@@ -50,9 +50,13 @@ const CircleTimer = ({
   return (
     <div className="relative flex items-center justify-center select-none">
       <svg width={size} height={size} className="-rotate-90">
-        {/* Track */}
+        {/* Track — light uses pastel, dark uses deep tint via CSS filter */}
         <circle cx={cx} cy={cy} r={r} fill="none" stroke={track}
-          strokeWidth={12} className="dark:opacity-25" />
+          strokeWidth={12} style={{ opacity: 1 }}
+          className="dark:hidden" />
+        <circle cx={cx} cy={cy} r={r} fill="none" stroke={trackDark}
+          strokeWidth={12}
+          className="hidden dark:block" />
         {/* Progress */}
         <circle cx={cx} cy={cy} r={r} fill="none" stroke={color}
           strokeWidth={12} strokeLinecap="round"

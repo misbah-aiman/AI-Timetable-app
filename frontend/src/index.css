@@ -13,7 +13,7 @@
   }
 
   body {
-    @apply font-sans antialiased bg-surface-100 dark:bg-[#0f0203];
+    @apply font-sans antialiased bg-surface-100 dark:bg-[#010f0f];
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1, "liga" 1;

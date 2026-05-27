@@ -61,11 +61,11 @@
 
   /* Glass surface */
   .glass {
-    @apply bg-white/75 dark:bg-[#200306]/75 backdrop-blur-2xl;
+    @apply bg-white/75 dark:bg-[#021a1a]/75 backdrop-blur-2xl;
   }
 
   .glass-heavy {
-    @apply bg-white/90 dark:bg-[#200306]/90 backdrop-blur-3xl;
+    @apply bg-white/90 dark:bg-[#021a1a]/90 backdrop-blur-3xl;
   }
 
   /* iOS-style range input */

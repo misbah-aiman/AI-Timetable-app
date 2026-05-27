@@ -61,7 +61,7 @@ const SlotRow = ({ slot, status }: { slot: TimeSlot; status: 'past'|'active'|'ne
       {/* Badges */}
       <div className="flex items-center gap-1.5 shrink-0">
         {isActive && (
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300">
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300">
             Now
           </span>
         )}

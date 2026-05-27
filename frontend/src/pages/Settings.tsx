@@ -398,7 +398,7 @@ const RoutineEditor = ({
       </div>
 
       {/* Footer actions */}
-      <div className="sticky bottom-0 pt-4 pb-1 bg-white dark:bg-[#1a0304] border-t border-black/[0.06] dark:border-white/[0.06] mt-4">
+      <div className="sticky bottom-0 pt-4 pb-1 bg-white dark:bg-[#011515] border-t border-black/[0.06] dark:border-white/[0.06] mt-4">
         <div className="flex gap-2.5">
           <Button onClick={() => handleSave(false)} loading={saving} className="flex-1" size="lg">
             <Save size={14} /> Save

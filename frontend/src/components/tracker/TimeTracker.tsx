@@ -145,7 +145,7 @@ export const TimeTracker = () => {
     <div className="flex items-center justify-center py-24">
       <div className="relative w-10 h-10">
         <div className="w-10 h-10 rounded-full border-[3px] border-black/[0.06] dark:border-white/[0.08]" />
-        <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary-700 animate-spin" />
+        <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary-500 dark:border-t-primary-400 animate-spin" />
       </div>
     </div>
   );

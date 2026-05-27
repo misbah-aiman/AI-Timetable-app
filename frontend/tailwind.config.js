@@ -36,8 +36,8 @@ module.exports = {
         '5xl': '2rem',
       },
       boxShadow: {
-        soft:     '0 2px 16px 0 rgba(117,6,8,0.10)',
-        'soft-lg':'0 8px 40px 0 rgba(117,6,8,0.15)',
+        soft:     '0 2px 16px 0 rgba(0,77,77,0.10)',
+        'soft-lg':'0 8px 40px 0 rgba(0,77,77,0.15)',
         card:     '0 1px 3px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06)',
         'card-lg':'0 2px 8px rgba(0,0,0,0.06), 0 12px 40px rgba(0,0,0,0.10)',
         sheet:    '0 -4px 40px rgba(0,0,0,0.14)',

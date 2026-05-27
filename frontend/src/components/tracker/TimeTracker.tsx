@@ -25,9 +25,9 @@ const ACTIVITIES: Record<ActivityType, {
 };
 
 const CircleTimer = ({
-  elapsed, goalMins, color, track, isRunning, label, sublabel, icon,
+  elapsed, goalMins, color, track, trackDark, isRunning, label, sublabel, icon,
 }: {
-  elapsed: number; goalMins: number; color: string; track: string;
+  elapsed: number; goalMins: number; color: string; track: string; trackDark: string;
   isRunning: boolean; label: string; sublabel: string; icon: React.ReactNode;
 }) => {
   const size = 270;

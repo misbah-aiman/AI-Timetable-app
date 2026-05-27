@@ -42,7 +42,7 @@ const OptionPill = ({ selected, onClick, label }: { selected: boolean; onClick: 
     onClick={onClick}
     className={`flex-1 py-2.5 rounded-xl text-[13px] font-semibold transition-all duration-150 active:scale-95 ${
       selected
-        ? 'bg-primary-700 text-white shadow-soft'
+        ? 'bg-primary-500 text-white shadow-soft'
         : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-600 dark:text-gray-300 hover:bg-black/[0.08] dark:hover:bg-white/[0.10]'
     }`}
   >

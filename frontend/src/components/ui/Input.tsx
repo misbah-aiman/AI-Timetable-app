@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             border border-transparent
             focus:outline-none focus:bg-white dark:focus:bg-white/[0.10]
             focus:border-primary-400/60 dark:focus:border-primary-500/50
-            focus:shadow-[0_0_0_3px_rgba(192,22,25,0.12)]
+            focus:shadow-[0_0_0_3px_rgba(0,128,128,0.12)]
             transition-all duration-200
             ${error ? 'border-red-400/60 bg-red-50/50 dark:bg-red-900/10 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.12)]' : ''}
             ${className}

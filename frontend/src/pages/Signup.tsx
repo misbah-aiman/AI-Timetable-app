@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Sparkles, Mail, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Sparkles, ArrowLeft, CheckCircle, Check } from 'lucide-react';
 import { authApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
@@ -10,6 +10,12 @@ import { OtpInput } from '../components/auth/OtpInput';
 type Step = 'email' | 'otp' | 'success';
 
 const RESEND_COOLDOWN = 60;
+
+const FEATURES = [
+  'Personalised AI schedule',
+  'Track study, sleep & screen time',
+  'Smart task scheduling',
+];
 
 export const Signup = () => {
   const [searchParams] = useSearchParams();
@@ -91,37 +97,31 @@ export const Signup = () => {
     <div className="w-full">
       {/* Step 1: Email */}
       {step === 'email' && (
-        <>
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Create account</h2>
-            <p className="text-sm text-gray-400 mt-1">Enter your email to get started</p>
-          </div>
-          <form onSubmit={handleSendOtp} className="space-y-4">
-            <Input
-              label="Email address"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={e => { setEmail(e.target.value); setError(''); }}
-              autoFocus
-              required
-            />
-            {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
-            <Button type="submit" className="w-full" loading={loading} size="lg">
-              Send Verification Code
-            </Button>
-            <p className="text-center text-xs text-gray-400">
-              Already have an account?{' '}
-              <button
-                type="button"
-                onClick={() => navigate('/login')}
-                className="text-primary-500 hover:underline font-semibold"
-              >
-                Sign in
-              </button>
-            </p>
-          </form>
-        </>
+        <form onSubmit={handleSendOtp} className="space-y-4">
+          <Input
+            label="Email address"
+            type="email"
+            placeholder="you@example.com"
+            value={email}
+            onChange={e => { setEmail(e.target.value); setError(''); }}
+            autoFocus
+            required
+          />
+          {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
+          <Button type="submit" className="w-full" loading={loading} size="lg">
+            Send Verification Code
+          </Button>
+          <p className="text-center text-xs text-gray-400">
+            Already have an account?{' '}
+            <button
+              type="button"
+              onClick={() => navigate('/login')}
+              className="text-primary-500 hover:underline font-semibold"
+            >
+              Sign in
+            </button>
+          </p>
+        </form>
       )}
 
       {/* Step 2: OTP */}
@@ -135,16 +135,6 @@ export const Signup = () => {
             >
               <ArrowLeft size={15} /> Change email
             </button>
-            <div className="flex items-center gap-3 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-3xl border border-primary-100 dark:border-primary-800/50 mb-5">
-              <div className="w-9 h-9 rounded-2xl bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center shrink-0">
-                <Mail size={16} className="text-primary-500" />
-              </div>
-              <div>
-                <p className="text-xs text-gray-400">Code sent to</p>
-                <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">{email}</p>
-              </div>
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Enter the 6-digit code:</p>
             <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
           </div>
           {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl text-center">{error}</p>}
@@ -179,41 +169,66 @@ export const Signup = () => {
   return (
     <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex">
 
-      {/* Desktop: left gradient panel */}
-      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-gradient-to-br from-primary-500 to-primary-700 flex-col items-center justify-center p-12 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white" />
-          <div className="absolute -bottom-20 -left-16 w-72 h-72 rounded-full bg-white" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-white opacity-5" />
-        </div>
-        <div className="relative text-center text-white">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur rounded-3xl mb-6 shadow-soft-lg">
-            <Sparkles size={36} />
+      {/* Desktop: left panel */}
+      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-primary-700 flex-col justify-center p-12 relative overflow-hidden">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
+            backgroundSize: '24px 24px',
+          }}
+        />
+        <div className="relative text-white">
+          <div className="flex items-center gap-3 mb-10">
+            <div className="w-10 h-10 bg-white/15 rounded-2xl flex items-center justify-center border border-white/20">
+              <Sparkles size={18} />
+            </div>
+            <span className="font-bold text-[17px] tracking-tight">AI Timetable</span>
           </div>
-          <h1 className="text-4xl font-bold mb-3">AI Timetable</h1>
-          <p className="text-white/70 text-lg">Your smart schedule, built for you.</p>
+          <h2 className="text-[38px] font-bold leading-[1.1] tracking-tight mb-4">
+            Your day,<br />on autopilot.
+          </h2>
+          <p className="text-primary-200 text-[15px] leading-relaxed mb-10 max-w-[260px]">
+            AI builds your daily schedule around your goals, classes, sleep, and habits.
+          </p>
+          <div className="space-y-3">
+            {FEATURES.map(f => (
+              <div key={f} className="flex items-center gap-2.5 text-[14px] text-primary-100">
+                <div className="w-[18px] h-[18px] rounded-full bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+                  <Check size={10} strokeWidth={3} />
+                </div>
+                {f}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Right / Mobile: form panel */}
       <div className="flex-1 flex flex-col md:justify-center">
-        {/* Mobile-only gradient header */}
-        <div className="md:hidden bg-gradient-to-b from-primary-500 to-primary-600 px-6 pt-14 pb-10 text-center relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white" />
-            <div className="absolute -bottom-10 -left-8 w-48 h-48 rounded-full bg-white" />
+        {/* Mobile-only header */}
+        <div className="md:hidden bg-primary-700 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5">
+          <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+            <Sparkles className="text-white" size={17} />
           </div>
-          <div className="relative">
-            <div className="inline-flex items-center justify-center w-14 h-14 bg-white/20 backdrop-blur rounded-3xl mb-3 shadow-soft">
-              <Sparkles className="text-white" size={26} />
-            </div>
-            <h1 className="text-2xl font-bold text-white">AI Timetable</h1>
-          </div>
+          <span className="text-[18px] font-bold text-white tracking-tight">AI Timetable</span>
         </div>
 
         {/* Form area */}
-        <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 -mt-5 md:mt-0 rounded-t-[2rem] md:rounded-none bg-surface-50 dark:bg-[#011515]">
+        <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 bg-surface-50 dark:bg-[#011515]">
           <div className="max-w-sm mx-auto">
+            {step !== 'success' && (
+              <div className="mb-7">
+                <h2 className="text-[26px] font-bold text-gray-900 dark:text-white tracking-tight">
+                  {step === 'otp' ? 'Verify your email' : 'Create account'}
+                </h2>
+                <p className="text-[14px] text-gray-400 mt-1 tracking-tight">
+                  {step === 'otp'
+                    ? `We sent a 6-digit code to ${email}`
+                    : 'Enter your email to get started'}
+                </p>
+              </div>
+            )}
             {formContent}
           </div>
         </div>

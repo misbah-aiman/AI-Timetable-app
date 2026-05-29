@@ -524,7 +524,7 @@ export const Settings = () => {
         {/* Profile hero card */}
         <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
           <div className="flex items-center gap-4 p-5">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary-500 to-primary-800 flex items-center justify-center text-white text-[20px] font-bold shrink-0 shadow-soft">
+            <div className="w-14 h-14 rounded-full bg-primary-600 flex items-center justify-center text-white text-[20px] font-bold shrink-0 shadow-soft">
               {user?.name?.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">

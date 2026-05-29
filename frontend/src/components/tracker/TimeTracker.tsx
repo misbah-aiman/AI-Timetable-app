@@ -197,7 +197,7 @@ export const TimeTracker = () => {
           transition-all duration-200 active:scale-[0.97] active:opacity-90
           shadow-soft disabled:opacity-50 focus:outline-none
         `}
-        style={{ backgroundColor: isRunning ? '#003333' : ACTIVITIES[selected].color }}
+        style={{ backgroundColor: isRunning ? '#ef4444' : ACTIVITIES[selected].color }}
       >
         {actionLoading ? '…' : isRunning ? 'Stop Session' : `Start ${ACTIVITIES[selected].label}`}
       </button>

@@ -285,15 +285,20 @@ export const TasksPage = () => {
 
   return (
     <Layout>
-      <PageHeader
-        eyebrow="Manage"
-        title="Tasks"
-        action={
-          <Button size="sm" onClick={() => setShowAdd(true)}>
-            <Plus size={14} /> Add
-          </Button>
-        }
-      />
+      {/* Inline header */}
+      <div className="mb-6 flex items-start justify-between">
+        <div>
+          <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+            Manage
+          </p>
+          <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+            Tasks
+          </h1>
+        </div>
+        <Button size="sm" onClick={() => setShowAdd(true)} className="mt-1.5 shrink-0">
+          <Plus size={14} /> Add
+        </Button>
+      </div>
 
       {/* AI Schedule banner */}
       {pending.length > 0 && (

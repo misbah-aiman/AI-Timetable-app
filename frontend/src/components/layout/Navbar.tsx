@@ -4,12 +4,14 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const tabs = [
-  { to: '/dashboard', label: 'Home',     icon: Home },
-  { to: '/tracker',   label: 'Tracker',  icon: Clock },
-  { to: '/tasks',     label: 'Tasks',    icon: ListTodo },
-  { to: '/analytics', label: 'Stats',    icon: BarChart2 },
-  { to: '/settings',  label: 'Settings', icon: Settings },
+  { to: '/dashboard', label: 'Home',    icon: Home },
+  { to: '/tracker',   label: 'Tracker', icon: Clock },
+  { to: '/tasks',     label: 'Tasks',   icon: ListTodo },
+  { to: '/analytics', label: 'Stats',   icon: BarChart2 },
+  { to: '/settings',  label: 'More',    icon: Settings },
 ];
+
+// ─── Desktop top navigation ───────────────────────────────────
 
 const TopNav = () => {
   const { pathname } = useLocation();
@@ -19,6 +21,7 @@ const TopNav = () => {
   return (
     <nav className="hidden md:block sticky top-0 z-40 bg-surface-100/80 dark:bg-[#010f0f]/80 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/[0.06]">
       <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-[52px]">
+        {/* Logo */}
         <Link to="/dashboard" className="flex items-center gap-2.5 shrink-0">
           <div className="w-7 h-7 bg-primary-700 rounded-[10px] flex items-center justify-center shadow-soft">
             <Sparkles size={14} className="text-white" />
@@ -28,6 +31,7 @@ const TopNav = () => {
           </span>
         </Link>
 
+        {/* Nav links */}
         <div className="flex items-center gap-0.5">
           {tabs.map(({ to, label, icon: Icon }) => {
             const active = pathname === to;
@@ -48,10 +52,12 @@ const TopNav = () => {
           })}
         </div>
 
+        {/* Right actions */}
         <div className="flex items-center gap-1.5">
           <button
             onClick={toggleTheme}
             className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-black/[0.05] dark:hover:bg-white/[0.07] transition-colors"
+            aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
@@ -67,6 +73,7 @@ const TopNav = () => {
               <button
                 onClick={logout}
                 className="w-7 h-7 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                aria-label="Sign out"
                 title="Sign out"
               >
                 <LogOut size={13} />
@@ -79,32 +86,48 @@ const TopNav = () => {
   );
 };
 
+// ─── Mobile bottom navigation ─────────────────────────────────
+
 const BottomNav = () => {
   const { pathname } = useLocation();
 
   return (
     <nav className="md:hidden fixed bottom-0 inset-x-0 z-50">
-      <div className="bg-surface-100/80 dark:bg-[#010f0f]/85 backdrop-blur-2xl border-t border-black/[0.08] dark:border-white/[0.06] safe-pb">
-        <div className="flex h-[50px]">
+      <div className="bg-surface-100/85 dark:bg-[#010f0f]/90 backdrop-blur-2xl border-t border-black/[0.08] dark:border-white/[0.06] safe-pb">
+        <div className="flex h-[58px]">
           {tabs.map(({ to, label, icon: Icon }) => {
             const active = pathname === to;
             return (
               <Link
                 key={to}
                 to={to}
-                className={`flex-1 flex flex-col items-center justify-center gap-[3px] transition-all duration-150 active:scale-90 active:opacity-70 ${
-                  active
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-400 dark:text-gray-500'
-                }`}
+                className="flex-1 flex flex-col items-center justify-center gap-1 transition-all duration-150 active:scale-90 active:opacity-70"
               >
-                <Icon
-                  size={21}
-                  strokeWidth={active ? 2.5 : 1.8}
-                />
-                <span className={`text-[10px] leading-none tracking-tight ${
-                  active ? 'font-semibold' : 'font-medium'
-                }`}>
+                {/* Icon container — filled pill when active */}
+                <div
+                  className={`flex items-center justify-center w-11 h-7 rounded-full transition-all duration-200 ${
+                    active
+                      ? 'bg-primary-100 dark:bg-primary-900/50'
+                      : ''
+                  }`}
+                >
+                  <Icon
+                    size={19}
+                    strokeWidth={active ? 2.5 : 1.8}
+                    className={
+                      active
+                        ? 'text-primary-600 dark:text-primary-400'
+                        : 'text-gray-400 dark:text-gray-500'
+                    }
+                  />
+                </div>
+                <span
+                  className={`text-[10px] leading-none tracking-tight ${
+                    active
+                      ? 'font-semibold text-primary-600 dark:text-primary-400'
+                      : 'font-medium text-gray-400 dark:text-gray-500'
+                  }`}
+                >
                   {label}
                 </span>
               </Link>

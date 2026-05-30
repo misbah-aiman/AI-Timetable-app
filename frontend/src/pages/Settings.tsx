@@ -517,12 +517,20 @@ export const Settings = () => {
 
   return (
     <Layout>
-      <PageHeader eyebrow="Account" title="Settings" />
+      {/* Inline header — consistent with all other pages */}
+      <div className="mb-6">
+        <p className="text-[11px] font-semibold text-primary-700 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+          Account
+        </p>
+        <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+          Settings
+        </h1>
+      </div>
 
       <div className="max-w-xl space-y-8">
 
         {/* Profile hero card */}
-        <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+        <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.07] dark:border-white/[0.11] shadow-card overflow-hidden">
           <div className="flex items-center gap-4 p-5">
             <div className="w-14 h-14 rounded-full bg-primary-600 flex items-center justify-center text-white text-[20px] font-bold shrink-0 shadow-soft">
               {user?.name?.charAt(0).toUpperCase()}

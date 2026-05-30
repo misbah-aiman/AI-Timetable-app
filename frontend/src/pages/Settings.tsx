@@ -564,7 +564,7 @@ export const Settings = () => {
         {/* Preferences */}
         <div>
           <SectionLabel>Preferences</SectionLabel>
-          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.11] shadow-card overflow-hidden">
             <SettingsRow
               icon={<BookOpen size={16} className="text-white" />}
               iconBg="bg-primary-700"
@@ -608,7 +608,7 @@ export const Settings = () => {
         {/* Danger */}
         <div>
           <SectionLabel>Danger Zone</SectionLabel>
-          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.06] shadow-card overflow-hidden">
+          <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.05] dark:border-white/[0.11] shadow-card overflow-hidden">
             <button onClick={() => setDeleteModal(true)}
               className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-red-50/50 dark:hover:bg-red-900/10 transition-colors active:bg-red-50 text-left"
             >

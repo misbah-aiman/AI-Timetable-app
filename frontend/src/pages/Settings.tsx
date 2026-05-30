@@ -571,21 +571,26 @@ export const Settings = () => {
               value="Edit"
               onPress={() => setRoutineModal(true)}
             />
+            {/* Dark mode row: onPress on the row itself so the whole row is the
+                click target. The value is a purely visual toggle (no onClick) —
+                a nested <button> inside SettingsRow's outer <button> is invalid
+                HTML and browsers auto-close the outer button, breaking the handler. */}
             <SettingsRow
               icon={theme === 'dark' ? <Sun size={16} className="text-white" /> : <Moon size={16} className="text-white" />}
               iconBg={theme === 'dark' ? 'bg-amber-500' : 'bg-indigo-500'}
               label={theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+              onPress={toggleTheme}
               value={
-                <button
-                  onClick={toggleTheme}
-                  className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-300 focus:outline-none ${
-                    theme === 'dark' ? 'bg-[#34C759]' : 'bg-black/[0.12] dark:bg-white/[0.15]'
+                <div
+                  aria-hidden="true"
+                  className={`relative w-[51px] h-[31px] rounded-full transition-colors duration-300 ${
+                    theme === 'dark' ? 'bg-[#34C759]' : 'bg-black/[0.18] dark:bg-white/[0.20]'
                   }`}
                 >
                   <span className={`absolute top-[2px] left-[2px] w-[27px] h-[27px] rounded-full bg-white shadow-card transition-transform duration-300 ${
                     theme === 'dark' ? 'translate-x-5' : 'translate-x-0'
                   }`} />
-                </button>
+                </div>
               }
               last
             />

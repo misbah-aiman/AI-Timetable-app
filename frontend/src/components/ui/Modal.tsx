@@ -45,7 +45,7 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-4 sm:pt-5 pb-3.5 border-b border-black/[0.06] dark:border-white/[0.06] shrink-0">
+        <div className="flex items-center justify-between px-5 pt-4 sm:pt-5 pb-3.5 border-b border-black/[0.08] dark:border-white/[0.10] shrink-0">
           <h2 className="text-[17px] font-semibold text-gray-900 dark:text-white tracking-tight">
             {title}
           </h2>

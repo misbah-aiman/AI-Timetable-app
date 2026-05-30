@@ -1,10 +1,17 @@
 import { Layout } from '../components/layout/Layout';
 import { TimeTracker } from '../components/tracker/TimeTracker';
-import { PageHeader } from '../components/ui/PageHeader';
 
 export const TrackerPage = () => (
   <Layout>
-    <PageHeader eyebrow="Today" title="Time Tracker" />
+    {/* Inline header matching dashboard style */}
+    <div className="mb-6">
+      <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+        Today
+      </p>
+      <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+        Time Tracker
+      </h1>
+    </div>
     <TimeTracker />
   </Layout>
 );

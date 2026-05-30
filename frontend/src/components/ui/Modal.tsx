@@ -32,9 +32,9 @@ export const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
       {/* Sheet */}
       <div className="
         relative w-full sm:max-w-[440px]
-        bg-white dark:bg-[#011515]
+        bg-white dark:bg-[#021a1a]
         rounded-t-[2rem] sm:rounded-[1.75rem]
-        border border-black/[0.06] dark:border-white/[0.08]
+        border border-black/[0.08] dark:border-white/[0.11]
         shadow-sheet
         animate-sheet-up sm:animate-scale-in
         max-h-[92dvh] flex flex-col

@@ -537,7 +537,7 @@ export const Settings = () => {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-[17px] text-gray-900 dark:text-white tracking-tight truncate">{user?.name}</p>
-              <p className="text-[13px] text-gray-400 truncate mt-0.5">{user?.email}</p>
+              <p className="text-[13px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{user?.email}</p>
             </div>
             <button onClick={logout}
               className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors active:scale-90"

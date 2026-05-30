@@ -75,9 +75,35 @@
     appearance: none;
   }
 
+  /* Track — the background rail.
+     Because -webkit-appearance:none strips all default styling, the track has no
+     background unless explicitly set here. Without this the bar is invisible on
+     light backgrounds (the original bug). */
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #e5e7eb; /* gray-200 */
+  }
+
+  .dark input[type="range"]::-webkit-slider-runnable-track {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background-color: #e5e7eb;
+    border: none;
+  }
+
+  .dark input[type="range"]::-moz-range-track {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     @apply w-5 h-5 rounded-full bg-white shadow-card cursor-pointer;
+    margin-top: -5px; /* centre thumb on the 6px track */
     border: 0.5px solid rgba(0,0,0,0.08);
   }
 

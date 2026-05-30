@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Timetable, TimeSlot } from '../../types';
 import { Clock } from 'lucide-react';
 
-interface TimetableViewProps {
-  timetable: Timetable;
-}
+const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const WEEK_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-const categoryColors: Record<string, string> = {
+const CATEGORY_COLORS: Record<string, string> = {
   study:    '#008080',
   sleep:    '#6366F1',
   hobby:    '#3EB489',
@@ -23,104 +22,320 @@ const toMins = (t: string) => {
   return h * 60 + m;
 };
 
-const getNowMins  = () => { const n = new Date(); return n.getHours() * 60 + n.getMinutes(); };
-const getTodayName = () =>
-  ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date().getDay()];
+const getNowMins = () => {
+  const n = new Date();
+  return n.getHours() * 60 + n.getMinutes();
+};
 
-const SlotRow = ({ slot, status }: { slot: TimeSlot; status: 'past'|'active'|'next'|'future' }) => {
-  const color = categoryColors[slot.category] || '#64748B';
+// Mon=0 … Sun=6
+const getTodayWeekIdx = () => {
+  const d = new Date().getDay();
+  return d === 0 ? 6 : d - 1;
+};
+
+const getWeekDates = () => {
+  const today = new Date();
+  const dow = today.getDay();
+  const offset = dow === 0 ? -6 : 1 - dow; // back to Monday
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + offset);
+  return WEEK_DAYS.map((_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return d.getDate();
+  });
+};
+
+const fmtDuration = (slot: TimeSlot) => {
+  const diff = toMins(slot.endTime) - toMins(slot.startTime);
+  if (diff <= 0) return '';
+  if (diff < 60) return `${diff}m`;
+  const h = Math.floor(diff / 60);
+  const m = diff % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+};
+
+// ─── Now Hero Card ────────────────────────────────────────────
+
+const NowCard = ({ slot, nowMins }: { slot: TimeSlot; nowMins: number }) => {
+  const color = CATEGORY_COLORS[slot.category] || '#64748B';
+  const startMins = toMins(slot.startTime);
+  const endMins   = toMins(slot.endTime);
+  const duration  = endMins - startMins;
+  const elapsed   = nowMins - startMins;
+  const progress  = duration > 0 ? Math.min((elapsed / duration) * 100, 100) : 0;
+  const remaining = endMins - nowMins;
+  const remStr = remaining < 60
+    ? `${remaining}m left`
+    : `${Math.floor(remaining / 60)}h${remaining % 60 ? ` ${remaining % 60}m` : ''} left`;
+
+  return (
+    <div
+      className="rounded-3xl p-5 mb-3 animate-fade-in"
+      style={{ backgroundColor: `${color}12`, border: `1.5px solid ${color}28` }}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span
+            className="w-2.5 h-2.5 rounded-full animate-pulse inline-block"
+            style={{ backgroundColor: color }}
+          />
+          <span className="text-[11px] font-bold uppercase tracking-[0.10em]" style={{ color }}>
+            Now
+          </span>
+        </div>
+        <span className="text-[12px] font-medium tabular-nums" style={{ color: `${color}99` }}>
+          {remStr}
+        </span>
+      </div>
+
+      <p className="text-[22px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-1">
+        {slot.activity}
+      </p>
+      <p className="text-[13px] text-gray-500 dark:text-gray-400 mb-4 tracking-tight">
+        {slot.startTime} – {slot.endTime} · {fmtDuration(slot)}
+      </p>
+
+      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${color}20` }}>
+        <div
+          className="h-full rounded-full"
+          style={{ width: `${progress}%`, backgroundColor: color, transition: 'width 1s linear' }}
+        />
+      </div>
+      <p className="text-[11px] mt-1.5 font-medium tabular-nums" style={{ color: `${color}80` }}>
+        {Math.round(progress)}% complete
+      </p>
+    </div>
+  );
+};
+
+// ─── Next Up Card ─────────────────────────────────────────────
+
+const NextCard = ({ slot }: { slot: TimeSlot }) => {
+  const color = CATEGORY_COLORS[slot.category] || '#64748B';
+  return (
+    <div className="flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.05] mb-4 animate-fade-in">
+      <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: color }} />
+      <div className="flex-1 min-w-0">
+        <p className="text-[14px] font-semibold text-gray-800 dark:text-white tracking-tight truncate">
+          {slot.activity}
+        </p>
+        <p className="text-[12px] text-gray-400 dark:text-gray-500 mt-0.5">
+          {slot.startTime} · {fmtDuration(slot)}
+        </p>
+      </div>
+      <span className="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-black/[0.05] dark:bg-white/[0.08] text-gray-500 dark:text-gray-400 shrink-0">
+        Next
+      </span>
+    </div>
+  );
+};
+
+// ─── Slot Row ─────────────────────────────────────────────────
+
+const SlotRow = ({
+  slot,
+  status,
+}: {
+  slot: TimeSlot;
+  status: 'past' | 'active' | 'next' | 'future';
+}) => {
+  const color  = CATEGORY_COLORS[slot.category] || '#64748B';
   const isPast   = status === 'past';
   const isActive = status === 'active';
 
   return (
-    <div className={`
-      flex items-center gap-3.5 px-4 py-3 transition-all duration-200
-      ${isActive ? 'bg-primary-50/80 dark:bg-primary-900/20' : ''}
-      ${isPast   ? 'opacity-40' : ''}
-    `}>
-      {/* Colored dot */}
+    <div
+      className={`flex items-center gap-3 py-2.5 px-3 rounded-2xl transition-colors duration-150 ${
+        isActive ? 'bg-primary-50/80 dark:bg-primary-900/12' : ''
+      }`}
+    >
+      {/* Time label */}
+      <span
+        className={`w-10 text-right text-[11px] font-medium tabular-nums shrink-0 leading-none ${
+          isPast ? 'text-gray-300 dark:text-gray-700' : 'text-gray-400 dark:text-gray-500'
+        }`}
+      >
+        {slot.startTime}
+      </span>
+
+      {/* Color accent bar */}
       <div
-        className="w-2.5 h-2.5 rounded-full shrink-0"
-        style={{ backgroundColor: isPast ? '#d1d5db' : color }}
+        className="w-[3px] h-9 rounded-full shrink-0"
+        style={{
+          backgroundColor: isPast ? '#d1d5db' : color,
+          opacity: isPast ? 0.45 : 1,
+        }}
       />
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <p className={`text-[15px] font-semibold tracking-tight truncate ${
-          isPast ? 'text-gray-400 dark:text-gray-600' : 'text-gray-900 dark:text-white'
-        }`}>
+        <p
+          className={`text-[14px] font-semibold tracking-tight truncate leading-snug ${
+            isPast
+              ? 'text-gray-400 dark:text-gray-600'
+              : 'text-gray-900 dark:text-white'
+          }`}
+        >
           {slot.activity}
         </p>
-        <p className={`text-[12px] mt-0.5 tracking-tight ${
-          isPast ? 'text-gray-300 dark:text-gray-700' : 'text-gray-500 dark:text-gray-400'
-        }`}>
-          {slot.startTime} – {slot.endTime}
-        </p>
+        {!isPast && (
+          <p className="text-[11px] text-gray-400 dark:text-gray-500 mt-0.5 tracking-tight">
+            {fmtDuration(slot)}
+          </p>
+        )}
       </div>
 
-      {/* Badges */}
-      <div className="flex items-center gap-1.5 shrink-0">
+      {/* Badge */}
+      <div className="shrink-0 flex items-center">
         {isActive && (
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300">
+          <span
+            className="text-[10px] font-bold px-2 py-0.5 rounded-xl"
+            style={{ backgroundColor: `${color}18`, color }}
+          >
             Now
           </span>
         )}
-        {status === 'next' && (
-          <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-black/[0.06] dark:bg-white/[0.08] text-gray-600 dark:text-gray-300">
-            Next
-          </span>
+        {isPast && (
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-25">
+            <circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.5" />
+            <path
+              d="M5.5 8l2 2 3.5-3.5"
+              stroke="#9ca3af"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         )}
       </div>
     </div>
   );
 };
 
-export const TimetableView = ({ timetable }: TimetableViewProps) => {
-  const [nowMins,   setNowMins]   = useState(getNowMins);
-  const [todayName, setTodayName] = useState(getTodayName);
+// ─── Main Component ───────────────────────────────────────────
+
+export const TimetableView = ({ timetable }: { timetable: Timetable }) => {
+  const todayIdx   = getTodayWeekIdx();
+  const weekDates  = useMemo(() => getWeekDates(), []);
+  const [selectedIdx, setSelectedIdx] = useState(todayIdx);
+  const [nowMins, setNowMins]         = useState(getNowMins);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tick = () => { setNowMins(getNowMins()); setTodayName(getTodayName()); };
-    const id = setInterval(tick, 60_000);
+    const id = setInterval(() => setNowMins(getNowMins()), 60_000);
     return () => clearInterval(id);
   }, []);
 
-  const daySchedule = timetable.schedule.find(d => d.day === todayName);
-  const slots = daySchedule?.slots ?? [];
+  // Scroll today tab into view on mount
+  useEffect(() => {
+    const btn = tabsRef.current?.children[todayIdx] as HTMLElement | undefined;
+    btn?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }, [todayIdx]);
 
-  const activeIdx = slots.findIndex(s => nowMins >= toMins(s.startTime) && nowMins < toMins(s.endTime));
-  const nextIdx   = activeIdx >= 0
-    ? activeIdx + 1
-    : slots.findIndex(s => toMins(s.startTime) > nowMins);
+  const isToday  = selectedIdx === todayIdx;
+  const dayName  = WEEK_DAYS[selectedIdx];
+  const slots    = timetable.schedule.find(d => d.day === dayName)?.slots ?? [];
 
-  const getStatus = (i: number): 'past'|'active'|'next'|'future' => {
+  const activeIdx = isToday
+    ? slots.findIndex(s => nowMins >= toMins(s.startTime) && nowMins < toMins(s.endTime))
+    : -1;
+
+  const nextIdx = isToday
+    ? activeIdx >= 0
+      ? activeIdx + 1
+      : slots.findIndex(s => toMins(s.startTime) > nowMins)
+    : -1;
+
+  const getStatus = (i: number): 'past' | 'active' | 'next' | 'future' => {
+    if (!isToday) return 'future';
     if (i === activeIdx) return 'active';
     if (i === nextIdx)   return 'next';
     if (toMins(slots[i].endTime) <= nowMins) return 'past';
     return 'future';
   };
 
-  if (slots.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 gap-3 text-gray-400">
-        <div className="w-12 h-12 rounded-full bg-black/[0.04] dark:bg-white/[0.05] flex items-center justify-center">
-          <Clock size={22} className="text-gray-300 dark:text-gray-600" />
-        </div>
-        <p className="text-[14px] tracking-tight">No schedule for {todayName}</p>
-      </div>
-    );
-  }
+  const activeSlot = activeIdx >= 0 ? slots[activeIdx] : null;
+  const nextSlot   = nextIdx >= 0 && nextIdx < slots.length ? slots[nextIdx] : null;
 
   return (
     <div>
-      <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-[0.08em] mb-3 px-1">
-        {todayName}
-      </p>
-      <div className="divide-y divide-black/[0.05] dark:divide-white/[0.05] max-h-[34rem] overflow-y-auto scrollbar-hide -mx-1 rounded-2xl">
-        {slots.map((slot, i) => (
-          <SlotRow key={i} slot={slot} status={getStatus(i)} />
-        ))}
+      {/* ── Day tabs ── */}
+      <div
+        ref={tabsRef}
+        className="flex gap-1 mb-5 overflow-x-auto scrollbar-hide pb-1 -mx-1 px-1"
+      >
+        {WEEK_DAYS.map((day, idx) => {
+          const isSelected = idx === selectedIdx;
+          const isTodayDay = idx === todayIdx;
+          return (
+            <button
+              key={day}
+              onClick={() => setSelectedIdx(idx)}
+              className={`flex flex-col items-center gap-0.5 px-3 py-2.5 rounded-2xl shrink-0 min-w-[46px] transition-all duration-150 ${
+                isSelected
+                  ? 'bg-primary-500 shadow-soft'
+                  : 'hover:bg-black/[0.04] dark:hover:bg-white/[0.05]'
+              }`}
+            >
+              <span
+                className={`text-[10px] font-semibold uppercase tracking-[0.05em] ${
+                  isSelected ? 'text-primary-100' : 'text-gray-400 dark:text-gray-500'
+                }`}
+              >
+                {WEEK_SHORT[idx]}
+              </span>
+              <span
+                className={`text-[16px] font-bold tabular-nums leading-none ${
+                  isSelected
+                    ? 'text-white'
+                    : isTodayDay
+                    ? 'text-primary-600 dark:text-primary-400'
+                    : 'text-gray-700 dark:text-gray-200'
+                }`}
+              >
+                {weekDates[idx]}
+              </span>
+              {isTodayDay && (
+                <div
+                  className={`w-1 h-1 rounded-full mt-0.5 ${
+                    isSelected ? 'bg-white/60' : 'bg-primary-500'
+                  }`}
+                />
+              )}
+            </button>
+          );
+        })}
       </div>
+
+      {/* ── Now / Next hero (today only) ── */}
+      {isToday && activeSlot && <NowCard slot={activeSlot} nowMins={nowMins} />}
+      {isToday && nextSlot && <NextCard slot={nextSlot} />}
+
+      {/* ── Schedule list ── */}
+      {slots.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-10 gap-3">
+          <div className="w-12 h-12 rounded-full bg-black/[0.04] dark:bg-white/[0.05] flex items-center justify-center">
+            <Clock size={20} className="text-gray-300 dark:text-gray-600" />
+          </div>
+          <p className="text-[14px] text-gray-400 dark:text-gray-500 tracking-tight">
+            No schedule for {dayName}
+          </p>
+        </div>
+      ) : (
+        <>
+          {isToday && (activeSlot || nextSlot) && (
+            <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-[0.08em] mb-2 px-3">
+              Full schedule
+            </p>
+          )}
+          <div className="max-h-[32rem] overflow-y-auto scrollbar-hide -mx-1 px-1 space-y-0.5">
+            {slots.map((slot, i) => (
+              <SlotRow key={i} slot={slot} status={getStatus(i)} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -29,6 +29,9 @@ const fmtMins = (mins: number) => {
 };
 
 // ─── Stat Pill ────────────────────────────────────────────────
+// FIX: Previous version used backgroundColor: `${color}0D` (5% opacity = invisible card).
+// Now uses a solid white/dark card with a colored top-border accent — always readable.
+// FIX: "% of goal" text was `${color}80` (50% opacity teal = ~1.5:1 contrast) → now gray.
 
 const StatPill = ({
   label, value, progress, color, icon,
@@ -40,8 +43,8 @@ const StatPill = ({
   icon: ReactNode;
 }) => (
   <div
-    className="flex flex-col gap-2.5 p-4 rounded-3xl border"
-    style={{ backgroundColor: `${color}0D`, borderColor: `${color}22` }}
+    className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-4 flex flex-col gap-2.5 overflow-hidden"
+    style={{ borderTopColor: color, borderTopWidth: '3px' }}
   >
     <div className="flex items-center gap-2">
       <span style={{ color }}>{icon}</span>
@@ -52,18 +55,22 @@ const StatPill = ({
         {label}
       </span>
     </div>
+
     <p className="text-[26px] font-bold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
       {value}
     </p>
+
     {progress !== undefined && (
       <>
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${color}20` }}>
+        {/* FIX: track was ${color}20 (12% opacity) → explicit gray for the rail */}
+        <div className="h-1.5 rounded-full overflow-hidden bg-gray-100 dark:bg-white/[0.08]">
           <div
             className="h-full rounded-full transition-all duration-700 ease-out"
             style={{ width: `${Math.min(progress, 100)}%`, backgroundColor: color }}
           />
         </div>
-        <p className="text-[11px] tabular-nums" style={{ color: `${color}80` }}>
+        {/* FIX: was ${color}80 (failing contrast) → neutral gray text */}
+        <p className="text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
           {Math.min(Math.round(progress), 100)}% of goal
         </p>
       </>
@@ -75,7 +82,7 @@ const StatPill = ({
 
 export const Dashboard = () => {
   const { user } = useAuth();
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
 
   const [timetable, setTimetable] = useState<Timetable | null>(storage.getTimetable());
   const [stats, setStats]         = useState<DashboardStats | null>(null);
@@ -84,7 +91,6 @@ export const Dashboard = () => {
   const [error, setError]         = useState('');
 
   useEffect(() => {
-    // Fetch timetable (primary, may already be cached)
     timetableApi.get()
       .then(res => {
         setTimetable(res.data.timetable);
@@ -101,7 +107,6 @@ export const Dashboard = () => {
       })
       .finally(() => setLoading(false));
 
-    // Fetch today stats independently (non-blocking)
     analyticsApi.getStats()
       .then(res => setStats(res.data.stats))
       .catch(() => {});
@@ -116,7 +121,7 @@ export const Dashboard = () => {
       storage.setTimetable(res.data.timetable);
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
-      const msg = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
+      const msg    = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;
       if (status === 401) {
         storage.clearAll();
         navigate('/login?reason=session_expired');
@@ -136,7 +141,7 @@ export const Dashboard = () => {
     );
   }
 
-  const ob = user?.onboarding;
+  const ob           = user?.onboarding;
   const studyGoalMins = (ob?.studyGoalHours || 4) * 60;
 
   return (
@@ -144,7 +149,7 @@ export const Dashboard = () => {
       {/* ── Header ── */}
       <div className="mb-6 flex items-start justify-between">
         <div>
-          <p className="text-[12px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+          <p className="text-[12px] font-semibold text-primary-700 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
             {new Date().toLocaleDateString('en-US', {
               weekday: 'long',
               month: 'short',
@@ -188,7 +193,7 @@ export const Dashboard = () => {
 
       {/* ── Error ── */}
       {error && (
-        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl flex items-center justify-between text-sm">
+        <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-3xl border border-red-200 dark:border-red-800 flex items-center justify-between text-sm">
           <span>{error}</span>
           <Button size="sm" onClick={() => navigate('/onboarding')}>
             <Sparkles size={13} /> Fix
@@ -202,10 +207,10 @@ export const Dashboard = () => {
           <TimetableView timetable={timetable} />
         ) : (
           <div className="flex flex-col items-center justify-center py-14 gap-4">
-            <div className="w-14 h-14 rounded-3xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
-              <Sparkles size={24} className="text-primary-400" />
+            <div className="w-14 h-14 rounded-3xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">
+              <Sparkles size={24} className="text-primary-600 dark:text-primary-400" />
             </div>
-            <p className="text-sm text-gray-400 text-center tracking-tight">
+            <p className="text-sm text-gray-500 dark:text-gray-400 text-center tracking-tight">
               No timetable yet — generate one to get started
             </p>
             <Button onClick={handleRegenerate} loading={regenerating} size="lg">

@@ -595,12 +595,12 @@ export const Settings = () => {
 
         {/* Feedback */}
         {successMsg && (
-          <div className="px-4 py-3 bg-[#34C759]/10 dark:bg-[#34C759]/15 text-[#1a8a35] dark:text-[#30D158] text-[14px] rounded-2xl font-medium tracking-tight">
+          <div className="px-4 py-3 bg-green-50 dark:bg-green-900/25 text-green-800 dark:text-green-300 text-[14px] rounded-2xl font-medium tracking-tight border border-green-200 dark:border-green-800">
             {successMsg}
           </div>
         )}
         {error && (
-          <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[14px] rounded-2xl tracking-tight">
+          <div className="px-4 py-3 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-[14px] rounded-2xl tracking-tight border border-red-200 dark:border-red-800">
             {error}
           </div>
         )}

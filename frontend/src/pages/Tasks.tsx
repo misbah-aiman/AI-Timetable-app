@@ -5,7 +5,6 @@ import { tasksApi, timetableApi } from '../services/api';
 import { Task } from '../types';
 import { storage } from '../utils/localStorage';
 import { Layout } from '../components/layout/Layout';
-import { PageHeader } from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';

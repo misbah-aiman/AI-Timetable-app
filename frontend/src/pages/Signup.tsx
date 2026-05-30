@@ -19,25 +19,26 @@ const FEATURES = [
 
 export const Signup = () => {
   const [searchParams] = useSearchParams();
-  const [step, setStep] = useState<Step>('email');
-  const [email, setEmail] = useState(decodeURIComponent(searchParams.get('email') || ''));
-  const [otp, setOtp] = useState('');
-  const [error, setError] = useState('');
+  const [step, setStep]     = useState<Step>('email');
+  const [email, setEmail]   = useState(decodeURIComponent(searchParams.get('email') || ''));
+  const [otp, setOtp]       = useState('');
+  const [error, setError]   = useState('');
   const [loading, setLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
 
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const { login }  = useAuth();
+  const navigate   = useNavigate();
+  const timerRef   = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, []);
+  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current); }, []);
 
   const startCountdown = () => {
     setCountdown(RESEND_COOLDOWN);
     timerRef.current = setInterval(() => {
-      setCountdown(prev => { if (prev <= 1) { clearInterval(timerRef.current!); return 0; } return prev - 1; });
+      setCountdown(prev => {
+        if (prev <= 1) { clearInterval(timerRef.current!); return 0; }
+        return prev - 1;
+      });
     }, 1000);
   };
 
@@ -57,7 +58,7 @@ export const Signup = () => {
       const remaining = apiErr?.response?.data?.remaining;
       if (remaining) setCountdown(remaining);
       const detail = apiErr?.response?.data?.detail;
-      const msg = apiErr?.response?.data?.message || 'Failed to send code. Please try again.';
+      const msg    = apiErr?.response?.data?.message || 'Failed to send code. Please try again.';
       setError(detail ? `${msg} (${detail})` : msg);
     } finally { setLoading(false); }
   };
@@ -69,7 +70,10 @@ export const Signup = () => {
       await authApi.sendOtp(email.trim().toLowerCase());
       setOtp(''); startCountdown();
     } catch (err: unknown) {
-      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Failed to resend code');
+      setError(
+        (err as { response?: { data?: { message?: string } } })?.response?.data?.message
+        || 'Failed to resend code',
+      );
     } finally { setLoading(false); }
   };
 
@@ -85,7 +89,10 @@ export const Signup = () => {
         navigate(res.data.user.onboardingCompleted ? '/dashboard' : '/onboarding');
       }, 800);
     } catch (err: unknown) {
-      setError((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Invalid code. Please try again.');
+      setError(
+        (err as { response?: { data?: { message?: string } } })?.response?.data?.message
+        || 'Invalid code. Please try again.',
+      );
     } finally { setLoading(false); }
   };
 
@@ -93,86 +100,13 @@ export const Signup = () => {
     if (step === 'otp' && otp.length === 6 && !loading) handleVerifyOtp();
   }, [otp]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const formContent = (
-    <div className="w-full">
-      {/* Step 1: Email */}
-      {step === 'email' && (
-        <form onSubmit={handleSendOtp} className="space-y-4">
-          <Input
-            label="Email address"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={e => { setEmail(e.target.value); setError(''); }}
-            autoFocus
-            required
-          />
-          {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">{error}</p>}
-          <Button type="submit" className="w-full" loading={loading} size="lg">
-            Send Verification Code
-          </Button>
-          <p className="text-center text-xs text-gray-400">
-            Already have an account?{' '}
-            <button
-              type="button"
-              onClick={() => navigate('/login')}
-              className="text-primary-500 hover:underline font-semibold"
-            >
-              Sign in
-            </button>
-          </p>
-        </form>
-      )}
-
-      {/* Step 2: OTP */}
-      {step === 'otp' && (
-        <form onSubmit={handleVerifyOtp} className="space-y-6">
-          <div>
-            <button
-              type="button"
-              onClick={() => { setStep('email'); setError(''); setOtp(''); }}
-              className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 mb-5 transition-colors"
-            >
-              <ArrowLeft size={15} /> Change email
-            </button>
-            <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
-          </div>
-          {error && <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl text-center">{error}</p>}
-          <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>
-            Verify Code
-          </Button>
-          <p className="text-center text-sm text-gray-400">
-            Didn't receive it?{' '}
-            {countdown > 0
-              ? <span className="text-gray-300">Resend in {countdown}s</span>
-              : <button type="button" onClick={handleResend} disabled={loading} className="text-primary-500 hover:underline font-semibold disabled:opacity-50">Resend code</button>
-            }
-          </p>
-        </form>
-      )}
-
-      {/* Step 3: Success */}
-      {step === 'success' && (
-        <div className="flex flex-col items-center gap-5 py-8">
-          <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-soft">
-            <CheckCircle size={40} className="text-green-500" />
-          </div>
-          <div className="text-center">
-            <p className="font-bold text-gray-800 dark:text-white text-xl">Account created!</p>
-            <p className="text-sm text-gray-400 mt-1">Setting up your profile…</p>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex">
 
-      {/* Desktop: left panel */}
-      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-primary-700 flex-col justify-center p-12 relative overflow-hidden">
+      {/* ── Desktop left panel ── */}
+      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-primary-700 flex-col justify-center p-12 relative overflow-hidden shrink-0">
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
             backgroundSize: '24px 24px',
@@ -204,9 +138,9 @@ export const Signup = () => {
         </div>
       </div>
 
-      {/* Right / Mobile: form panel */}
-      <div className="flex-1 flex flex-col md:justify-center">
-        {/* Mobile-only header */}
+      {/* ── Right / mobile panel ── */}
+      <div className="flex-1 flex flex-col min-h-screen">
+        {/* Mobile header bar */}
         <div className="md:hidden bg-primary-700 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5">
           <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
             <Sparkles className="text-white" size={17} />
@@ -215,21 +149,115 @@ export const Signup = () => {
         </div>
 
         {/* Form area */}
-        <div className="flex-1 md:flex-none px-6 py-8 md:px-12 lg:px-16 bg-surface-50 dark:bg-[#011515]">
-          <div className="max-w-sm mx-auto">
-            {step !== 'success' && (
+        <div className="flex-1 flex flex-col justify-center px-6 py-8 md:px-12 lg:px-16">
+          <div className="w-full max-w-sm mx-auto">
+
+            {/* Step titles */}
+            {step === 'email' && (
               <div className="mb-7">
                 <h2 className="text-[26px] font-bold text-gray-900 dark:text-white tracking-tight">
-                  {step === 'otp' ? 'Verify your email' : 'Create account'}
+                  Create account
                 </h2>
                 <p className="text-[14px] text-gray-400 mt-1 tracking-tight">
-                  {step === 'otp'
-                    ? `We sent a 6-digit code to ${email}`
-                    : 'Enter your email to get started'}
+                  Enter your email to get started
                 </p>
               </div>
             )}
-            {formContent}
+
+            {step === 'otp' && (
+              <div className="mb-7">
+                <button
+                  type="button"
+                  onClick={() => { setStep('email'); setError(''); setOtp(''); }}
+                  className="flex items-center gap-1.5 text-sm text-gray-400 hover:text-primary-500 mb-5 transition-colors"
+                >
+                  <ArrowLeft size={15} /> Change email
+                </button>
+                <h2 className="text-[26px] font-bold text-gray-900 dark:text-white tracking-tight">
+                  Verify your email
+                </h2>
+                <p className="text-[14px] text-gray-400 mt-1 tracking-tight">
+                  We sent a 6-digit code to{' '}
+                  <span className="font-medium text-gray-600 dark:text-gray-300">{email}</span>
+                </p>
+              </div>
+            )}
+
+            {/* Email step */}
+            {step === 'email' && (
+              <form onSubmit={handleSendOtp} className="space-y-4">
+                <Input
+                  label="Email address"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={e => { setEmail(e.target.value); setError(''); }}
+                  autoFocus
+                  required
+                />
+                {error && (
+                  <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl">
+                    {error}
+                  </p>
+                )}
+                <Button type="submit" className="w-full" loading={loading} size="lg">
+                  Send Verification Code
+                </Button>
+                <p className="text-center text-xs text-gray-400">
+                  Already have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => navigate('/login')}
+                    className="text-primary-500 hover:underline font-semibold"
+                  >
+                    Sign in
+                  </button>
+                </p>
+              </form>
+            )}
+
+            {/* OTP step */}
+            {step === 'otp' && (
+              <form onSubmit={handleVerifyOtp} className="space-y-6">
+                <OtpInput value={otp} onChange={v => { setOtp(v); setError(''); }} disabled={loading} />
+                {error && (
+                  <p className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 px-4 py-3 rounded-2xl text-center">
+                    {error}
+                  </p>
+                )}
+                <Button type="submit" className="w-full" loading={loading} size="lg" disabled={otp.length < 6}>
+                  Verify Code
+                </Button>
+                <p className="text-center text-sm text-gray-400">
+                  Didn't receive it?{' '}
+                  {countdown > 0 ? (
+                    <span className="text-gray-300 tabular-nums">Resend in {countdown}s</span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResend}
+                      disabled={loading}
+                      className="text-primary-500 hover:underline font-semibold disabled:opacity-50"
+                    >
+                      Resend code
+                    </button>
+                  )}
+                </p>
+              </form>
+            )}
+
+            {/* Success step */}
+            {step === 'success' && (
+              <div className="flex flex-col items-center gap-5 py-8 animate-scale-in">
+                <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-soft">
+                  <CheckCircle size={40} className="text-green-500" />
+                </div>
+                <div className="text-center">
+                  <p className="font-bold text-gray-800 dark:text-white text-xl">Account created!</p>
+                  <p className="text-sm text-gray-400 mt-1">Setting up your profile…</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

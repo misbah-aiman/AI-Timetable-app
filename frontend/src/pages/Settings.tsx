@@ -548,8 +548,8 @@ export const Settings = () => {
           </div>
 
           {/* Name edit */}
-          <div className="border-t border-black/[0.06] dark:border-white/[0.06] px-5 py-4">
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-[0.08em] mb-3">Display Name</p>
+          <div className="border-t border-black/[0.08] dark:border-white/[0.10] px-5 py-4">
+            <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">Display Name</p>
             <div className="flex gap-2.5">
               <div className="flex-1">
                 <Input value={name} onChange={e => setName(e.target.value)} placeholder="Your name" />

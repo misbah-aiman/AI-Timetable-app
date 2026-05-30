@@ -147,7 +147,7 @@ const SlotRow = ({
   return (
     <div
       className={`flex items-center gap-3 py-2.5 px-3 rounded-2xl transition-colors duration-150 ${
-        isActive ? 'bg-primary-50/80 dark:bg-primary-900/12' : ''
+        isActive ? 'bg-primary-50/80 dark:bg-primary-900/10' : ''
       }`}
     >
       {/* Time label */}

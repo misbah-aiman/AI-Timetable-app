@@ -13,7 +13,6 @@ import { Layout } from '../components/layout/Layout';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Modal } from '../components/ui/Modal';
-import { PageHeader } from '../components/ui/PageHeader';
 import { ClassEntry } from '../types';
 
 // ── Constants ────────────────────────────────────────────

@@ -35,7 +35,7 @@ const PRIORITY_CONFIG = {
 
 // ─── Task Card ────────────────────────────────────────────
 
-const TaskCard = ({ task, onToggle, onDelete }: { task: Task; onToggle: () => void; onDelete: () => void }) => {
+const TaskCard = memo(({ task, onToggle, onDelete }: { task: Task; onToggle: () => void; onDelete: () => void }) => {
   const d = daysDiff(task.dueDate);
   const isOverdue = d < 0 && task.status === 'pending';
   const isDone    = task.status === 'done';

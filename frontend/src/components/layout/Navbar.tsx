@@ -59,7 +59,7 @@ const TopNav = () => {
         <div className="flex items-center gap-1.5">
           <button
             onClick={toggleTheme}
-            className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/[0.08] transition-colors"
+            className="w-8 h-8 rounded-xl flex items-center justify-center text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/[0.08] dark:hover:bg-white/[0.08] transition-colors"
             aria-label="Toggle theme"
           >
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}

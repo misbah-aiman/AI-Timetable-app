@@ -76,7 +76,7 @@ const CircleTimer = ({
 
       {/* Center */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="flex items-center gap-1.5 mb-3" style={{ color: isRunning ? color : '#9ca3af' }}>
+        <div className="flex items-center gap-1.5 mb-3" style={{ color: isRunning ? color : '#4b5563' }}>
           {icon}
           <span className="text-[13px] font-semibold tracking-tight">{label}</span>
         </div>
@@ -85,13 +85,13 @@ const CircleTimer = ({
           className="font-bold leading-none tracking-tighter tabular-nums"
           style={{
             fontSize: h > 0 ? '2.6rem' : '3.2rem',
-            color: isRunning ? color : '#9ca3af',
+            color: isRunning ? color : '#374151',
           }}
         >
           {isRunning ? timeStr : (h > 0 ? '00:00:00' : '00:00')}
         </div>
 
-        <div className="text-[12px] text-gray-400 dark:text-gray-500 mt-2.5 tracking-tight">
+        <div className="text-[12px] text-gray-500 dark:text-gray-400 mt-2.5 tracking-tight">
           {isRunning ? `${pct}% of goal` : sublabel}
         </div>
       </div>

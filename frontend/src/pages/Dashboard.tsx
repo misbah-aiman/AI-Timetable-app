@@ -27,6 +27,8 @@ export const Dashboard = () => {
   const [regenerating, setRegenerating] = useState(false);
   const [error, setError]         = useState('');
 
+  const greeting = useMemo(() => getGreeting(new Date().getHours()), []);
+
   useEffect(() => {
     timetableApi.get()
       .then(res => {

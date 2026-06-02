@@ -78,31 +78,16 @@ export const Dashboard = () => {
 
   return (
     <Layout>
-      {/* Header */}
-      <div className="mb-6 flex items-start justify-between animate-slide-up">
-        <div>
-          <p className="text-[12px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.10em] mb-1">
-            {new Date().toLocaleDateString('en-US', {
-              weekday: 'long',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </p>
-          <h1 className="text-[28px] md:text-[32px] font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight">
-            {getGreeting()}, {user?.name?.split(' ')[0]}
-          </h1>
-        </div>
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={handleRegenerate}
-          loading={regenerating}
-          className="mt-1.5 shrink-0"
-        >
-          <RefreshCw size={14} />
-          <span className="hidden sm:inline">Regen</span>
-        </Button>
-      </div>
+      <PageHeader
+        eyebrow={new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+        title={<>{greeting}, {user?.name?.split(' ')[0]}</>}
+        action={
+          <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
+            <RefreshCw size={14} />
+            <span className="hidden sm:inline">Regen</span>
+          </Button>
+        }
+      />
 
       {/* Error */}
       {error && (

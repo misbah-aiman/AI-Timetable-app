@@ -36,8 +36,8 @@ export const authApi = {
 
 // ─── User / Onboarding ───────────────────────────────────
 export const userApi = {
-  saveOnboarding: (data: Record<string, unknown>) => api.post('/user/onboarding', data),
-  updateSettings: (data: Record<string, unknown>) => api.put('/user/settings', data),
+  saveOnboarding: (data: object) => api.post('/user/onboarding', data),
+  updateSettings: (data: object) => api.put('/user/settings', data),
   deleteAccount: () => api.delete('/user/account'),
 };
 

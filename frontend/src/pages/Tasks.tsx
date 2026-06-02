@@ -245,6 +245,10 @@ export const TasksPage = () => {
   const [scheduling, setScheduling] = useState(false);
   const [scheduleMsg, setScheduleMsg] = useState('');
 
+  // Stable ref so useCallback handlers never go stale on tasks state
+  const tasksRef = useRef(tasks);
+  useEffect(() => { tasksRef.current = tasks; }, [tasks]);
+
   useEffect(() => {
     tasksApi.getAll()
       .then(res => setTasks(res.data.tasks))
@@ -252,22 +256,27 @@ export const TasksPage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleToggle = async (id: string) => {
-    const task = tasks.find(t => t._id === id);
+  const handleToggle = useCallback(async (id: string) => {
+    const task = tasksRef.current.find(t => t._id === id);
     if (!task) return;
     const newStatus = task.status === 'done' ? 'pending' : 'done';
     setTasks(prev => prev.map(t => t._id === id ? { ...t, status: newStatus } : t));
     try { await tasksApi.update(id, { status: newStatus }); }
     catch { setTasks(prev => prev.map(t => t._id === id ? { ...t, status: task.status } : t)); }
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = useCallback(async (id: string) => {
+    const snapshot = tasksRef.current.find(t => t._id === id);
     setTasks(prev => prev.filter(t => t._id !== id));
     try { await tasksApi.delete(id); }
-    catch { tasksApi.getAll().then(res => setTasks(res.data.tasks)).catch(() => {}); }
-  };
+    catch {
+      if (snapshot) setTasks(prev => [...prev, snapshot].sort((a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      ));
+    }
+  }, []);
 
-  const handleSchedule = async () => {
+  const handleSchedule = useCallback(async () => {
     setScheduling(true); setScheduleMsg('');
     try {
       const res = await timetableApi.generate();
@@ -275,7 +284,7 @@ export const TasksPage = () => {
       setScheduleMsg('Timetable updated! Tasks scheduled.');
     } catch { setScheduleMsg('Failed to generate. Check your OpenAI key.'); }
     finally  { setScheduling(false); }
-  };
+  }, []);
 
   const pending  = tasks.filter(t => t.status === 'pending');
   const done     = tasks.filter(t => t.status === 'done');

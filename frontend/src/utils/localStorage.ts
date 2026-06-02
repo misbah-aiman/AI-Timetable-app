@@ -30,7 +30,7 @@ export const storage = {
     const raw = localStorage.getItem(keys.timetable);
     return raw ? JSON.parse(raw) : null;
   },
-  setTimetable: (timetable: Record<string, unknown>) => localStorage.setItem(keys.timetable, JSON.stringify(timetable)),
+  setTimetable: (timetable: object) => localStorage.setItem(keys.timetable, JSON.stringify(timetable)),
   removeTimetable: () => localStorage.removeItem(keys.timetable),
 
   // Theme

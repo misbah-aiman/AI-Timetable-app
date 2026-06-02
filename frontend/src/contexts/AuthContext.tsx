@@ -49,26 +49,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     validate();
   }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
-  const login = (newToken: string, newUser: User) => {
+  const login = useCallback((newToken: string, newUser: User) => {
     storage.setToken(newToken);
     storage.setUser(newUser);
     setToken(newToken);
     setUser(newUser);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     storage.clearAll();
     setToken(null);
     setUser(null);
-  };
+  }, []);
 
-  const updateUser = (updatedUser: User) => {
+  const updateUser = useCallback((updatedUser: User) => {
     setUser(updatedUser);
     storage.setUser(updatedUser);
-  };
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, token, loading, login, logout, updateUser }),
+    [user, token, loading, login, logout, updateUser],
+  );
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout, updateUser }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer,

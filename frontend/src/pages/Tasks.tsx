@@ -27,9 +27,9 @@ const formatDue = (iso: string) => {
 };
 
 const PRIORITY_CONFIG = {
-  high:   { label: 'High', color: 'text-red-500',   bg: 'bg-red-50 dark:bg-red-900/20',     dot: 'bg-red-500' },
-  medium: { label: 'Med',  color: 'text-amber-500',  bg: 'bg-amber-50 dark:bg-amber-900/20', dot: 'bg-amber-500' },
-  low:    { label: 'Low',  color: 'text-gray-400',   bg: 'bg-black/[0.05] dark:bg-white/[0.07]', dot: 'bg-gray-300' },
+  high:   { label: 'High', color: 'text-red-600 dark:text-red-400',    bg: 'bg-red-50 dark:bg-red-900/25',    dot: 'bg-red-500' },
+  medium: { label: 'Med',  color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/25', dot: 'bg-amber-500' },
+  low:    { label: 'Low',  color: 'text-gray-500 dark:text-gray-400',  bg: 'bg-gray-100 dark:bg-white/[0.08]', dot: 'bg-gray-300' },
 };
 
 // ─── Task Card ────────────────────────────────────────────

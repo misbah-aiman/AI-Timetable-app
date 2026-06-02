@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Returns elapsed seconds since the given startTime (Date/ISO string)
 export const useTimer = (startTime: string | null, isActive: boolean) => {

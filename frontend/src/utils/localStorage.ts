@@ -44,7 +44,7 @@ export const storage = {
     const raw = localStorage.getItem(keys.onboardingDraft);
     return raw ? JSON.parse(raw) : null;
   },
-  setOnboardingDraft: (data: Record<string, unknown>) => localStorage.setItem(keys.onboardingDraft, JSON.stringify(data)),
+  setOnboardingDraft: (data: object) => localStorage.setItem(keys.onboardingDraft, JSON.stringify(data)),
   removeOnboardingDraft: () => localStorage.removeItem(keys.onboardingDraft),
 
   // Full clear on logout

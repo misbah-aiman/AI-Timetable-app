@@ -181,8 +181,8 @@ export const TimeTracker = () => {
                 boxShadow: `0 2px 12px ${a.color}22`,
               } : {}}
             >
-              <span style={{ color: active ? a.color : '#9ca3af' }}>{a.icon}</span>
-              <span className={`text-[12px] font-bold tracking-tight ${active ? '' : 'text-gray-400'}`}
+              <span style={{ color: active ? a.color : '#6b7280' }}>{a.icon}</span>
+              <span className={`text-[12px] font-bold tracking-tight ${active ? '' : 'text-gray-600 dark:text-gray-400'}`}
                 style={active ? { color: a.color } : {}}
               >
                 {a.label}

@@ -1,6 +1,5 @@
 import { Layout } from '../components/layout/Layout';
 import { TimeTracker } from '../components/tracker/TimeTracker';
-import { Card } from '../components/ui/Card';
 
 export const TrackerPage = () => (
   <Layout>
@@ -13,8 +12,6 @@ export const TrackerPage = () => (
         Time Tracker
       </h1>
     </div>
-    <Card padding="lg" className="animate-slide-up delay-100">
-      <TimeTracker />
-    </Card>
+    <TimeTracker />
   </Layout>
 );

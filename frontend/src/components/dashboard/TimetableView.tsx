@@ -109,7 +109,11 @@ const NowCard = ({ slot, nowMins }: { slot: TimeSlot; nowMins: number }) => {
       <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: `${color}30` }}>
         <div
           className="h-full rounded-full"
-          style={{ width: `${progress}%`, backgroundColor: color, transition: 'width 1s linear' }}
+          style={{
+            width: `${progress}%`,
+            background: `linear-gradient(90deg, ${color}bb, ${color})`,
+            transition: 'width 1s linear',
+          }}
         />
       </div>
       {/* FIX: was ${color}80 (50% opacity = ~1.5:1 contrast) → readable gray */}

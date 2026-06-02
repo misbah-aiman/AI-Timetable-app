@@ -23,10 +23,10 @@ const TopNav = () => {
 
   return (
     <nav className="hidden md:block sticky top-0 z-40 bg-surface-100/90 dark:bg-[#010f0f]/90 backdrop-blur-md border-b border-black/[0.08] dark:border-white/[0.09]">
-      <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-[52px]">
+      <div className="max-w-5xl mx-auto px-6 flex items-center justify-between h-[60px]">
         {/* Logo */}
-        <Link to="/dashboard" className="flex items-center gap-2.5 shrink-0">
-          <div className="w-7 h-7 bg-primary-700 rounded-[10px] flex items-center justify-center shadow-soft">
+        <Link to="/dashboard" className="flex items-center gap-2.5 shrink-0 group">
+          <div className="w-7 h-7 bg-gradient-to-br from-primary-400 to-primary-700 rounded-[10px] flex items-center justify-center shadow-glow-primary-sm group-hover:shadow-glow-primary transition-shadow duration-200">
             <Sparkles size={14} className="text-white" />
           </div>
           <span className="font-bold text-gray-900 dark:text-white text-[15px] tracking-tight">

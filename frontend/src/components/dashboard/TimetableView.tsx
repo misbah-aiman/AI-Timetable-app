@@ -78,8 +78,9 @@ const NowCard = ({ slot, nowMins }: { slot: TimeSlot; nowMins: number }) => {
     <div
       className="rounded-3xl p-5 mb-3 animate-fade-in"
       style={{
-        backgroundColor: `${color}28`,
-        border: `1.5px solid ${color}60`,
+        background: `linear-gradient(135deg, ${color}20, ${color}10)`,
+        border: `1.5px solid ${color}55`,
+        boxShadow: `0 4px 24px ${color}18`,
       }}
     >
       <div className="flex items-center justify-between mb-3">

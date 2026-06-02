@@ -33,12 +33,15 @@ interface StatCardDef {
 }
 
 const StatCard = ({ label, value, progress, color, icon, goalMet }: StatCardDef) => (
-  <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-4 flex flex-col gap-3">
-    {/* Icon row — FIX: solid colored background (opaque) ensures icon contrast */}
+  <div
+    className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-4 flex flex-col gap-3 overflow-hidden relative"
+    style={{ borderTopColor: color, borderTopWidth: '3px' }}
+  >
+    {/* Icon row */}
     <div className="flex items-center justify-between">
       <div
         className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 text-white"
-        style={{ backgroundColor: color }}
+        style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}
       >
         {icon}
       </div>
@@ -51,15 +54,15 @@ const StatCard = ({ label, value, progress, color, icon, goalMet }: StatCardDef)
 
     {/* Value + label */}
     <div>
-      <p className="text-[26px] font-bold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
+      <p className="text-[28px] font-extrabold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
         {value}
       </p>
-      <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-[0.06em]">
+      <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 mt-1 uppercase tracking-[0.07em]">
         {label}
       </p>
     </div>
 
-    {/* Progress bar — FIX: track was ${color}18 → explicit gray rail */}
+    {/* Progress bar */}
     {progress !== null && progress !== undefined && (
       <div>
         <div className="h-1.5 rounded-full overflow-hidden bg-gray-100 dark:bg-white/[0.08]">

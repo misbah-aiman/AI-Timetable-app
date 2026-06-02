@@ -67,7 +67,7 @@ const TopNav = () => {
 
           {user && (
             <div className="flex items-center gap-2 pl-2 ml-1 border-l border-black/[0.10] dark:border-white/[0.10]">
-              <div className="w-7 h-7 rounded-full bg-primary-700 flex items-center justify-center text-white text-[11px] font-bold shadow-soft">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-400 to-primary-700 flex items-center justify-center text-white text-[11px] font-bold shadow-glow-primary-sm">
                 {user.name.charAt(0).toUpperCase()}
               </div>
               <span className="text-[13px] font-medium text-gray-700 dark:text-gray-300 max-w-[80px] truncate">

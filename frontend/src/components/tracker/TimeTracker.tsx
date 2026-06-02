@@ -151,7 +151,7 @@ export const TimeTracker = () => {
   );
 
   return (
-    <div className="flex flex-col items-center gap-6 max-w-sm mx-auto md:max-w-md">
+    <div className="flex flex-col items-center gap-6 max-w-sm mx-auto md:max-w-md animate-scale-in">
 
       {/* Ring timer */}
       <CircleTimer

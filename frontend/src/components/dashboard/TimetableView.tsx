@@ -292,9 +292,9 @@ export const TimetableView = ({ timetable }: { timetable: Timetable }) => {
             <button
               key={day}
               onClick={() => setSelectedIdx(idx)}
-              className={`flex flex-col items-center gap-0.5 px-3 py-2.5 rounded-2xl shrink-0 min-w-[46px] transition-all duration-150 ${
+              className={`flex flex-col items-center gap-0.5 px-3 py-2.5 rounded-2xl shrink-0 min-w-[46px] transition-all duration-200 ${
                 isSelected
-                  ? 'bg-primary-600 shadow-soft'
+                  ? 'bg-gradient-to-b from-primary-500 to-primary-700 shadow-glow-primary-sm'
                   : 'hover:bg-black/[0.05] dark:hover:bg-white/[0.06]'
               }`}
             >

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RefreshCw, Sparkles } from 'lucide-react';
 import { timetableApi } from '../services/api';
@@ -10,6 +10,7 @@ import { TimetableView } from '../components/dashboard/TimetableView';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { PageHeader } from '../components/ui/PageHeader';
 
 const getGreeting = () => {
   const h = new Date().getHours();

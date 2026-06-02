@@ -239,7 +239,7 @@ const SlotRow = ({
 // ─── Main Component ───────────────────────────────────────────
 
 export const TimetableView = ({ timetable }: { timetable: Timetable }) => {
-  const todayIdx  = getTodayWeekIdx();
+  const todayIdx  = useMemo(() => getTodayWeekIdx(), []);
   const weekDates = useMemo(() => getWeekDates(), []);
   const [selectedIdx, setSelectedIdx] = useState(todayIdx);
   const [nowMins, setNowMins]         = useState(getNowMins);

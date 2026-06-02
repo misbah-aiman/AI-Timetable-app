@@ -81,7 +81,7 @@ const TaskCard = ({ task, onToggle, onDelete }: { task: Task; onToggle: () => vo
 
       {/* Priority + Delete */}
       <div className="flex items-center gap-2 shrink-0">
-        <span className={`text-[11px] font-bold px-2 py-0.5 rounded-lg ${p.bg} ${p.color}`}>
+        <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full ${p.bg} ${p.color} tracking-wide uppercase`}>
           {p.label}
         </span>
         <button onClick={onDelete}

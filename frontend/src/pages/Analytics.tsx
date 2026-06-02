@@ -190,15 +190,7 @@ export const Analytics = () => {
 
   return (
     <Layout>
-      {/* ── Header ── */}
-      <div className="mb-6 animate-slide-up">
-        <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.10em] mb-1">
-          This week
-        </p>
-        <h1 className="text-[28px] md:text-[32px] font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight">
-          Analytics
-        </h1>
-      </div>
+      <PageHeader eyebrow="This week" title="Analytics" />
 
       {loading && <LoadingSpinner message="Loading analytics…" />}
 

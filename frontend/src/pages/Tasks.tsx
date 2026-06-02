@@ -112,16 +112,16 @@ const TaskGroup = ({
         className="flex items-center gap-2 mb-1 w-full text-left px-1 py-1"
         onClick={() => collapsible && setOpen(o => !o)}
       >
-        <span className={`text-[11px] font-semibold uppercase tracking-[0.08em] ${accentColor || 'text-gray-400'}`}>
+        <span className={`text-[11px] font-semibold uppercase tracking-[0.08em] ${accentColor || 'text-gray-800 dark:text-gray-300'}`}>
           {label}
         </span>
         <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded-md tabular-nums ${
-          accentColor ? 'bg-red-50 dark:bg-red-900/20 text-red-400' : 'bg-black/[0.05] dark:bg-white/[0.07] text-gray-400'
+          accentColor ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400' : 'bg-black/[0.12] dark:bg-white/[0.12] text-gray-700 dark:text-gray-300'
         }`}>
           {tasks.length}
         </span>
         {collapsible && (
-          <span className="ml-auto text-gray-300 dark:text-gray-600">
+          <span className="ml-auto text-gray-600 dark:text-gray-500">
             {open ? <ChevronDown size={13} /> : <ChevronRight size={13} />}
           </span>
         )}

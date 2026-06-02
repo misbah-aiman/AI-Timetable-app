@@ -32,9 +32,9 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: 'px-4 py-2 text-[13px] rounded-xl gap-1.5',
-  md: 'px-5 py-2.5 text-[14px] rounded-2xl gap-2',
-  lg: 'px-6 py-[13px] text-[15px] rounded-2xl gap-2',
+  sm: 'px-4 py-2 min-h-[36px] text-[13px] rounded-xl gap-1.5',
+  md: 'px-5 py-2.5 min-h-[40px] text-[14px] rounded-2xl gap-2',
+  lg: 'px-6 py-[13px] min-h-[48px] text-[15px] rounded-2xl gap-2',
 };
 
 export const Button = ({

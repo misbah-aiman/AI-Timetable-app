@@ -113,7 +113,7 @@ export const Dashboard = () => {
       )}
 
       {/* Timetable */}
-      <Card>
+      <Card className="animate-slide-up delay-100">
         {timetable ? (
           <TimetableView timetable={timetable} />
         ) : (

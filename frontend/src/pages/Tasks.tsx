@@ -285,12 +285,12 @@ export const TasksPage = () => {
   return (
     <Layout>
       {/* Inline header */}
-      <div className="mb-6 flex items-start justify-between">
+      <div className="mb-6 flex items-start justify-between animate-slide-up">
         <div>
-          <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+          <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.10em] mb-1">
             Manage
           </p>
-          <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+          <h1 className="text-[28px] md:text-[32px] font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight">
             Tasks
           </h1>
         </div>

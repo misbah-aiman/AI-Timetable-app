@@ -210,7 +210,7 @@ export const Analytics = () => {
       {/* ── Today stat cards ── */}
       {!loading && stats && (
         <>
-          <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
+          <p className="text-[11px] font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
             Today
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-7">
@@ -224,7 +224,7 @@ export const Analytics = () => {
       {/* ── Weekly goals ── */}
       {!loading && analytics && (
         <>
-          <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
+          <p className="text-[11px] font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
             Weekly Goals
           </p>
           <div className="grid grid-cols-3 gap-3 mb-7">
@@ -238,7 +238,7 @@ export const Analytics = () => {
       {/* ── Weekly charts ── */}
       {analytics && !loading && (
         <>
-          <p className="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
+          <p className="text-[11px] font-semibold text-gray-800 dark:text-gray-400 uppercase tracking-[0.08em] mb-3">
             Breakdown
           </p>
           <WeeklyReport analytics={analytics} />

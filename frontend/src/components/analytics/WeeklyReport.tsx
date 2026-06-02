@@ -15,20 +15,20 @@ const DAY_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 export const WeeklyReport = ({ analytics }: WeeklyReportProps) => {
   const { dailyStats } = analytics;
 
-  const barData = dailyStats.map((d, i) => ({
+  const barData = useMemo(() => dailyStats.map((d, i) => ({
     day: DAY_SHORT[i] || d.date.slice(5),
     Study: +(d.studyMinutes / 60).toFixed(1),
     Sleep: +(d.sleepMinutes / 60).toFixed(1),
     Scroll: +(d.screenMinutes / 60).toFixed(1),
-  }));
+  })), [dailyStats]);
 
-  const radarData = [
-    { subject: 'Study', value: Math.min((analytics.totalStudyMinutes / (analytics.totalStudyMinutes + 60)) * 100, 100) },
-    { subject: 'Sleep', value: Math.min((analytics.totalSleepMinutes / (56 * 60)) * 100, 100) },
+  const radarData = useMemo(() => [
+    { subject: 'Study',    value: Math.min((analytics.totalStudyMinutes  / (analytics.totalStudyMinutes + 60)) * 100, 100) },
+    { subject: 'Sleep',    value: Math.min((analytics.totalSleepMinutes  / (56 * 60)) * 100, 100) },
     { subject: 'Exercise', value: Math.min((dailyStats.reduce((a, d) => a + d.exerciseMinutes, 0) / 420) * 100, 100) },
-    { subject: 'Hobby', value: Math.min((dailyStats.reduce((a, d) => a + d.hobbyMinutes, 0) / 420) * 100, 100) },
-    { subject: 'Screen', value: Math.min((analytics.totalScreenMinutes / (14 * 60)) * 100, 100) },
-  ];
+    { subject: 'Hobby',    value: Math.min((dailyStats.reduce((a, d) => a + d.hobbyMinutes,   0) / 420) * 100, 100) },
+    { subject: 'Screen',   value: Math.min((analytics.totalScreenMinutes / (14 * 60)) * 100, 100) },
+  ], [analytics, dailyStats]);
 
   return (
     <div className="space-y-6">

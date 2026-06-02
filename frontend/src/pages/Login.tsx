@@ -105,31 +105,41 @@ export const Login = () => {
     <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex">
 
       {/* ── Desktop left panel ── */}
-      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-primary-700 flex-col justify-center p-12 relative overflow-hidden shrink-0">
+      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 flex-col justify-center p-12 relative overflow-hidden shrink-0">
+        {/* Dot grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1.5px, transparent 1.5px)',
             backgroundSize: '24px 24px',
           }}
         />
+        {/* Decorative radial blobs */}
+        <div
+          className="absolute -top-24 -right-24 w-[380px] h-[380px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.10) 0%, transparent 65%)' }}
+        />
+        <div
+          className="absolute -bottom-28 -left-16 w-[320px] h-[320px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.07) 0%, transparent 65%)' }}
+        />
         <div className="relative text-white">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-white/15 rounded-2xl flex items-center justify-center border border-white/20">
+          <div className="flex items-center gap-3 mb-10 animate-slide-up">
+            <div className="w-10 h-10 bg-white/15 rounded-2xl flex items-center justify-center border border-white/25 shadow-[0_2px_12px_rgba(0,0,0,0.15)]">
               <Sparkles size={18} />
             </div>
             <span className="font-bold text-[17px] tracking-tight">AI Timetable</span>
           </div>
-          <h2 className="text-[38px] font-bold leading-[1.1] tracking-tight mb-4">
+          <h2 className="text-[40px] font-extrabold leading-[1.05] tracking-tight mb-4 animate-slide-up delay-50">
             Welcome<br />back.
           </h2>
-          <p className="text-primary-200 text-[15px] leading-relaxed mb-10 max-w-[260px]">
+          <p className="text-primary-200 text-[15px] leading-relaxed mb-10 max-w-[260px] animate-slide-up delay-100">
             Your AI-powered schedule is waiting. Sign in to continue.
           </p>
           <div className="space-y-3">
-            {FEATURES.map(f => (
-              <div key={f} className="flex items-center gap-2.5 text-[14px] text-primary-100">
-                <div className="w-[18px] h-[18px] rounded-full bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+            {FEATURES.map((f, i) => (
+              <div key={f} className={`flex items-center gap-2.5 text-[14px] text-primary-100 animate-slide-up delay-${(i + 2) * 50 as 100 | 150 | 200}`}>
+                <div className="w-[18px] h-[18px] rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0">
                   <Check size={10} strokeWidth={3} />
                 </div>
                 {f}

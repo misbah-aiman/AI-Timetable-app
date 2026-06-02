@@ -517,11 +517,11 @@ export const Settings = () => {
   return (
     <Layout>
       {/* Inline header — consistent with all other pages */}
-      <div className="mb-6">
-        <p className="text-[11px] font-semibold text-primary-700 dark:text-primary-400 uppercase tracking-[0.08em] mb-1">
+      <div className="mb-6 animate-slide-up">
+        <p className="text-[11px] font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-[0.10em] mb-1">
           Account
         </p>
-        <h1 className="text-[28px] md:text-[32px] font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+        <h1 className="text-[28px] md:text-[32px] font-extrabold text-gray-900 dark:text-white tracking-tight leading-tight">
           Settings
         </h1>
       </div>

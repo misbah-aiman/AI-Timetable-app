@@ -106,8 +106,7 @@ const NowCard = ({ slot, nowMins }: { slot: TimeSlot; nowMins: number }) => {
         {slot.startTime} – {slot.endTime} · {fmtDuration(slot)}
       </p>
 
-      {/* FIX: track was ${color}20 (12% = barely visible) → ${color}35 (21% = clear rail) */}
-      <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: `${color}35` }}>
+      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: `${color}30` }}>
         <div
           className="h-full rounded-full"
           style={{ width: `${progress}%`, backgroundColor: color, transition: 'width 1s linear' }}

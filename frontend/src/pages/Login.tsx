@@ -162,7 +162,7 @@ export const Login = () => {
 
         {/* Form area */}
         <div className="flex-1 flex flex-col justify-center px-6 py-8 md:px-12 lg:px-16">
-          <div className="w-full max-w-sm mx-auto">
+          <div className="w-full max-w-sm mx-auto animate-scale-in">
 
             {/* Session expired banner */}
             {sessionExpired && step === 'email' && (

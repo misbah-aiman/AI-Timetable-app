@@ -348,7 +348,7 @@ export const TasksPage = () => {
               <div className="w-16 h-16 rounded-3xl bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
                 <Check size={28} className="text-primary-600" />
               </div>
-              <p className="text-[15px] text-gray-400 dark:text-gray-500 text-center tracking-tight">
+              <p className="text-[15px] text-gray-700 dark:text-gray-400 text-center tracking-tight">
                 No tasks yet — add one to get started
               </p>
               <Button onClick={() => setShowAdd(true)} size="lg">

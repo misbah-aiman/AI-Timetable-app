@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Trash2, Check, Sparkles, AlertCircle, Calendar, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { tasksApi, timetableApi } from '../services/api';
@@ -8,6 +8,7 @@ import { Layout } from '../components/layout/Layout';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
 import { Input } from '../components/ui/Input';
+import { PageHeader } from '../components/ui/PageHeader';
 
 // ─── Helpers ─────────────────────────────────────────────
 

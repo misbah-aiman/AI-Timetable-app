@@ -6,6 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { Layout } from '../components/layout/Layout';
 import { WeeklyReport } from '../components/analytics/WeeklyReport';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { PageHeader } from '../components/ui/PageHeader';
 
 // ─── Helpers ─────────────────────────────────────────────────
 

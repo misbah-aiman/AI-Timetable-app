@@ -152,11 +152,12 @@ export const Login = () => {
       {/* ── Right / mobile panel ── */}
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Mobile header bar */}
-        <div className="md:hidden bg-primary-700 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5">
-          <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+        <div className="md:hidden bg-gradient-to-br from-primary-600 to-primary-800 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1.5px, transparent 1.5px)', backgroundSize: '20px 20px' }} />
+          <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/25 relative shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
             <Sparkles className="text-white" size={17} />
           </div>
-          <span className="text-[18px] font-bold text-white tracking-tight">AI Timetable</span>
+          <span className="text-[18px] font-bold text-white tracking-tight relative">AI Timetable</span>
         </div>
 
         {/* Form area */}

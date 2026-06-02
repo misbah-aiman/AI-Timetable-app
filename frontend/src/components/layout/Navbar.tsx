@@ -75,7 +75,7 @@ const TopNav = () => {
               </span>
               <button
                 onClick={logout}
-                className="w-7 h-7 rounded-xl flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/25 transition-colors"
+                className="w-7 h-7 rounded-xl flex items-center justify-center text-gray-700 dark:text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/25 transition-colors"
                 aria-label="Sign out"
                 title="Sign out"
               >

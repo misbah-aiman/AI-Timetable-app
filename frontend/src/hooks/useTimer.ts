@@ -26,13 +26,12 @@ export const useTimer = (startTime: string | null, isActive: boolean) => {
     };
   }, [startTime, isActive]);
 
-  // Format as HH:MM:SS
-  const formatted = (() => {
+  const formatted = useMemo(() => {
     const h = Math.floor(elapsed / 3600);
     const m = Math.floor((elapsed % 3600) / 60);
     const s = elapsed % 60;
     return [h, m, s].map(v => String(v).padStart(2, '0')).join(':');
-  })();
+  }, [elapsed]);
 
   return { elapsed, formatted };
 };

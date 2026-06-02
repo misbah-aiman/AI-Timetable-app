@@ -93,7 +93,8 @@ const TaskCard = memo(({ task, onToggle, onDelete }: { task: Task; onToggle: () 
       </div>
     </div>
   );
-};
+});
+TaskCard.displayName = 'TaskCard';
 
 // ─── Task Group ───────────────────────────────────────────
 

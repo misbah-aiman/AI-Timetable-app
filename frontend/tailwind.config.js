@@ -19,7 +19,7 @@ module.exports = {
         },
         surface: {
           50:  '#ffffff',
-          100: '#E8F8F2',
+          100: '#82C4C3',
           200: '#C5EDD9',
         },
       },

@@ -22,7 +22,7 @@ export const storage = {
     const raw = localStorage.getItem(keys.user);
     return raw ? JSON.parse(raw) : null;
   },
-  setUser: (user: Record<string, unknown>) => localStorage.setItem(keys.user, JSON.stringify(user)),
+  setUser: (user: object) => localStorage.setItem(keys.user, JSON.stringify(user)),
   removeUser: () => localStorage.removeItem(keys.user),
 
   // Timetable cache (so dashboard loads instantly)

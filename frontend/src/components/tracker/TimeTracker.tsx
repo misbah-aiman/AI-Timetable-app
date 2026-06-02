@@ -195,9 +195,16 @@ export const TimeTracker = () => {
         className={`
           w-full py-4 rounded-3xl text-white text-[17px] font-bold tracking-tight
           transition-all duration-200 active:scale-[0.97] active:opacity-90
-          shadow-soft disabled:opacity-50 focus:outline-none
+          disabled:opacity-50 focus:outline-none
         `}
-        style={{ backgroundColor: isRunning ? '#ef4444' : ACTIVITIES[selected].color }}
+        style={{
+          background: isRunning
+            ? 'linear-gradient(to bottom, #f87171, #ef4444)'
+            : `linear-gradient(to bottom, ${ACTIVITIES[selected].color}dd, ${ACTIVITIES[selected].color})`,
+          boxShadow: isRunning
+            ? '0 4px 20px rgba(239,68,68,0.38), 0 1px 3px rgba(0,0,0,0.10)'
+            : `0 4px 20px ${ACTIVITIES[selected].color}55, 0 1px 3px rgba(0,0,0,0.10)`,
+        }}
       >
         {actionLoading ? '…' : isRunning ? 'Stop Session' : `Start ${ACTIVITIES[selected].label}`}
       </button>

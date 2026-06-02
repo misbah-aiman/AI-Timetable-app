@@ -47,7 +47,7 @@ export const Dashboard = () => {
       .finally(() => setLoading(false));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleRegenerate = async () => {
+  const handleRegenerate = useCallback(async () => {
     setRegenerating(true);
     setError('');
     try {
@@ -66,7 +66,7 @@ export const Dashboard = () => {
     } finally {
       setRegenerating(false);
     }
-  };
+  }, [navigate]);
 
   if (loading) {
     return (

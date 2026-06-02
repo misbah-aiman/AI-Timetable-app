@@ -104,31 +104,39 @@ export const Signup = () => {
     <div className="min-h-screen bg-surface-50 dark:bg-[#011515] flex">
 
       {/* ── Desktop left panel ── */}
-      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-primary-700 flex-col justify-center p-12 relative overflow-hidden shrink-0">
+      <div className="hidden md:flex md:w-1/2 lg:w-2/5 bg-gradient-to-br from-primary-600 via-primary-700 to-primary-900 flex-col justify-center p-12 relative overflow-hidden shrink-0">
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: 'radial-gradient(rgba(255,255,255,0.06) 1.5px, transparent 1.5px)',
+            backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1.5px, transparent 1.5px)',
             backgroundSize: '24px 24px',
           }}
         />
+        <div
+          className="absolute -top-24 -right-24 w-[380px] h-[380px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.10) 0%, transparent 65%)' }}
+        />
+        <div
+          className="absolute -bottom-28 -left-16 w-[320px] h-[320px] rounded-full pointer-events-none"
+          style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.07) 0%, transparent 65%)' }}
+        />
         <div className="relative text-white">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 bg-white/15 rounded-2xl flex items-center justify-center border border-white/20">
+          <div className="flex items-center gap-3 mb-10 animate-slide-up">
+            <div className="w-10 h-10 bg-white/15 rounded-2xl flex items-center justify-center border border-white/25 shadow-[0_2px_12px_rgba(0,0,0,0.15)]">
               <Sparkles size={18} />
             </div>
             <span className="font-bold text-[17px] tracking-tight">AI Timetable</span>
           </div>
-          <h2 className="text-[38px] font-bold leading-[1.1] tracking-tight mb-4">
+          <h2 className="text-[40px] font-extrabold leading-[1.05] tracking-tight mb-4 animate-slide-up delay-50">
             Your day,<br />on autopilot.
           </h2>
-          <p className="text-primary-200 text-[15px] leading-relaxed mb-10 max-w-[260px]">
+          <p className="text-primary-200 text-[15px] leading-relaxed mb-10 max-w-[260px] animate-slide-up delay-100">
             AI builds your daily schedule around your goals, classes, sleep, and habits.
           </p>
           <div className="space-y-3">
-            {FEATURES.map(f => (
-              <div key={f} className="flex items-center gap-2.5 text-[14px] text-primary-100">
-                <div className="w-[18px] h-[18px] rounded-full bg-white/15 border border-white/20 flex items-center justify-center shrink-0">
+            {FEATURES.map((f, i) => (
+              <div key={f} className={`flex items-center gap-2.5 text-[14px] text-primary-100 animate-slide-up delay-${(i + 2) * 50 as 100 | 150 | 200}`}>
+                <div className="w-[18px] h-[18px] rounded-full bg-white/15 border border-white/25 flex items-center justify-center shrink-0">
                   <Check size={10} strokeWidth={3} />
                 </div>
                 {f}
@@ -141,16 +149,17 @@ export const Signup = () => {
       {/* ── Right / mobile panel ── */}
       <div className="flex-1 flex flex-col min-h-screen">
         {/* Mobile header bar */}
-        <div className="md:hidden bg-primary-700 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5">
-          <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/20">
+        <div className="md:hidden bg-gradient-to-br from-primary-600 to-primary-800 px-6 pt-14 pb-8 flex items-center justify-center gap-2.5 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.07) 1.5px, transparent 1.5px)', backgroundSize: '20px 20px' }} />
+          <div className="w-9 h-9 bg-white/15 rounded-xl flex items-center justify-center border border-white/25 relative shadow-[0_2px_10px_rgba(0,0,0,0.12)]">
             <Sparkles className="text-white" size={17} />
           </div>
-          <span className="text-[18px] font-bold text-white tracking-tight">AI Timetable</span>
+          <span className="text-[18px] font-bold text-white tracking-tight relative">AI Timetable</span>
         </div>
 
         {/* Form area */}
         <div className="flex-1 flex flex-col justify-center px-6 py-8 md:px-12 lg:px-16">
-          <div className="w-full max-w-sm mx-auto">
+          <div className="w-full max-w-sm mx-auto animate-scale-in">
 
             {/* Step titles */}
             {step === 'email' && (

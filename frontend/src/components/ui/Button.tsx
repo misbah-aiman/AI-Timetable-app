@@ -22,11 +22,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses = {
   primary:
-    'bg-primary-600 hover:bg-primary-700 active:bg-primary-800 text-white shadow-soft',
+    'bg-gradient-to-b from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 hover:shadow-glow-primary-sm active:from-primary-700 active:to-primary-800 text-white shadow-soft',
   secondary:
     'bg-black/[0.06] dark:bg-white/[0.12] text-gray-800 dark:text-gray-100 hover:bg-black/[0.10] dark:hover:bg-white/[0.18] active:bg-black/[0.14] dark:active:bg-white/[0.22]',
   danger:
-    'bg-red-600 hover:bg-red-700 active:bg-red-800 text-white',
+    'bg-gradient-to-b from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 hover:shadow-glow-red active:from-red-700 active:to-red-800 text-white shadow-soft',
   ghost:
     'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/[0.08] hover:text-gray-900 dark:hover:text-white',
 };

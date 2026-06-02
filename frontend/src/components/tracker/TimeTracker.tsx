@@ -173,9 +173,13 @@ export const TimeTracker = () => {
                 flex-1 flex flex-col items-center gap-2 py-4 rounded-3xl
                 border-2 transition-all duration-200
                 ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-95 active:scale-[0.96]'}
-                ${active ? 'border-transparent' : 'border-transparent bg-black/[0.04] dark:bg-white/[0.05] opacity-55'}
+                ${active ? 'border-transparent' : 'border-transparent bg-black/[0.04] dark:bg-white/[0.05] opacity-50'}
               `}
-              style={active ? { backgroundColor: `${a.color}14`, borderColor: `${a.color}38` } : {}}
+              style={active ? {
+                backgroundColor: `${a.color}14`,
+                borderColor: `${a.color}50`,
+                boxShadow: `0 2px 12px ${a.color}22`,
+              } : {}}
             >
               <span style={{ color: active ? a.color : '#9ca3af' }}>{a.icon}</span>
               <span className={`text-[12px] font-bold tracking-tight ${active ? '' : 'text-gray-400'}`}

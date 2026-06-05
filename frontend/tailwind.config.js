@@ -70,6 +70,10 @@ module.exports = {
           '50%':  { transform: 'scale(0.94)' },
           '100%': { transform: 'scale(1)' },
         },
+        'shimmer': {
+          from: { backgroundPosition: '-200% 0' },
+          to:   { backgroundPosition:  '200% 0' },
+        },
       },
       animation: {
         'sheet-up': 'sheet-up 0.35s cubic-bezier(0.32, 0.72, 0, 1) both',
@@ -77,6 +81,7 @@ module.exports = {
         'scale-in': 'scale-in 0.25s cubic-bezier(0.34, 1.30, 0.64, 1) both',
         'slide-up': 'slide-up 0.22s ease-out both',
         'pop':      'pop 0.15s ease-in-out',
+        'shimmer':  'shimmer 1.6s linear infinite',
       },
     },
   },

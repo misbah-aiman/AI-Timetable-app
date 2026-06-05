@@ -333,11 +333,10 @@ export const TasksPage = () => {
       )}
 
       {loading && (
-        <div className="flex justify-center py-16">
-          <div className="relative w-9 h-9">
-            <div className="w-9 h-9 rounded-full border-[3px] border-black/[0.06] dark:border-white/[0.08]" />
-            <div className="absolute inset-0 rounded-full border-[3px] border-transparent border-t-primary-500 dark:border-t-primary-400 animate-spin" />
-          </div>
+        <div className="space-y-2">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i} className="h-16 skeleton rounded-3xl" />
+          ))}
         </div>
       )}
 

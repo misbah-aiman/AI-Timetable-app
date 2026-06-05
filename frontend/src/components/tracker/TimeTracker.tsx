@@ -76,16 +76,16 @@ const CircleTimer = ({
 
       {/* Center */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <div className="flex items-center gap-1.5 mb-3" style={{ color: isRunning ? color : '#4b5563' }}>
+        <div className="flex items-center gap-1.5 mb-3 text-gray-500 dark:text-gray-400" style={isRunning ? { color } : {}}>
           {icon}
           <span className="text-[13px] font-semibold tracking-tight">{label}</span>
         </div>
 
         <div
-          className="font-bold leading-none tracking-tighter tabular-nums"
+          className="font-bold leading-none tracking-tighter tabular-nums text-gray-800 dark:text-gray-100"
           style={{
             fontSize: h > 0 ? '2.6rem' : '3.2rem',
-            color: isRunning ? color : '#374151',
+            ...(isRunning ? { color } : {}),
           }}
         >
           {isRunning ? timeStr : (h > 0 ? '00:00:00' : '00:00')}

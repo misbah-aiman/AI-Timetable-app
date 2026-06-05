@@ -158,4 +158,26 @@
     -webkit-appearance: none;
     appearance: none;
   }
+
+  /* cursor-pointer on all interactive elements */
+  button:not(:disabled),
+  [role="button"],
+  a[href],
+  label[for],
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+}
+
+/* Respect system motion preference — disable all animations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

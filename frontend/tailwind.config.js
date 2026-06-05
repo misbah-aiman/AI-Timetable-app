@@ -18,9 +18,9 @@ module.exports = {
           900: '#001A1A',
         },
         surface: {
-          50:  '#ffffff',
-          100: '#82C4C3',
-          200: '#C5EDD9',
+          50:  '#FAFFFE',
+          100: '#F0F9F8',
+          200: '#E1F3F2',
         },
       },
       fontFamily: {

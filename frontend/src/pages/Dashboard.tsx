@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RefreshCw, Sparkles } from 'lucide-react';
-import { timetableApi } from '../services/api';
-import { Timetable } from '../types';
+import { RefreshCw, Sparkles, BookOpen, ListTodo, CalendarDays } from 'lucide-react';
+import { timetableApi, analyticsApi, tasksApi } from '../services/api';
+import { Timetable, DashboardStats } from '../types';
 import { storage } from '../utils/localStorage';
 import { useAuth } from '../contexts/AuthContext';
 import { Layout } from '../components/layout/Layout';
@@ -18,6 +18,49 @@ const getGreeting = (hour: number) => {
   return 'Good evening';
 };
 
+const fmt = (mins: number) => {
+  if (!mins) return '0m';
+  if (mins < 60) return `${mins}m`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m ? `${h}h ${m}m` : `${h}h`;
+};
+
+// ─── Quick Stat Chip ─────────────────────────────────────────
+
+const QuickStat = ({
+  icon, label, value, color,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  color: string;
+}) => (
+  <div className="flex-1 flex flex-col gap-2 bg-white dark:bg-[#021a1a] rounded-2xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-3.5 min-w-0">
+    <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}>
+      {icon}
+    </div>
+    <div>
+      <p className="text-[20px] font-extrabold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
+        {value}
+      </p>
+      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 font-medium tracking-tight">
+        {label}
+      </p>
+    </div>
+  </div>
+);
+
+// ─── Skeleton strip ───────────────────────────────────────────
+
+const StatsSkeleton = () => (
+  <div className="flex gap-3 mb-5">
+    {[0, 1, 2].map(i => (
+      <div key={i} className="flex-1 h-[88px] skeleton rounded-2xl" />
+    ))}
+  </div>
+);
+
 export const Dashboard = () => {
   const { user } = useAuth();
   const navigate  = useNavigate();
@@ -27,8 +70,12 @@ export const Dashboard = () => {
   const [regenerating, setRegenerating] = useState(false);
   const [error, setError]         = useState('');
 
+  const [stats, setStats]         = useState<DashboardStats | null>(null);
+  const [pendingCount, setPendingCount] = useState<number | null>(null);
+
   const greeting = useMemo(() => getGreeting(new Date().getHours()), []);
 
+  // Timetable fetch
   useEffect(() => {
     timetableApi.get()
       .then(res => {
@@ -46,6 +93,21 @@ export const Dashboard = () => {
       })
       .finally(() => setLoading(false));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Stats + tasks (non-blocking)
+  useEffect(() => {
+    analyticsApi.getStats().then(r => setStats(r.data.stats)).catch(() => {});
+    tasksApi.getAll().then(r => {
+      const pending = (r.data.tasks as { status: string }[]).filter(t => t.status === 'pending').length;
+      setPendingCount(pending);
+    }).catch(() => {});
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const todaySlotCount = useMemo(() => {
+    if (!timetable) return null;
+    const dayName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+    return timetable.schedule.find(d => d.day === dayName)?.slots.length ?? null;
+  }, [timetable]);
 
   const handleRegenerate = useCallback(async () => {
     setRegenerating(true);
@@ -89,7 +151,33 @@ export const Dashboard = () => {
         }
       />
 
-      {/* Error */}
+      {/* ── Quick stats strip ── */}
+      {stats === null && pendingCount === null ? (
+        <StatsSkeleton />
+      ) : (
+        <div className="flex gap-3 mb-5 animate-slide-up delay-50">
+          <QuickStat
+            icon={<BookOpen size={15} />}
+            label="Study today"
+            value={stats ? fmt(stats.todayStudyMinutes) : '—'}
+            color="#008080"
+          />
+          <QuickStat
+            icon={<ListTodo size={15} />}
+            label="Pending tasks"
+            value={pendingCount !== null ? String(pendingCount) : '—'}
+            color="#6366F1"
+          />
+          <QuickStat
+            icon={<CalendarDays size={15} />}
+            label="Slots today"
+            value={todaySlotCount !== null ? String(todaySlotCount) : '—'}
+            color="#059669"
+          />
+        </div>
+      )}
+
+      {/* ── Error ── */}
       {error && (
         <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-3xl border border-red-200 dark:border-red-800 flex items-center justify-between text-sm">
           <span>{error}</span>
@@ -99,7 +187,7 @@ export const Dashboard = () => {
         </div>
       )}
 
-      {/* Timetable */}
+      {/* ── Timetable ── */}
       <Card className="animate-slide-up delay-100">
         {timetable ? (
           <TimetableView timetable={timetable} />

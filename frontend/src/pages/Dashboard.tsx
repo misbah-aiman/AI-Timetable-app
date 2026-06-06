@@ -140,23 +140,19 @@ export const Dashboard = () => {
   }, [navigate]);
 
   const handleToggleSlot = useCallback(async (day: string, startTime: string) => {
-    if (!timetable) return;
+    const current = timetableRef.current;
+    if (!current) return;
     const key = `${day}|${startTime}`;
-    const prev = timetable.completedSlots ?? [];
+    const prev = current.completedSlots ?? [];
     const next = prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key];
-    const optimistic = { ...timetable, completedSlots: next };
-    setTimetable(optimistic);
-    storage.setTimetable(optimistic);
+    applyTimetable({ ...current, completedSlots: next });
     try {
       const res = await timetableApi.toggleSlot(day, startTime);
-      const confirmed = { ...timetable, completedSlots: res.data.completedSlots };
-      setTimetable(confirmed);
-      storage.setTimetable(confirmed);
+      applyTimetable({ ...timetableRef.current!, completedSlots: res.data.completedSlots });
     } catch {
-      setTimetable(timetable);
-      storage.setTimetable(timetable);
+      applyTimetable(timetableRef.current!);
     }
-  }, [timetable]);
+  }, [applyTimetable]);
 
   if (loading) {
     return (

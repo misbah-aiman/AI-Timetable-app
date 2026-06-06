@@ -322,28 +322,23 @@ export const OnboardingWizard = () => {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Set Up Your Routine</h1>
         </div>
 
-        {/* Step dots */}
+        {/* Progress bar + step label */}
         {isMainStep && (
-          <div className="flex items-center justify-center gap-1 mb-6">
-            {STEPS.map((s, i) => (
-              <div key={s} className="flex items-center gap-1">
-                <div className={`rounded-full transition-all duration-300 ${
-                  i < stepIndex  ? 'w-2 h-2 bg-primary-500' :
-                  i === stepIndex ? 'w-3 h-3 bg-primary-500 ring-2 ring-primary-200 dark:ring-primary-900/50' :
-                  'w-2 h-2 bg-gray-200 dark:bg-gray-700'
-                }`} />
-                {i < STEPS.length - 1 && (
-                  <div className={`h-px w-3 transition-colors duration-300 ${i < stepIndex ? 'bg-primary-400' : 'bg-gray-200 dark:bg-gray-700'}`} />
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Step label */}
-        {isMainStep && (
-          <div className="text-center mb-4">
-            <p className="text-sm font-semibold text-primary-500">{STEP_LABELS[step as MainStep]}</p>
+          <div className="mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[12px] font-semibold text-primary-500 dark:text-primary-400 tracking-tight">
+                {STEP_LABELS[step as MainStep]}
+              </p>
+              <p className="text-[11px] text-gray-400 tabular-nums">
+                {stepIndex + 1} / {STEPS.length}
+              </p>
+            </div>
+            <div className="h-1 bg-black/[0.06] dark:bg-white/[0.08] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-primary-500 rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${((stepIndex + 1) / STEPS.length) * 100}%` }}
+              />
+            </div>
           </div>
         )}
 

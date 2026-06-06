@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { generate, getTimetable, getTodaySchedule, scanImage } from '../controllers/timetableController';
+import { generate, getTimetable, getTodaySchedule, scanImage, toggleSlot } from '../controllers/timetableController';
 import { authenticate } from '../middleware/auth';
 
 const router = Router();

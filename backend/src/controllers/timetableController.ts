@@ -118,6 +118,43 @@ export const getTimetable = async (req: AuthRequest, res: Response): Promise<voi
   }
 };
 
+// PATCH /api/timetable/slot - toggle a slot's completed state
+export const toggleSlot = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { day, startTime } = req.body as { day?: string; startTime?: string };
+    if (!day || !startTime) {
+      res.status(400).json({ message: 'day and startTime are required' });
+      return;
+    }
+
+    const timetable = await Timetable.findOne(
+      { userId: req.userId, isActive: true },
+      null,
+      { sort: { createdAt: -1 } }
+    );
+
+    if (!timetable) {
+      res.status(404).json({ message: 'No active timetable found' });
+      return;
+    }
+
+    const key = `${day}|${startTime}`;
+    if (!timetable.completedSlots) timetable.completedSlots = [];
+
+    const idx = timetable.completedSlots.indexOf(key);
+    if (idx === -1) {
+      timetable.completedSlots.push(key);
+    } else {
+      timetable.completedSlots.splice(idx, 1);
+    }
+
+    await timetable.save();
+    res.json({ completedSlots: timetable.completedSlots });
+  } catch {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 // GET /api/timetable/today - get today's schedule
 export const getTodaySchedule = async (req: AuthRequest, res: Response): Promise<void> => {
   try {

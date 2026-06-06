@@ -79,6 +79,15 @@ export const Dashboard = () => {
 
   const greeting = useMemo(() => getGreeting(new Date().getHours()), []);
 
+  // Keep ref current so callbacks never capture stale state
+  useEffect(() => { timetableRef.current = timetable; }, [timetable]);
+
+  // Sync state + localStorage in one call
+  const applyTimetable = useCallback((t: Timetable | null) => {
+    setTimetable(t);
+    if (t) storage.setTimetable(t);
+  }, []);
+
   // Timetable fetch
   useEffect(() => {
     timetableApi.get()

@@ -376,9 +376,18 @@ export const TimetableView = ({
             </p>
           )}
           <div className="max-h-[32rem] overflow-y-auto scrollbar-hide -mx-1 px-1 space-y-0.5">
-            {slots.map((slot, i) => (
-              <SlotRow key={i} slot={slot} status={getStatus(i)} />
-            ))}
+            {slots.map((slot, i) => {
+              const status = getStatus(i);
+              return (
+                <SlotRow
+                  key={i}
+                  slot={slot}
+                  status={status}
+                  isChecked={completedSlots.includes(`${dayName}|${slot.startTime}`)}
+                  onToggle={() => onToggleSlot?.(dayName, slot.startTime)}
+                />
+              );
+            })}
           </div>
         </>
       )}

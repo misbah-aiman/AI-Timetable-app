@@ -150,7 +150,13 @@ export const Dashboard = () => {
       const res = await timetableApi.toggleSlot(day, startTime);
       applyTimetable({ ...timetableRef.current!, completedSlots: res.data.completedSlots });
     } catch {
-      applyTimetable(timetableRef.current!);
+      // Revert only this slot's toggle; preserve any concurrent changes to other slots
+      const wasAdded = !prev.includes(key);
+      const curr = timetableRef.current!;
+      const reverted = wasAdded
+        ? (curr.completedSlots ?? []).filter(k => k !== key)
+        : [...(curr.completedSlots ?? []), key];
+      applyTimetable({ ...curr, completedSlots: reverted });
     }
   }, [applyTimetable]);
 

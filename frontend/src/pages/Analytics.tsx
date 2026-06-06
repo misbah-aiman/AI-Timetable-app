@@ -54,8 +54,8 @@ const StatCard = ({ label, value, progress, color, icon, goalMet }: StatCardDef)
   <div className="bg-white dark:bg-[#021a1a] rounded-3xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-4 flex flex-col gap-3 overflow-hidden">
     <div className="flex items-center justify-between">
       <div
-        className="w-9 h-9 rounded-2xl flex items-center justify-center shrink-0 text-white"
-        style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}
+        className="w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 text-white"
+        style={{ backgroundColor: color }}
       >
         {icon}
       </div>

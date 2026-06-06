@@ -44,6 +44,7 @@ const TimetableSchema = new Schema<ITimetable>(
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     weekStartDate: { type: Date, required: true },
     schedule: [DayScheduleSchema],
+    completedSlots: { type: [String], default: [] },
     generatedAt: { type: Date, default: Date.now },
     isActive: { type: Boolean, default: true },
   },

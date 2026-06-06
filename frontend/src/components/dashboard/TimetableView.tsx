@@ -106,12 +106,12 @@ const NowCard = ({ slot, nowMins }: { slot: TimeSlot; nowMins: number }) => {
         {slot.startTime} – {slot.endTime} · {fmtDuration(slot)}
       </p>
 
-      <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: `${color}30` }}>
+      <div className="h-1.5 rounded-full overflow-hidden bg-black/[0.08] dark:bg-white/[0.10]">
         <div
           className="h-full rounded-full"
           style={{
             width: `${progress}%`,
-            background: `linear-gradient(90deg, ${color}bb, ${color})`,
+            backgroundColor: color,
             transition: 'width 1s linear',
           }}
         />

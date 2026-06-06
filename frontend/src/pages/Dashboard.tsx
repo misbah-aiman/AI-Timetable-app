@@ -137,7 +137,7 @@ export const Dashboard = () => {
     } finally {
       setRegenerating(false);
     }
-  }, [navigate]);
+  }, [navigate, applyTimetable]);
 
   const handleToggleSlot = useCallback(async (day: string, startTime: string) => {
     const current = timetableRef.current;

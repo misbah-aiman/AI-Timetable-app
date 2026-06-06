@@ -269,13 +269,13 @@ export const Login = () => {
 
             {/* Success step */}
             {step === 'success' && (
-              <div className="flex flex-col items-center gap-5 py-8 animate-scale-in">
-                <div className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shadow-soft">
-                  <CheckCircle size={40} className="text-green-500" />
+              <div className="flex flex-col items-center gap-5 py-8 animate-bounce-in">
+                <div className="w-[72px] h-[72px] rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                  <CheckCircle size={38} className="text-green-500" />
                 </div>
                 <div className="text-center">
-                  <p className="font-bold text-gray-800 dark:text-white text-xl">You're in!</p>
-                  <p className="text-sm text-gray-400 mt-1">Redirecting…</p>
+                  <p className="font-bold text-gray-900 dark:text-white text-[20px] tracking-tight">You're in!</p>
+                  <p className="text-[14px] text-gray-400 mt-1">Redirecting…</p>
                 </div>
               </div>
             )}

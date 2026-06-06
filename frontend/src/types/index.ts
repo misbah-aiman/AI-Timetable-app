@@ -52,6 +52,7 @@ export interface Timetable {
   userId: string;
   weekStartDate: string;
   schedule: DaySchedule[];
+  completedSlots: string[];
   generatedAt: string;
 }
 

@@ -110,13 +110,13 @@ const GoalCard = ({ label, met, color }: { label: string; met: boolean; color: s
   >
     {met ? (
       <div
-        className="w-10 h-10 rounded-2xl flex items-center justify-center text-white"
-        style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}
+        className="w-10 h-10 rounded-[11px] flex items-center justify-center text-white"
+        style={{ backgroundColor: color }}
       >
         <CheckCircle size={20} />
       </div>
     ) : (
-      <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gray-100 dark:bg-white/[0.07]">
+      <div className="w-10 h-10 rounded-[11px] flex items-center justify-center bg-gray-100 dark:bg-white/[0.07]">
         <XCircle size={20} className="text-gray-400 dark:text-gray-500" />
       </div>
     )}

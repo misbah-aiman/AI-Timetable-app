@@ -69,6 +69,7 @@ export const Dashboard = () => {
   const navigate  = useNavigate();
 
   const [timetable, setTimetable] = useState<Timetable | null>(storage.getTimetable());
+  const timetableRef = useRef(timetable);
   const [loading, setLoading]     = useState(!timetable);
   const [regenerating, setRegenerating] = useState(false);
   const [error, setError]         = useState('');

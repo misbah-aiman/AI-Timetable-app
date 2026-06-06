@@ -13,6 +13,7 @@ const upload = multer({
 
 router.post('/generate', authenticate, generate);
 router.post('/scan-image', authenticate, upload.single('image'), scanImage);
+router.patch('/slot', authenticate, toggleSlot);
 router.get('/', authenticate, getTimetable);
 router.get('/today', authenticate, getTodaySchedule);
 

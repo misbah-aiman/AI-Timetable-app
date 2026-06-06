@@ -91,10 +91,7 @@ export const Dashboard = () => {
   // Timetable fetch
   useEffect(() => {
     timetableApi.get()
-      .then(res => {
-        setTimetable(res.data.timetable);
-        storage.setTimetable(res.data.timetable);
-      })
+      .then(res => { applyTimetable(res.data.timetable); })
       .catch((err: unknown) => {
         const status = (err as { response?: { status?: number } })?.response?.status;
         if (status === 401) {

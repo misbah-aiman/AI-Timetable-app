@@ -291,7 +291,8 @@ export const TimetableView = ({
     : -1;
 
   const getStatus = (i: number): 'past' | 'active' | 'next' | 'future' => {
-    if (!isToday)        return 'future';
+    if (selectedIdx < todayIdx) return 'past';
+    if (selectedIdx > todayIdx) return 'future';
     if (i === activeIdx) return 'active';
     if (i === nextIdx)   return 'next';
     if (toMins(slots[i].endTime) <= nowMins) return 'past';

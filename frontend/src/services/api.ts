@@ -46,6 +46,8 @@ export const timetableApi = {
   generate: () => api.post('/timetable/generate'),
   get: () => api.get('/timetable'),
   getToday: () => api.get('/timetable/today'),
+  toggleSlot: (day: string, startTime: string) =>
+    api.patch<{ completedSlots: string[] }>('/timetable/slot', { day, startTime }),
   scanImage: (file: File) => {
     const form = new FormData();
     form.append('image', file);

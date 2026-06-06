@@ -36,15 +36,18 @@ const QuickStat = ({
   value: string;
   color: string;
 }) => (
-  <div className="flex-1 flex flex-col gap-2 bg-white dark:bg-[#021a1a] rounded-2xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-3.5 min-w-0">
-    <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white" style={{ background: `linear-gradient(135deg, ${color}cc, ${color})` }}>
+  <div className="flex-1 flex flex-col gap-2.5 bg-white dark:bg-[#021a1a] rounded-2xl border border-black/[0.07] dark:border-white/[0.10] shadow-card p-3.5 min-w-0">
+    <div
+      className="w-9 h-9 rounded-[10px] flex items-center justify-center text-white shrink-0"
+      style={{ backgroundColor: color }}
+    >
       {icon}
     </div>
     <div>
-      <p className="text-[20px] font-extrabold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
+      <p className="text-[22px] font-bold text-gray-900 dark:text-white leading-none tracking-tight tabular-nums">
         {value}
       </p>
-      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5 font-medium tracking-tight">
+      <p className="text-[11px] text-gray-500 dark:text-gray-400 mt-1 font-medium tracking-tight leading-none">
         {label}
       </p>
     </div>

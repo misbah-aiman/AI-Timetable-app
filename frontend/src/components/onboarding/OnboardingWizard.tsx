@@ -315,11 +315,12 @@ export const OnboardingWizard = () => {
       <div className="w-full max-w-lg">
 
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-500 rounded-2xl mb-4 shadow-soft">
-            <Sparkles className="text-white" size={22} />
+        <div className="text-center mb-7">
+          <div className="inline-flex items-center justify-center w-[64px] h-[64px] bg-gradient-to-br from-primary-400 to-primary-700 rounded-[18px] mb-4 shadow-glow-primary-sm">
+            <Sparkles className="text-white" size={28} />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Set Up Your Routine</h1>
+          <h1 className="text-[26px] font-bold text-gray-900 dark:text-white tracking-[-0.3px]">Set Up Your Routine</h1>
+          <p className="text-[14px] text-gray-400 mt-1 tracking-tight">Tell us about yourself to generate your schedule</p>
         </div>
 
         {/* Progress bar + step label */}

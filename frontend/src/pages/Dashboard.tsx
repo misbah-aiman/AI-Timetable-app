@@ -124,8 +124,7 @@ export const Dashboard = () => {
     setError('');
     try {
       const res = await timetableApi.generate();
-      setTimetable(res.data.timetable);
-      storage.setTimetable(res.data.timetable);
+      applyTimetable(res.data.timetable);
     } catch (err: unknown) {
       const status = (err as { response?: { status?: number } })?.response?.status;
       const msg    = (err as { response?: { data?: { message?: string } } })?.response?.data?.message;

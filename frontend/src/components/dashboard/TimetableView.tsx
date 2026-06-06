@@ -148,20 +148,23 @@ const NextCard = ({ slot }: { slot: TimeSlot }) => {
 };
 
 // ─── Slot Row ─────────────────────────────────────────────────
-// FIX: "Next" status badge was missing entirely (regression). Restored.
-// FIX: active background was dark:bg-primary-900/10 (barely visible) → /20.
 
 const SlotRow = ({
   slot,
   status,
+  isChecked,
+  onToggle,
 }: {
   slot: TimeSlot;
   status: 'past' | 'active' | 'next' | 'future';
+  isChecked: boolean;
+  onToggle: () => void;
 }) => {
-  const color    = CATEGORY_COLORS[slot.category] || '#64748B';
-  const isPast   = status === 'past';
-  const isActive = status === 'active';
-  const isNext   = status === 'next';
+  const color      = CATEGORY_COLORS[slot.category] || '#64748B';
+  const isPast     = status === 'past';
+  const isActive   = status === 'active';
+  const isNext     = status === 'next';
+  const isCheckable = isPast;
 
   return (
     <div
@@ -191,7 +194,11 @@ const SlotRow = ({
       <div className="flex-1 min-w-0">
         <p
           className={`text-[14px] font-semibold tracking-tight truncate leading-snug ${
-            isPast ? 'text-gray-400 dark:text-gray-600' : 'text-gray-900 dark:text-white'
+            isPast
+              ? isChecked
+                ? 'line-through text-gray-300 dark:text-gray-600'
+                : 'text-gray-400 dark:text-gray-600'
+              : 'text-gray-900 dark:text-white'
           }`}
         >
           {slot.activity}
@@ -203,7 +210,7 @@ const SlotRow = ({
         )}
       </div>
 
-      {/* Status badge */}
+      {/* Status badge / checkbox */}
       <div className="shrink-0 flex items-center">
         {isActive && (
           <span
@@ -213,23 +220,29 @@ const SlotRow = ({
             Now
           </span>
         )}
-        {/* FIX: "Next" badge was completely missing — restored */}
         {isNext && (
           <span className="text-[10px] font-semibold px-2 py-0.5 rounded-xl bg-gray-100 dark:bg-white/[0.10] text-gray-600 dark:text-gray-300">
             Next
           </span>
         )}
-        {isPast && (
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="opacity-30">
-            <circle cx="8" cy="8" r="6.5" stroke="#9ca3af" strokeWidth="1.5" />
-            <path
-              d="M5.5 8l2 2 3.5-3.5"
-              stroke="#9ca3af"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+        {isCheckable && (
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggle(); }}
+            className="w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all duration-150 active:scale-90 hover:opacity-70"
+            aria-label={isChecked ? 'Mark as incomplete' : 'Mark as done'}
+          >
+            {isChecked ? (
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="10" fill="#008080" />
+                <path d="M7 11.5l2.5 2.5 5.5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                <circle cx="11" cy="11" r="9.5" stroke="#d1d5db" strokeWidth="1.5" />
+                <path d="M7 11.5l2.5 2.5 5.5-5" stroke="#d1d5db" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </button>
         )}
       </div>
     </div>

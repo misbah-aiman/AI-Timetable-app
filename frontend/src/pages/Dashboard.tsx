@@ -149,7 +149,7 @@ export const Dashboard = () => {
         action={
           <Button variant="secondary" size="sm" onClick={handleRegenerate} loading={regenerating}>
             <RefreshCw size={14} />
-            <span className="hidden sm:inline">Regen</span>
+            <span className="hidden sm:inline">Regenerate</span>
           </Button>
         }
       />

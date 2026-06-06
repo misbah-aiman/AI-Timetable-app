@@ -160,8 +160,8 @@ export const TimeTracker = () => {
         label={cfg.label} sublabel={cfg.sublabel} icon={cfg.icon}
       />
 
-      {/* Activity selector */}
-      <div className="flex gap-2.5 w-full">
+      {/* Activity selector — iOS segmented-control style */}
+      <div className="flex gap-2 w-full p-1.5 bg-black/[0.05] dark:bg-white/[0.06] rounded-2xl">
         {(Object.entries(ACTIVITIES) as [ActivityType, typeof ACTIVITIES[ActivityType]][]).map(([type, a]) => {
           const active = isRunning ? activeType === type : selected === type;
           return (
@@ -170,20 +170,19 @@ export const TimeTracker = () => {
               disabled={isRunning}
               onClick={() => setSelected(type)}
               className={`
-                flex-1 flex flex-col items-center gap-2 py-4 rounded-3xl
-                border-2 transition-all duration-200
-                ${isRunning ? 'cursor-not-allowed' : 'hover:opacity-95 active:scale-[0.96]'}
-                ${active ? 'border-transparent' : 'border-transparent bg-black/[0.04] dark:bg-white/[0.05] opacity-50'}
+                flex-1 flex flex-col items-center gap-1.5 py-3 rounded-[14px]
+                transition-all duration-200
+                ${isRunning ? 'cursor-not-allowed' : 'active:scale-[0.96]'}
+                ${active ? 'shadow-card' : 'opacity-50'}
               `}
               style={active ? {
-                backgroundColor: `${a.color}14`,
-                borderColor: `${a.color}50`,
-                boxShadow: `0 2px 12px ${a.color}22`,
+                backgroundColor: `${a.color}18`,
               } : {}}
             >
-              <span style={{ color: active ? a.color : '#6b7280' }}>{a.icon}</span>
-              <span className={`text-[12px] font-bold tracking-tight ${active ? '' : 'text-gray-600 dark:text-gray-400'}`}
-                style={active ? { color: a.color } : {}}
+              <span style={{ color: active ? a.color : '#9ca3af' }}>{a.icon}</span>
+              <span
+                className="text-[12px] font-semibold tracking-tight"
+                style={{ color: active ? a.color : '#9ca3af' }}
               >
                 {a.label}
               </span>

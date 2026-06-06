@@ -212,7 +212,11 @@ export const Dashboard = () => {
       {/* ── Timetable ── */}
       <Card className="animate-slide-up delay-100">
         {timetable ? (
-          <TimetableView timetable={timetable} />
+          <TimetableView
+            timetable={timetable}
+            completedSlots={timetable.completedSlots ?? []}
+            onToggleSlot={handleToggleSlot}
+          />
         ) : (
           <div className="flex flex-col items-center justify-center py-14 gap-4">
             <div className="w-14 h-14 rounded-3xl bg-primary-50 dark:bg-primary-900/30 flex items-center justify-center">

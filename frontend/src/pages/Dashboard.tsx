@@ -160,19 +160,19 @@ export const Dashboard = () => {
       ) : (
         <div className="flex gap-3 mb-5 animate-slide-up delay-50">
           <QuickStat
-            icon={<BookOpen size={15} />}
+            icon={<BookOpen size={17} />}
             label="Study today"
             value={stats ? fmt(stats.todayStudyMinutes) : '—'}
             color="#008080"
           />
           <QuickStat
-            icon={<ListTodo size={15} />}
+            icon={<ListTodo size={17} />}
             label="Pending tasks"
             value={pendingCount !== null ? String(pendingCount) : '—'}
             color="#6366F1"
           />
           <QuickStat
-            icon={<CalendarDays size={15} />}
+            icon={<CalendarDays size={17} />}
             label="Slots today"
             value={todaySlotCount !== null ? String(todaySlotCount) : '—'}
             color="#059669"

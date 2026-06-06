@@ -17,6 +17,7 @@ export interface ITimetable extends Document {
   userId: mongoose.Types.ObjectId;
   weekStartDate: Date;
   schedule: IDaySchedule[];
+  completedSlots: string[];
   generatedAt: Date;
   isActive: boolean;
 }
